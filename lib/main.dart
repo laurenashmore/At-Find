@@ -1,7 +1,7 @@
 import 'package:atfind/screens/Contacts.dart';
 import 'package:atfind/screens/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:atfind/screens/onboarding.dart';
+import 'package:atfind/screens/OnBoarding.dart';
 import 'package:atfind/screens/Profile.dart';
 import 'package:atfind/screens/Settings.dart';
 import 'package:atfind/screens/SendAlert.dart';

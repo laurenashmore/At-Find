@@ -1,6 +1,7 @@
 import 'package:at_client_mobile/at_client_mobile.dart';
 import 'package:at_client/at_client.dart';
 import 'package:at_commons/at_commons.dart';
+import 'package:at_onboarding_flutter/utils/app_constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:atfind/constants.dart';
 
@@ -71,7 +72,7 @@ class ClientService {
       await _getAtClientForAtsign().delete(atKey);
 
   Future<List<AtKey>> getAtKeys({String? regex, String? sharedBy}) async {
-    regex ??= MixedConstants.NAMESPACE_REGEX;
+    regex ??= AppStrings.regex;
     return await _getAtClientForAtsign()
         .getAtKeys(regex: regex, sharedBy: sharedBy);
   }
@@ -90,7 +91,7 @@ class ClientService {
   deleteAtSignFromKeyChain() async {
     // List<String> atSignList = await getAtsignList();
     String _atsign = atClientServiceInstance.atClient!.currentAtSign.toString();
-~}
+}
 
     Future<bool> notify(AtKey atKey, String value,
         OperationEnum operation) async {

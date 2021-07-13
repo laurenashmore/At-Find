@@ -3,6 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:at_location_flutter/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import '../service.dart';
+import 'Contacts.dart';
+import 'Profile.dart';
+import 'SendAlert.dart';
+import 'Settings.dart';
 
 class Home extends StatefulWidget {
   static final String id = 'home';
@@ -28,12 +32,11 @@ class _HomeState extends State<Home> {
 
 @override
 Widget build(BuildContext content) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(
-              bottom: 200.0),
-          child: TextButton(
+    return SafeArea(
+      child: Scaffold(
+      body: Column(
+        children: [
+          TextButton(
             onPressed: () async {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => HomeScreen()));
@@ -46,9 +49,66 @@ Widget build(BuildContext content) {
                 padding: EdgeInsets.all(10),
                 minimumSize: Size(200, 35)),
           ),
-        ),
+
+        Container(
+          height: 77,
+          width: 356,
+          margin:
+          EdgeInsets.symmetric(horizontal: 10., vertical: 10.),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            color: Theme.of(context).scaffoldBackgroundColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black,
+                blurRadius: 10.0,
+                spreadRadius: 1.0,
+                offset: Offset(0.0, 0.0),
+              )
+            ],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                  icon: Icon(Icons.account_circle_outlined),
+                  iconSize: 50,
+                  color: Colors.grey[900],
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Profile()));
+                  }),
+              IconButton(
+                  icon: Icon(Icons.people_alt_outlined),
+                  iconSize: 50,
+                  color: Colors.grey[900],
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Contacts()));
+                  }),
+              IconButton(
+                  icon: Icon(Icons.notifications_active_outlined),
+                  iconSize: 50,
+                  color: Colors.grey[900],
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => SendAlert()));
+                  }),
+              IconButton(
+                  icon: Icon(Icons.settings_outlined),
+                  iconSize: 50,
+                  color: Colors.grey[900],
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Settings()));
+                  })
+            ],
+          ),
+        );
       ),
-    );
+      ),
+      );
   }
 
 
@@ -58,10 +118,11 @@ getAtSignAndInitContacts() async {
     activeAtSign = currentAtSign;
   });
   initializeLocationService(ClientService.atClientServiceInstance.atClient,
-      activeAtSign, NavService.navKey, apiKey: 'apiKey', mapKey: 'mapKey');
+      activeAtSign, NavService.navKey, apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY', mapKey: '5WE2iX9u1OEKDBqi057s#');
 }
 }
 
 class NavService {
   static GlobalKey<NavigatorState> navKey = GlobalKey();
 }
+

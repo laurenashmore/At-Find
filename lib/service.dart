@@ -38,7 +38,7 @@ class ClientService {
       ..namespace = MixedConstants.NAMESPACE
       ..syncStrategy = SyncStrategy.IMMEDIATE
       ..rootDomain = MixedConstants.ROOT_DOMAIN
-    //..rootPort = MixedConstants.ROOT_PORT
+      //..rootPort = MixedConstants.ROOT_PORT
       ..hiveStoragePath = path;
   }
 
@@ -71,7 +71,7 @@ class ClientService {
       await _getAtClientForAtsign().delete(atKey);
 
   Future<List<AtKey>> getAtKeys({String? regex, String? sharedBy}) async {
-    regex ??= MixedConstants.NAMESPACE_REGEX;
+    regex ??= AppStrings.regex;
     return await _getAtClientForAtsign()
         .getAtKeys(regex: regex, sharedBy: sharedBy);
   }
@@ -90,7 +90,7 @@ class ClientService {
   deleteAtSignFromKeyChain() async {
     // List<String> atSignList = await getAtsignList();
     String _atsign = atClientServiceInstance.atClient!.currentAtSign.toString();
-~}
+}
 
     Future<bool> notify(AtKey atKey, String value,
         OperationEnum operation) async {

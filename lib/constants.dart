@@ -14,3 +14,6 @@ class AppStrings {
   static const String reset_keychain = "Reset Keychain";
   static const String atsign_error = 'ATSIGN_NOT_FOUND';
 }
+
+/// Map Key: https://api.maptiler.com/maps/streets/?key=5WE2iX9u1OEKDBqi057s#
+/// API Key: Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY

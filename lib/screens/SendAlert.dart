@@ -16,7 +16,7 @@ class SendAlert extends StatefulWidget {
 enum LocationUpdate { travelling, arrived }
 
 class _SendAlertState extends State<SendAlert> {
- ClientSdkService clientSdkService =ClientSdkService.getInstance();
+  ClientService clientSdkService = ClientService.getInstance();
   String ? activeAtSign, receiver;
   var _update = LocationUpdate.travelling;
   String ? _otherAtSign;
@@ -134,7 +134,7 @@ class _SendAlertState extends State<SendAlert> {
     );
   }
   void putUpdate(String state, String key) async {
-   ClientSdkService clientSdkService =ClientSdkService.getInstance();
+    ClientService clientSdkService = ClientService.getInstance();
     setState(() {
       alert = state;
     });
@@ -149,7 +149,7 @@ class _SendAlertState extends State<SendAlert> {
 
 
   _share(BuildContext context, String sharedWith, _alert) async {
-   ClientSdkService clientSdkService =ClientSdkService.getInstance();
+    ClientService clientSdkService = ClientService.getInstance();
 
     if (sharedWith != null) {
       String atSign = await clientSdkService.getAtSign();
@@ -158,7 +158,7 @@ class _SendAlertState extends State<SendAlert> {
         ..sharedWith = atSign;
 
 
-      _alert = awaitClientSdkService.getInstance().get(lookup);
+      _alert = await ClientService.getInstance().get(lookup);
 
       var metadata = Metadata()..ttr = -1;
 
@@ -172,7 +172,7 @@ class _SendAlertState extends State<SendAlert> {
       var operation = OperationEnum.update;
 
 
-      awaitClientSdkService.getInstance().notify(atKey, _alert, operation);
+      await ClientService.getInstance().notify(atKey, _alert, operation);
 
     }
   }

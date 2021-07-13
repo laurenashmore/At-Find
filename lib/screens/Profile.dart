@@ -14,7 +14,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
- ClientSdkService clientSdkService =ClientSdkService.getInstance();
+  ClientService clientSdkService = ClientService.getInstance();
   String ?activeAtSign, receiver;
 
 
@@ -102,7 +102,7 @@ class _ProfileState extends State<Profile> {
   }
 
   void getStatus(String status, String _key) async {
-   ClientSdkService clientSdkService =ClientSdkService.getInstance();
+    ClientService clientSdkService = ClientService.getInstance();
     setState(() {
       _status = status;
     });
@@ -122,7 +122,7 @@ class _ProfileState extends State<Profile> {
 
   /// Look up a value corresponding to an [AtKey] instance.
   Future<String> _lookup(AtKey atKey) async {
-   ClientSdkService clientSdkService =ClientSdkService.getInstance();
+    ClientService clientSdkService = ClientService.getInstance();
     // If an AtKey object exists
     if (atKey != null) {
       // Simply get the AtKey object utilizing the serverDemoService's get method
@@ -134,7 +134,7 @@ class _ProfileState extends State<Profile> {
 
   /// Scan for [AtKey] objects with the correct regex.
   _scan() async {
-   ClientSdkService clientSdkService =ClientSdkService.getInstance();
+    ClientService clientSdkService = ClientService.getInstance();
     // Instantiate a list of AtKey objects to house each cached recipe from
     // the secondary server of the authenticated atsign
 

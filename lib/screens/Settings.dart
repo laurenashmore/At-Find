@@ -21,7 +21,7 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     //ClientSdkService.getInstance().onboard();
-   ClientSdkService.getInstance()
+    ClientService.getInstance()
         .getAtClientPreference()
         .then((value) => atClientPreference = value);
     super.initState();

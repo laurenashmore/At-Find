@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 /// OK
 
 class _HomeState extends State<Home> {
- ClientSdkService clientSdkService =ClientSdkService.getInstance();
+  ClientService clientSdkService = ClientService.getInstance();
   String activeAtSign = '';
   GlobalKey<ScaffoldState> ?scaffoldKey;
   /// OK
@@ -53,11 +53,11 @@ Widget build(BuildContext content) {
 
 
 getAtSignAndInitContacts() async {
-  String currentAtSign = awaitClientSdkService.getInstance().getAtSign();
+  String currentAtSign = await ClientService.getInstance().getAtSign();
   setState(() {
     activeAtSign = currentAtSign;
   });
-  initializeLocationService(ClientSdkService.atClientServiceInstance.atClient,
+  initializeLocationService(ClientService.atClientServiceInstance.atClient,
       activeAtSign, NavService.navKey, apiKey: 'apiKey', mapKey: 'mapKey');
 }
 }

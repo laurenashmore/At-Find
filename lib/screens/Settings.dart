@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:atfind/service.dart';
 import 'package:at_utils/at_logger.dart';
+import '../constants.dart';
 
 class Settings extends StatefulWidget {
   static final String id = 'settings';
@@ -60,9 +61,17 @@ class _SettingsState extends State<Settings> {
                 await _keyChainManager.getAtSignListFromKeychain();
                 _atSignsList?.forEach((element) {
                   _keyChainManager.deleteAtSignFromKeychain(element);
-                });
+                }
+                );
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      'Keychain cleaned',
+                      textAlign: TextAlign.center,
+                    ),
+                ),
+                );
               },
-              child: Text('Logout'),
+              child: Text(AppStrings.reset_keychain),
               style: TextButton.styleFrom(
                   backgroundColor: Colors.grey[850],
                   primary: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:at_client_mobile/at_client_mobile.dart';
+import 'package:at_location_flutter/utils/constants/init_location_service.dart';
 import 'package:atfind/screens/onboarding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     //ClientSdkService.getInstance().onboard();
-    ClientService.getInstance()
+   ClientSdkService.getInstance()
         .getAtClientPreference()
         .then((value) => atClientPreference = value);
     super.initState();

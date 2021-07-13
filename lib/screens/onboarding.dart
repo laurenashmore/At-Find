@@ -19,7 +19,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   String? atSign;
-  ClientService clientService = ClientService.getInstance();
+ ClientSdkServiceClientSdkService =ClientSdkService.getInstance();
   var atClientPreference;
   var _logger = AtSignLogger('App');
 
@@ -62,14 +62,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   TextButton(
                     onPressed: () async {
                       atClientPreference =
-                          await clientService.getAtClientPreference();
+                          awaitClientSdkService.getAtClientPreference();
                       Onboarding(
                         appAPIKey: '477b-876u-bcez-c42z-6a3d',
                         context: context,
                         atClientPreference: atClientPreference,
                         domain: MixedConstants.ROOT_DOMAIN,
                         appColor: Color.fromARGB(255, 240, 94, 62),
-                        onboard: clientService.postOnboard,
+                        onboard:ClientSdkService.postOnboard,
                         onError: (error) {
                           _logger.severe('Onboarding throws $error error');
                         },

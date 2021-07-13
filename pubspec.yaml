@@ -25,6 +25,8 @@ dependencies:
   at_commons: ^2.0.1
   at_contacts_flutter: ^2.0.1
 
+dependency_overrides:
+  latlong2: ^0.8.0
 
 
 dev_dependencies:

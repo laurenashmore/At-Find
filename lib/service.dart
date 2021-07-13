@@ -6,7 +6,9 @@ import 'package:atfind/constants.dart';//TODO YOUR constants file here
 
 class ClientService {
   ClientService._internal();
+
   static final ClientService _singleton = ClientService._internal();
+
   factory ClientService.getInstance() => _singleton;
 
   Map<String?, AtClientService> _atClientServiceMap = {};
@@ -22,8 +24,9 @@ class ClientService {
       _atClientServiceInstance ??=
           _atClientServiceMap[atsign] ?? AtClientService();
 
-  AtClientImpl _getAtClientForAtsign({String? atsign}) => _atClientInstance ??=
-  _getAtClientServiceForAtSign(atsign: atsign).atClient!;
+  AtClientImpl _getAtClientForAtsign({String? atsign}) =>
+      _atClientInstance ??=
+      _getAtClientServiceForAtSign(atsign: atsign).atClient!;
 
   //* Onboarding process
   Future<AtClientPreference> getAtClientPreference({String? cramSecret}) async {
@@ -35,7 +38,7 @@ class ClientService {
       ..namespace = MixedConstants.NAMESPACE
       ..syncStrategy = SyncStrategy.IMMEDIATE
       ..rootDomain = MixedConstants.ROOT_DOMAIN
-      //..rootPort = MixedConstants.ROOT_PORT
+    //..rootPort = MixedConstants.ROOT_PORT
       ..hiveStoragePath = path;
   }
 
@@ -48,7 +51,9 @@ class ClientService {
 
   //* GETTERS (should only be called after onboarding)
   String get atsign => _atsign!;
+
   AtClientService get atClientServiceInstance => _atClientServiceInstance!;
+
   AtClientImpl get atClientInstance => _atClientInstance!;
 
   //* VERBS
@@ -71,8 +76,24 @@ class ClientService {
         .getAtKeys(regex: regex, sharedBy: sharedBy);
   }
 
-  Future<bool> notify(
-      AtKey atKey, String value, OperationEnum operation) async {
-    return await _getAtClientForAtsign().notify(atKey, value, operation);
+  Future<String> getAtSign() async {
+    return await atClientServiceInstance.getAtSign().toString();
   }
-}
+
+  static final KeyChainManager _keyChainManager = KeyChainManager.getInstance();
+
+  Future<List<String?>> getAtsignList() async {
+    var atSignsList = await _keyChainManager.getAtSignListFromKeychain();
+    return atSignsList!;
+  }
+
+  deleteAtSignFromKeyChain() async {
+    // List<String> atSignList = await getAtsignList();
+    String _atsign = atClientServiceInstance.atClient!.currentAtSign.toString();
+~}
+
+    Future<bool> notify(AtKey atKey, String value,
+        OperationEnum operation) async {
+      return await _getAtClientForAtsign().notify(atKey, value, operation);
+    }
+  }

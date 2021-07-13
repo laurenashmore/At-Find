@@ -2,7 +2,7 @@ import 'package:atfind/screens/Contacts.dart';
 import 'package:atfind/screens/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:atfind/screens/onboarding.dart';
-import 'package:atfind/screens/profile.dart';
+import 'package:atfind/screens/Profile.dart';
 import 'package:atfind/screens/Settings.dart';
 import 'package:atfind/screens/SendAlert.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         OnboardingScreen.id: (context) => OnboardingScreen(),
         Home.id: (context) => Home(),
-        profile.id: (context) => profile(),
+        Profile.id: (context) => Profile(),
         Contacts.id: (context) => Contacts(),
         Settings.id: (context) => Settings(),
         SendAlert.id: (context) => SendAlert(),

@@ -6,14 +6,14 @@ import 'package:flutter/widgets.dart';
 import 'package:atfind/service.dart';
 import 'package:atfind/constants.dart' as constant;
 
-class profile extends StatefulWidget {
+class Profile extends StatefulWidget {
   static final String id = 'third';
   String? atSign;
   @override
-  _profileState createState() => _profileState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _profileState extends State<profile> {
+class _ProfileState extends State<Profile> {
   ClientService clientSdkService = ClientService.getInstance();
   String ?activeAtSign, receiver;
 

@@ -1,3 +1,4 @@
+import 'package:at_client_mobile/at_client_mobile.dart';
 import 'package:at_location_flutter/utils/constants/init_location_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:at_location_flutter/screens/home/home_screen.dart';
@@ -117,8 +118,8 @@ getAtSignAndInitContacts() async {
   setState(() {
     activeAtSign = currentAtSign;
   });
-  initializeLocationService(ClientService.atClientServiceInstance.atClient,
-      activeAtSign, NavService.navKey, apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY', mapKey: '5WE2iX9u1OEKDBqi057s#');
+  initializeLocationService(clientSdkService.atClientServiceInstance.atClient,
+      activeAtSign, NavService.navKey, apiKey: 'apiKey', mapKey: 'mapKey');
 }
 }
 

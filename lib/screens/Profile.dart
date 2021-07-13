@@ -143,11 +143,11 @@ class _ProfileState extends State<Profile> {
     // This regex is defined for searching for an AtKey object that carries the
     // namespace of cookbook and that have been created by the authenticated
     // atsign (the currently logged in atsign)
-    String regex = '^(?!cached).*atfind.*';
+    String? regex = '^(?!cached).*atfind.*';
 
     // Getting the recipes that are cached on the authenticated atsign's secondary
     // server utilizing the regex expression defined earlier
-    response = await clientSdkService.getAtKeys(regex, sharedBy:'');
+    response = await clientSdkService.getAtKeys(regex:'^(?!cached).*atfind.*' );
     response.retainWhere((element) => !element.metadata!.isCached);
 
     // Instantiating a list of strings

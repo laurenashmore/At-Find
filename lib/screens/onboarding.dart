@@ -1,3 +1,4 @@
+import 'package:at_client_mobile/at_client_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:at_utils/at_logger.dart';
@@ -10,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:atfind/screens/Home.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  OnboardingScreen({required Key key}) : super(key: key);
+  //OnboardingScreen({required Key key}) : super(key: key);
   static final id = "onboarding_screen";
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -20,7 +21,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   String? atSign;
   ClientService clientService = ClientService.getInstance();
   var atClientPreference;
-  var _logger = AtSignLogger('@find');
+  var _logger = AtSignLogger('App');
 
   @override
   void initState() {

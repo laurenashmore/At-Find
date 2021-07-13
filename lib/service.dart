@@ -70,10 +70,9 @@ class ClientService {
   Future<bool?> delete(AtKey atKey) async =>
       await _getAtClientForAtsign().delete(atKey);
 
-  Future<List<AtKey>> getAtKeys({String? regex, String? sharedBy}) async {
-    regex ??= MixedConstants.NAMESPACE_REGEX;
+  Future<List<AtKey>> getAtKeys(String regex, {required String sharedBy}) async {
     return await _getAtClientForAtsign()
-        .getAtKeys(regex: regex, sharedBy: sharedBy);
+        .getAtKeys(regex: MixedConstants.NAMESPACE, sharedBy: sharedBy);
   }
 
   Future<String> getAtSign() async {
@@ -90,7 +89,7 @@ class ClientService {
   deleteAtSignFromKeyChain() async {
     // List<String> atSignList = await getAtsignList();
     String _atsign = atClientServiceInstance.atClient!.currentAtSign.toString();
-~}
+}
 
     Future<bool> notify(AtKey atKey, String value,
         OperationEnum operation) async {

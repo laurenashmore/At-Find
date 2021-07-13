@@ -23,6 +23,7 @@ dependencies:
   group_button: ^2.2.2
   url_launcher: ^6.0.3
   at_commons: ^2.0.1
+  at_contacts_flutter: ^2.0.1
 
 
 

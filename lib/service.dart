@@ -2,7 +2,7 @@ import 'package:at_client_mobile/at_client_mobile.dart';
 import 'package:at_client/at_client.dart';
 import 'package:at_commons/at_commons.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:atfind/constants.dart';//TODO YOUR constants file here
+import 'package:atfind/constants.dart';
 
 class ClientService {
   ClientService._internal();
@@ -14,12 +14,12 @@ class ClientService {
   Map<String?, AtClientService> _atClientServiceMap = {};
   String? path;
 
-  //* Post onboard variables
+  /// Post onboard variables
   String? _atsign;
   AtClientService? _atClientServiceInstance;
   AtClientImpl? _atClientInstance;
 
-  //* AtClientService Getters
+  /// AtClientService Getters
   AtClientService _getAtClientServiceForAtSign({String? atsign}) =>
       _atClientServiceInstance ??=
           _atClientServiceMap[atsign] ?? AtClientService();
@@ -28,7 +28,7 @@ class ClientService {
       _atClientInstance ??=
       _getAtClientServiceForAtSign(atsign: atsign).atClient!;
 
-  //* Onboarding process
+  /// Onboarding process
   Future<AtClientPreference> getAtClientPreference({String? cramSecret}) async {
     path ??= (await getApplicationSupportDirectory()).path;
     return AtClientPreference()
@@ -49,14 +49,14 @@ class ClientService {
     sync();
   }
 
-  //* GETTERS (should only be called after onboarding)
+  /// GETTERS (should only be called after onboarding)
   String get atsign => _atsign!;
 
   AtClientService get atClientServiceInstance => _atClientServiceInstance!;
 
   AtClientImpl get atClientInstance => _atClientInstance!;
 
-  //* VERBS
+  /// VERBS
   Future<void> sync() async {
     await _getAtClientForAtsign().getSyncManager()!.sync();
   }

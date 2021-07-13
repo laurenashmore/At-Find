@@ -1,0 +1,78 @@
+import 'package:at_client_mobile/at_client_mobile.dart';
+import 'package:at_client/at_client.dart';
+import 'package:at_commons/at_commons.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:atfind/constants.dart';//TODO YOUR constants file here
+
+class ClientService {
+  ClientService._internal();
+  static final ClientService _singleton = ClientService._internal();
+  factory ClientService.getInstance() => _singleton;
+
+  Map<String?, AtClientService> _atClientServiceMap = {};
+  String? path;
+
+  //* Post onboard variables
+  String? _atsign;
+  AtClientService? _atClientServiceInstance;
+  AtClientImpl? _atClientInstance;
+
+  //* AtClientService Getters
+  AtClientService _getAtClientServiceForAtSign({String? atsign}) =>
+      _atClientServiceInstance ??=
+          _atClientServiceMap[atsign] ?? AtClientService();
+
+  AtClientImpl _getAtClientForAtsign({String? atsign}) => _atClientInstance ??=
+  _getAtClientServiceForAtSign(atsign: atsign).atClient!;
+
+  //* Onboarding process
+  Future<AtClientPreference> getAtClientPreference({String? cramSecret}) async {
+    path ??= (await getApplicationSupportDirectory()).path;
+    return AtClientPreference()
+      ..isLocalStoreRequired = true
+      ..commitLogPath = path
+      ..cramSecret = cramSecret
+      ..namespace = MixedConstants.NAMESPACE
+      ..syncStrategy = SyncStrategy.IMMEDIATE
+      ..rootDomain = MixedConstants.ROOT_DOMAIN
+      //..rootPort = MixedConstants.ROOT_PORT
+      ..hiveStoragePath = path;
+  }
+
+  void postOnboard(Map<String?, AtClientService> value, String? atsign) {
+    _atClientServiceMap = value;
+    _atsign = atsign;
+    _getAtClientForAtsign(atsign: _atsign);
+    sync();
+  }
+
+  //* GETTERS (should only be called after onboarding)
+  String get atsign => _atsign!;
+  AtClientService get atClientServiceInstance => _atClientServiceInstance!;
+  AtClientImpl get atClientInstance => _atClientInstance!;
+
+  //* VERBS
+  Future<void> sync() async {
+    await _getAtClientForAtsign().getSyncManager()!.sync();
+  }
+
+  Future<String> get(AtKey atKey) async =>
+      (await _getAtClientForAtsign().get(atKey)).value;
+
+  Future<bool> put(AtKey atKey, String value) async =>
+      await _getAtClientForAtsign().put(atKey, value);
+
+  Future<bool?> delete(AtKey atKey) async =>
+      await _getAtClientForAtsign().delete(atKey);
+
+  Future<List<AtKey>> getAtKeys({String? regex, String? sharedBy}) async {
+    regex ??= MixedConstants.NAMESPACE_REGEX;
+    return await _getAtClientForAtsign()
+        .getAtKeys(regex: regex, sharedBy: sharedBy);
+  }
+
+  Future<bool> notify(
+      AtKey atKey, String value, OperationEnum operation) async {
+    return await _getAtClientForAtsign().notify(atKey, value, operation);
+  }
+}

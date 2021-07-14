@@ -10,6 +10,8 @@ import 'package:at_onboarding_flutter/at_onboarding_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../service.dart';
 
+
+/// Class created for onboarding:
 class OnboardingScreen extends StatefulWidget {
   OnboardingScreen({ Key? key}) : super(key: key);
   static final id = "onboardingscreen";
@@ -17,6 +19,7 @@ class OnboardingScreen extends StatefulWidget {
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
+/// Bringing in things:
 class _OnboardingScreenState extends State<OnboardingScreen> {
   String? atSign;
   ClientService clientService = ClientService.getInstance();
@@ -28,6 +31,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.initState();
   }
 
+  /// Layout:
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,18 +39,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         backgroundColor: Colors.white,
         body: Builder(
           builder: (context) => Container(
+            /// Background image:
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('images/back.png'),
                 fit: BoxFit.cover,
               ),
             ),
-
-            /// Background Image
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  /// Logo:
                   Container(
                     margin: const EdgeInsets.all(40.0),
                     height: 100.0,
@@ -59,6 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                     ),
                   ),
+                  /// Onboarding button:
                   TextButton(
                     onPressed: () async {
                       atClientPreference =
@@ -68,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         context: context,
                         atClientPreference: atClientPreference,
                         domain: MixedConstants.ROOT_DOMAIN,
-                        appColor: Color.fromARGB(255, 240, 94, 62),
+                        appColor: Colors.red[300],
                         onboard: clientService.postOnboard,
                         onError: (error) {
                           _logger.severe('Onboarding throws $error error');
@@ -83,9 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         padding: EdgeInsets.all(10),
                         minimumSize: Size(200, 35)),
                   ),
-
-                  /// ONBOARDING BUTTON
-
+                  /// Reset keychain button:
                   TextButton(
                     onPressed: () async {
                       KeyChainManager _keyChainManager =
@@ -109,6 +112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         padding: EdgeInsets.all(10),
                         minimumSize: Size(200, 35)),
                   ),
+                  /// Get an @sign button:
                   TextButton(
                     onPressed: () => launch('https://atsign.com/get-an-sign/'),
                     child: Text('Get an @sign!'),
@@ -119,8 +123,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         padding: EdgeInsets.all(10),
                         minimumSize: Size(100, 35)),
                   ),
-
-                  /// @SIGN BUTTON/// KEYCHAIN BUTTON
                 ],
               ),
             ),

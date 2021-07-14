@@ -1,6 +1,13 @@
+import 'package:at_contacts_flutter/utils/init_contacts_service.dart';
+import 'package:at_contacts_group_flutter/utils/init_group_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:at_contacts_flutter/screens/contacts_screen.dart';
+import 'package:at_contacts_group_flutter/screens/list/group_list.dart';
+
+import '../constants.dart';
+import '../service.dart';
+
 
 class Contacts extends StatefulWidget {
   static final String id = 'contacts';
@@ -8,22 +15,43 @@ class Contacts extends StatefulWidget {
   _ContactsState createState() => _ContactsState();
 }
 class _ContactsState extends State<Contacts> {
+  ClientService clientSdkService = ClientService.getInstance();
+  String activeAtSign = '';
+  String? currentAtSign;
+
   @override
+  void initState() {
+    activeAtSign =
+        clientSdkService.atClientServiceInstance.atClient!.currentAtSign!;
+    getAtSignAndInitContacts();
+    super.initState();
+  }
+  getAtSignAndInitContacts() async {
+    String currentAtSign = await ClientService.getInstance().getAtSign();
+    setState(() {
+      activeAtSign = currentAtSign;
+    });
+    initializeContactsService(clientSdkService.atClientInstance, activeAtSign,
+        rootDomain: MixedConstants.ROOT_DOMAIN);
+    initializeGroupService(clientSdkService.atClientInstance, activeAtSign,
+        rootDomain: MixedConstants.ROOT_DOMAIN);
+  }
+
 
   Widget build(BuildContext content) {
     return Scaffold(
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(
-              bottom: 200.0),
-          child: TextButton(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+          TextButton(
             onPressed: () async {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => ContactsScreen(),
                   )
               );
             },
-            child: Text('Go to map!'),
+            child: Text('Contacts!'),
             style: TextButton.styleFrom(
                 backgroundColor: Colors.grey[850],
                 primary: Colors.white,
@@ -31,8 +59,25 @@ class _ContactsState extends State<Contacts> {
                 padding: EdgeInsets.all(10),
                 minimumSize: Size(200, 35)),
           ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => GroupList(),
+                    )
+                );
+              },
+              child: Text('Contacts Group!'),
+              style: TextButton.styleFrom(
+                  backgroundColor: Colors.grey[850],
+                  primary: Colors.white,
+                  side: BorderSide(color: Colors.grey[850]!, width: 2),
+                  padding: EdgeInsets.all(10),
+                  minimumSize: Size(200, 35)),
+            ),
+      ],
         ),
       ),
     );
 }
+
 }

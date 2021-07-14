@@ -18,16 +18,16 @@ class _ProfileState extends State<Profile> {
   String ?activeAtSign, receiver;
 
 
-  String? _status = '';
+
+  String _status = '';
   String _key = 'statusupdate';
-  String? update;
+  String update = '';
 
   @override
   void initState() {
     super.initState();
     activeAtSign =
         clientSdkService.atClientServiceInstance.getAtSign().toString();
-    getStatus(_status!, _key);
   }
 
   /// Layout
@@ -80,11 +80,11 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            Text('Current status: $_status',
+            Text('Current status: $_status!',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            FutureBuilder(
-              //future: _scan(),
+            /*FutureBuilder(
+             // future: _scan(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
                   print(snapshot.data);
@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> {
                   child: Text('$update'),
                 );
               },
-            ),
+            ),*/
           ],
         ),
       ),
@@ -120,8 +120,8 @@ class _ProfileState extends State<Profile> {
   }
 
 
- /* /// Look up a value corresponding to an [AtKey] instance.
-  Future<String> _lookup(AtKey atKey) async {
+  /// Look up a value corresponding to an [AtKey] instance.
+/*  Future<String> _lookup(AtKey atKey) async {
     ClientService clientSdkService = ClientService.getInstance();
     // If an AtKey object exists
     if (atKey != null) {

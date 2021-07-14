@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-  getAtSignAndInitContacts();
+  //getAtSignAndInitContacts();
   scaffoldKey = GlobalKey<ScaffoldState>();
   super.initState();
 }
@@ -112,9 +112,10 @@ Widget build(BuildContext content) {
       ),
       );
   }
+}
 
 
-getAtSignAndInitContacts() async {
+/*getAtSignAndInitContacts() async {
   String currentAtSign = await ClientService.getInstance().getAtSign();
   setState(() {
     activeAtSign = currentAtSign;
@@ -122,9 +123,11 @@ getAtSignAndInitContacts() async {
   initializeLocationService(clientSdkService.atClientServiceInstance.atClient!,
       activeAtSign, NavService.navKey, apiKey: 'apiKey', mapKey: 'mapKey');
 }
-}
+}*/
+/*
 
 class NavService {
   static GlobalKey<NavigatorState> navKey = GlobalKey();
 }
+*/
 

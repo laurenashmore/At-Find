@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:atfind/screens/Home.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  //OnboardingScreen({required Key key}) : super(key: key);
+  OnboardingScreen({ Key? key}) : super(key: key);
   static final id = "onboardingscreen";
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();

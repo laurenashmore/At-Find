@@ -18,16 +18,15 @@ class _ProfileState extends State<Profile> {
   String ?activeAtSign, receiver;
 
 
-  String? _status;
+  String _status = '';
   String _key = 'statusupdate';
-  String? update;
+  String update = '';
 
   @override
   void initState() {
     super.initState();
     activeAtSign =
         clientSdkService.atClientServiceInstance.getAtSign().toString();
-    getStatus(_status!, _key);
   }
 
   /// Layout

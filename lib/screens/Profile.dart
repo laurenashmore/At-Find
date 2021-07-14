@@ -18,7 +18,7 @@ class _ProfileState extends State<Profile> {
   String ?activeAtSign, receiver;
 
 
-  String? _status;
+  String? _status = '';
   String _key = 'statusupdate';
   String? update;
 
@@ -84,7 +84,7 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             FutureBuilder(
-              future: _scan(),
+              //future: _scan(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
                   print(snapshot.data);
@@ -120,7 +120,7 @@ class _ProfileState extends State<Profile> {
   }
 
 
-  /// Look up a value corresponding to an [AtKey] instance.
+ /* /// Look up a value corresponding to an [AtKey] instance.
   Future<String> _lookup(AtKey atKey) async {
     ClientService clientSdkService = ClientService.getInstance();
     // If an AtKey object exists
@@ -172,5 +172,5 @@ class _ProfileState extends State<Profile> {
     // return list of strings
     //return responseList;
     return responseList;
-  }
+  }*/
 }

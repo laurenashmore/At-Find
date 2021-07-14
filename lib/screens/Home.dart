@@ -55,7 +55,7 @@ Widget build(BuildContext content) {
           height: 77,
           width: 356,
           margin:
-          EdgeInsets.symmetric(horizontal: 10., vertical: 10.),
+          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             color: Theme.of(context).scaffoldBackgroundColor,
@@ -106,7 +106,8 @@ Widget build(BuildContext content) {
                   })
             ],
           ),
-        );
+        ),
+      ]
       ),
       ),
       );
@@ -118,7 +119,7 @@ getAtSignAndInitContacts() async {
   setState(() {
     activeAtSign = currentAtSign;
   });
-  initializeLocationService(clientSdkService.atClientServiceInstance.atClient,
+  initializeLocationService(clientSdkService.atClientServiceInstance.atClient!,
       activeAtSign, NavService.navKey, apiKey: 'apiKey', mapKey: 'mapKey');
 }
 }

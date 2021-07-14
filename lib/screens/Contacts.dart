@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:at_contacts_flutter/screens/contacts_screen.dart';
 import 'package:at_contacts_group_flutter/screens/list/group_list.dart';
+import 'package:at_contacts_flutter/at_contacts_flutter.dart';
+import 'package:at_contacts_group_flutter/at_contacts_group_flutter.dart';
 
 import '../constants.dart';
 import '../service.dart';
@@ -16,17 +18,19 @@ class Contacts extends StatefulWidget {
 }
 class _ContactsState extends State<Contacts> {
   ClientService clientSdkService = ClientService.getInstance();
-  String activeAtSign = '';
-  String? currentAtSign;
+  String? activeAtSign;
+
 
   @override
   void initState() {
-    activeAtSign =
-        clientSdkService.atClientServiceInstance.atClient!.currentAtSign!;
     getAtSignAndInitializeContacts();
     super.initState();
   }
-
+  @override
+  void dispose() {
+    disposeContactsControllers();
+    super.dispose();
+  }
 
 
   Widget build(BuildContext content) {
@@ -38,7 +42,7 @@ class _ContactsState extends State<Contacts> {
           TextButton(
             onPressed: () async {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ContactsScreen(),
+                  MaterialPageRoute(builder: (BuildContext context) => ContactsScreen(),
                   )
               );
             },

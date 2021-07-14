@@ -23,19 +23,10 @@ class _ContactsState extends State<Contacts> {
   void initState() {
     activeAtSign =
         clientSdkService.atClientServiceInstance.atClient!.currentAtSign!;
-    getAtSignAndInitContacts();
+    getAtSignAndInitializeContacts();
     super.initState();
   }
-  getAtSignAndInitContacts() async {
-    String currentAtSign = await ClientService.getInstance().getAtSign();
-    setState(() {
-      activeAtSign = currentAtSign;
-    });
-    initializeContactsService(clientSdkService.atClientInstance, activeAtSign,
-        rootDomain: MixedConstants.ROOT_DOMAIN);
-    initializeGroupService(clientSdkService.atClientInstance, activeAtSign,
-        rootDomain: MixedConstants.ROOT_DOMAIN);
-  }
+
 
 
   Widget build(BuildContext content) {
@@ -79,5 +70,17 @@ class _ContactsState extends State<Contacts> {
       ),
     );
 }
-
+  /// Initialize Contacts (stuff)
+  void getAtSignAndInitializeContacts() async {
+    var currentAtSign = await (clientSdkService.getAtSign());
+    setState(() {
+      activeAtSign = currentAtSign;
+    });
+    initializeContactsService(
+        clientSdkService.atClientServiceInstance!.atClient!, currentAtSign!,
+        rootDomain: MixedConstants.ROOT_DOMAIN);
+    initializeGroupService(
+        clientSdkService.atClientServiceInstance!.atClient!, currentAtSign!,
+        rootDomain: MixedConstants.ROOT_DOMAIN);
+  }
 }

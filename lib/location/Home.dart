@@ -1,5 +1,8 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
+import 'package:at_contacts_flutter/services/contact_service.dart';
+import 'package:at_contacts_flutter/services/contact_service.dart';
 import 'package:at_contacts_flutter/utils/init_contacts_service.dart';
+import 'package:at_contacts_group_flutter/at_contacts_group_flutter.dart';
 import 'package:at_location_flutter/common_components/bottom_sheet.dart';
 import 'package:at_location_flutter/common_components/display_tile.dart';
 import 'package:at_location_flutter/common_components/floating_icon.dart';
@@ -34,8 +37,8 @@ import 'package:atfind/location/ShareLocationSheet.dart';
 /// Class created (with the same name from package):
 class HomeScreen extends StatefulWidget {
   static final String id = 'HomeScreen';
-  final bool showList;
   String? activeAtSign;
+  final bool showList;
   HomeScreen({this.showList = true});
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -51,32 +54,22 @@ class _HomeScreenState extends State<HomeScreen> {
   LatLng? myLatLng;
   GlobalKey<ScaffoldState>? scaffoldKey;
 
+
   /// Initializing things:
   @override
   void initState() {
-    /// Active At Sign
     activeAtSign =
         clientSdkService.atClientServiceInstance.atClient!.currentAtSign;
     /// Initialize location:
     initializeLocationService(clientSdkService.atClientServiceInstance.atClient!,
         activeAtSign!, NavService.navKey, apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY', mapKey: '5WE2iX9u1OEKDBqi057s#');
-    /// Initialize contacts:
-    getAtSignAndInitContacts();
     /// Location nofifications:
     super.initState();
     _getMyLocation();
     KeyStreamService().init(AtLocationNotificationListener().atClientInstance);
   }
 
-  /// Initialize Contacts (stuff)
-  getAtSignAndInitContacts() async {
-    String currentAtSign = await ClientService.getInstance().getAtSign();
-    setState(() {
-      activeAtSign = currentAtSign;
-    });
-    initializeContactsService(clientSdkService.atClientInstance, activeAtSign!,
-        rootDomain: MixedConstants.ROOT_DOMAIN);
-  }
+
 
   /// Location stuff:
   void _getMyLocation() async {

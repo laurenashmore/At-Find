@@ -23,9 +23,19 @@ class _ContactsState extends State<Contacts> {
 
   @override
   void initState() {
-    getAtSignAndInitializeContacts();
+    activeAtSign =
+        clientSdkService.atClientServiceInstance.atClient!.currentAtSign;
+    /// Initialize contacts:
+    initializeContactsService(
+        clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
+        rootDomain: MixedConstants.ROOT_DOMAIN);
+    /// Initialize group contacts:
+    initializeGroupService(
+        clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
+        rootDomain: MixedConstants.ROOT_DOMAIN);
     super.initState();
   }
+
   @override
   void dispose() {
     disposeContactsControllers();
@@ -39,21 +49,22 @@ class _ContactsState extends State<Contacts> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => ContactsScreen(),
-                  )
-              );
-            },
-            child: Text('Contacts!'),
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.grey[850],
-                primary: Colors.white,
-                side: BorderSide(color: Colors.grey[850]!, width: 2),
-                padding: EdgeInsets.all(10),
-                minimumSize: Size(200, 35)),
-          ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ContactsScreen(),
+                    )
+                );
+              },
+              child: Text('Contacts!'),
+              style: TextButton.styleFrom(
+                  backgroundColor: Colors.grey[850],
+                  primary: Colors.white,
+                  side: BorderSide(color: Colors.grey[850]!, width: 2),
+                  padding: EdgeInsets.all(10),
+                  minimumSize: Size(200, 35)),
+            ),
             TextButton(
               onPressed: () async {
                 Navigator.of(context).push(
@@ -69,22 +80,9 @@ class _ContactsState extends State<Contacts> {
                   padding: EdgeInsets.all(10),
                   minimumSize: Size(200, 35)),
             ),
-      ],
+          ],
         ),
       ),
     );
-}
-  /// Initialize Contacts (stuff)
-  void getAtSignAndInitializeContacts() async {
-    var currentAtSign = await (clientSdkService.getAtSign());
-    setState(() {
-      activeAtSign = currentAtSign;
-    });
-    initializeContactsService(
-        clientSdkService.atClientServiceInstance!.atClient!, currentAtSign!,
-        rootDomain: MixedConstants.ROOT_DOMAIN);
-    initializeGroupService(
-        clientSdkService.atClientServiceInstance!.atClient!, currentAtSign!,
-        rootDomain: MixedConstants.ROOT_DOMAIN);
   }
 }

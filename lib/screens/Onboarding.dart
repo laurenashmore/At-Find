@@ -1,4 +1,5 @@
 import 'package:at_client_mobile/at_client_mobile.dart';
+import 'package:atfind/location/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:at_utils/at_logger.dart';
@@ -6,9 +7,8 @@ import 'dart:ui';
 import 'package:atfind/constants.dart';
 import 'package:atfind/service.dart';
 import 'package:at_onboarding_flutter/at_onboarding_flutter.dart';
-import '../service.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:atfind/screens/Home.dart';
+import '../service.dart';
 
 class OnboardingScreen extends StatefulWidget {
   OnboardingScreen({ Key? key}) : super(key: key);
@@ -73,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         onError: (error) {
                           _logger.severe('Onboarding throws $error error');
                         },
-                        nextScreen: Home(),
+                        nextScreen: HomeScreen(),
                       );
                     },
                     child: Text(AppStrings.scan_qr),

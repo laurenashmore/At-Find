@@ -71,7 +71,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    getStatus(_status!, _key);
+                    getStatus(_status, _key);
                   },
                   tooltip: 'Update status',
                   child: Icon(Icons.add),
@@ -108,9 +108,9 @@ class _ProfileState extends State<Profile> {
     AtKey currStatus = AtKey()
       ..key = _key
       ..sharedBy = activeAtSign
-      ..sharedWith = await clientSdkService.getAtSign().toString();
+      ..sharedWith = clientSdkService.getAtSign().toString();
 
-    clientSdkService.put(currStatus, _status!);
+    clientSdkService.put(currStatus, _status);
     // Title of key: String _key = 'statusupdate';
     // Content of key: _status
     String buffer;

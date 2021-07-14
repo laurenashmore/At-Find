@@ -78,10 +78,10 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            Text('Current status: $_status!',
+            Text('Current status: $_status',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            /*FutureBuilder(
+            FutureBuilder(
              // future: _scan(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> {
                   child: Text('$update'),
                 );
               },
-            ),*/
+            ),
           ],
         ),
       ),

@@ -17,8 +17,6 @@ class _ProfileState extends State<Profile> {
   ClientService clientSdkService = ClientService.getInstance();
   String ?activeAtSign, receiver;
 
-
-
   String _status = '';
   String _key = 'statusupdate';
   String update = '';
@@ -27,7 +25,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     activeAtSign =
-        clientSdkService.atClientServiceInstance.getAtSign().toString();
+        clientSdkService.atsign;
   }
 
   /// Layout
@@ -103,25 +101,30 @@ class _ProfileState extends State<Profile> {
 
   void getStatus(String status, String _key) async {
     ClientService clientSdkService = ClientService.getInstance();
+    String? atSign = clientSdkService.atsign;
+
     setState(() {
       _status = status;
     });
+
     AtKey currStatus = AtKey()
       ..key = _key
-      ..sharedBy = activeAtSign
-      ..sharedWith = clientSdkService.getAtSign().toString();
+      ..sharedWith = atSign;
+    // ..sharedBy = activeAtSign
 
-    clientSdkService.put(currStatus, _status);
+    await clientSdkService.put(currStatus, _status);
+
+
     // Title of key: String _key = 'statusupdate';
     // Content of key: _status
-    String buffer;
-    buffer = await clientSdkService.get(currStatus);
-    print(buffer);
+    // String buffer;
+    // buffer = await clientSdkService.get(currStatus);
+    // print(buffer);
   }
 
 
 /// Look up a value corresponding to an [AtKey] instance.
-/*  Future<String> _lookup(AtKey atKey) async {
+  Future<String> _lookup(AtKey atKey) async {
     ClientService clientSdkService = ClientService.getInstance();
     // If an AtKey object exists
     if (atKey != null) {
@@ -162,5 +165,5 @@ class _ProfileState extends State<Profile> {
     // return list of strings
     //return responseList;
     return responseList;
-  }*/
+  }
 }

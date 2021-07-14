@@ -7,12 +7,14 @@ import 'package:atfind/service.dart';
 import 'package:at_utils/at_logger.dart';
 import '../constants.dart';
 
+/// Class created for settings:
 class Settings extends StatefulWidget {
   static final String id = 'settings';
   @override
   _SettingsState createState() => _SettingsState();
 }
 
+/// Bringin in things:
 class _SettingsState extends State<Settings> {
   String ? atSign;
   var atClientPreference;
@@ -20,7 +22,6 @@ class _SettingsState extends State<Settings> {
 
   @override
   void initState() {
-    //ClientSdkService.getInstance().onboard();
     ClientService.getInstance()
         .getAtClientPreference()
         .then((value) => atClientPreference = value);
@@ -38,6 +39,7 @@ class _SettingsState extends State<Settings> {
         centerTitle: true,
         elevation: 0,
       ),
+      /// Background image:
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -45,10 +47,12 @@ class _SettingsState extends State<Settings> {
             fit: BoxFit.cover,
           ),
         ),
+        /// Log out button:
         child: Center(
           child: Padding(
             padding: const EdgeInsets.only(
                 bottom: 200.0),
+            /// After resetting keychain, takes you back to log in screen:
             child: TextButton(
               onPressed: () async {
                 Navigator.of(context).push(
@@ -56,6 +60,7 @@ class _SettingsState extends State<Settings> {
                     builder: (BuildContext context) => OnboardingScreen(),
                   ),
                 );
+                /// Keychain manager deletes the @sign from the keychain..
                 KeyChainManager _keyChainManager =
                 KeyChainManager.getInstance();
                 var _atSignsList =
@@ -72,6 +77,7 @@ class _SettingsState extends State<Settings> {
                 ),
                 );
               },
+              /// Button aesthetic:
               child: Text(AppStrings.reset_keychain),
               style: TextButton.styleFrom(
                   backgroundColor: Colors.grey[850],

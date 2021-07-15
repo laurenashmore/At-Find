@@ -112,17 +112,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         padding: EdgeInsets.all(10),
                         minimumSize: Size(200, 35)),
                   ),
-                  /// Get an @sign button:
-                  TextButton(
-                    onPressed: () => launch('https://atsign.com/get-an-sign/'),
-                    child: Text('Get an @sign!'),
-                    style: TextButton.styleFrom(
-                        backgroundColor: Colors.red[300],
-                        primary: Colors.white,
-                        side: BorderSide(color: Colors.red[300]!, width: 2),
-                        padding: EdgeInsets.all(10),
-                        minimumSize: Size(100, 35)),
-                  ),
                 ],
               ),
             ),

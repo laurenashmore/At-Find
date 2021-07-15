@@ -1,8 +1,6 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
-import 'package:at_contacts_flutter/services/contact_service.dart';
-import 'package:at_contacts_flutter/services/contact_service.dart';
 import 'package:at_contacts_flutter/utils/init_contacts_service.dart';
-import 'package:at_contacts_group_flutter/at_contacts_group_flutter.dart';
+import 'package:at_contacts_group_flutter/utils/init_group_service.dart';
 import 'package:at_location_flutter/common_components/bottom_sheet.dart';
 import 'package:at_location_flutter/common_components/display_tile.dart';
 import 'package:at_location_flutter/common_components/floating_icon.dart';
@@ -21,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:atfind/screens/Contacts.dart';
 import 'package:atfind/screens/Profile.dart';
 import 'package:atfind/screens/SendAlert.dart';
 import 'package:atfind/screens/Settings.dart';
@@ -29,6 +26,7 @@ import 'package:atfind/service.dart';
 import 'package:atfind/constants.dart';
 import 'package:atfind/location/RequestLocationSheet.dart';
 import 'package:atfind/location/ShareLocationSheet.dart';
+import 'package:atfind/screens/Contacts.dart';
 
 
 
@@ -63,7 +61,14 @@ class _HomeScreenState extends State<HomeScreen> {
     /// Initialize location:
     initializeLocationService(clientSdkService.atClientServiceInstance.atClient!,
         activeAtSign!, NavService.navKey, apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY', mapKey: '5WE2iX9u1OEKDBqi057s#');
-    /// Location nofifications:
+    /// Initialize contacts:
+    initializeContactsService(
+        clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
+        rootDomain: MixedConstants.ROOT_DOMAIN);
+    /// Initialize group contacts:
+    initializeGroupService(
+        clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
+        rootDomain: MixedConstants.ROOT_DOMAIN);
     super.initState();
     _getMyLocation();
     KeyStreamService().init(AtLocationNotificationListener().atClientInstance);
@@ -344,7 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.grey[900],
               onPressed: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Contacts()));
+                    MaterialPageRoute(builder: (context) => GroupList()));
                 //TODO: this is to be changed to contacts groups page
               }),
           IconButton(

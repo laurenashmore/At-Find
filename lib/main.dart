@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       //navigatorKey: NavService.navKey,
       theme: ThemeData(
         primaryColor: Colors.grey[400],
+        accentColor: Colors.red[300],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: OnboardingScreen.id,
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         OnboardingScreen.id: (context) => OnboardingScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         Profile.id: (context) => Profile(),
-        Contacts.id: (context) => Contacts(),
+        GroupList.id: (context) => GroupList(),
         Settings.id: (context) => Settings(),
         SendAlert.id: (context) => SendAlert(),
 

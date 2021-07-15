@@ -82,11 +82,23 @@ class _ProfileState extends State<Profile> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             FutureBuilder(
-             // future: _scan(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              future: _scan(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
-                  print(snapshot.data);
-                  update = snapshot.data.toString();
+                   List<String> attrs = snapshot.data;
+                  print("TEST1: "+snapshot.data.toString());
+
+                  for(String attr in attrs){
+                    // List<String> attrlist = attr.split(constant.splitter);
+                    // int attrlen = attrlist.length;
+                    // print("TEST2: "+"$attrlen");
+                    if(attr.contains("statusupdate")) {
+                      update = attr.replaceRange(0, 12, "");
+                    }
+                  }
+
+                 // update = snapshot.data.toString();
                 }
                 return Container(
                   child: Text('$update'),

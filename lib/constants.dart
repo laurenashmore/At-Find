@@ -1,3 +1,5 @@
+String splitter = '@_@';
+
 class MixedConstants {
   static const String WEBSITE_URL = 'https://atsign.com/';
   // for local server

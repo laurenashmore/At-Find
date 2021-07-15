@@ -87,7 +87,7 @@ class _ProfileState extends State<Profile> {
                   (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
                    List<String> attrs = snapshot.data;
-                  print("TEST1: "+snapshot.data.toString());
+                  // print("TEST1: "+snapshot.data.toString());
 
                   for(String attr in attrs){
                     // List<String> attrlist = attr.split(constant.splitter);

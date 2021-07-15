@@ -87,14 +87,18 @@ class _ProfileState extends State<Profile> {
                   (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
                    List<String> attrs = snapshot.data;
-                  // print("TEST1: "+snapshot.data.toString());
+                  print("TEST1: "+snapshot.data.toString());
 
                   for(String attr in attrs){
                     // List<String> attrlist = attr.split(constant.splitter);
                     // int attrlen = attrlist.length;
                     // print("TEST2: "+"$attrlen");
                     if(attr.contains("statusupdate")) {
-                      update = attr.replaceRange(0, 12, "");
+                      print("TEST3: "+attr);
+
+                      List<String> temp = attr.split(":");
+                      update = temp[1];
+                      // update = attr.replaceRange(0, 12, "");
                     }
                   }
 
@@ -168,7 +172,7 @@ class _ProfileState extends State<Profile> {
       // In addition to the object we are on, we add the name of the recipe,
       // the constant splitter to segregate the fields, and again, the value of
       // the recipe which includes; description, ingredients, and image URL
-      value = (atKey.key! + value);
+      value = (atKey.key! +":"+ value);
       // Add current AtKey object to our list of strings defined earlier before
       // for loop
       responseList.add(value);

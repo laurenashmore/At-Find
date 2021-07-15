@@ -101,7 +101,7 @@ class _ProfileState extends State<Profile> {
                  // update = snapshot.data.toString();
                 }
                 return Container(
-                  child: Text('$update'),
+                  child: Text('$update', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 );
               },
             ),

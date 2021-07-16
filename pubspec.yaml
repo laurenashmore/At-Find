@@ -19,24 +19,22 @@ dependencies:
   path_provider: ^2.0.2
   at_demo_data: ^0.0.3+1
   modal_progress_hud: any
-  at_location_flutter: ^2.0.1
   group_button: ^2.2.2
   url_launcher: ^6.0.3
   at_commons: ^2.0.1
   at_contacts_flutter: ^2.0.1
   at_contacts_group_flutter: ^2.0.1
   flutter_speed_dial: ^4.1.0
-
-#dependency_overrides:
- # latlong2: ^0.8.0
-
+  at_location_flutter:
+    git:
+      url: https://github.com/laurenashmore/at_widgets.git
+      path: at_location_flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
-
 
   uses-material-design: true
 

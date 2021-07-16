@@ -109,9 +109,11 @@ packages:
   at_location_flutter:
     dependency: "direct main"
     description:
-      name: at_location_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: at_location_flutter
+      ref: HEAD
+      resolved-ref: "9a5cb9cd4fa0078edf5cd3f21f392dc4c2dbf6af"
+      url: "https://github.com/laurenashmore/at_widgets.git"
+    source: git
     version: "2.0.1"
   at_lookup:
     dependency: transitive

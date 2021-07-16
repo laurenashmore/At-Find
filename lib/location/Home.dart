@@ -3,14 +3,14 @@ import 'package:at_contacts_flutter/utils/init_contacts_service.dart';
 import 'package:at_contacts_group_flutter/utils/init_group_service.dart';
 import 'package:at_location_flutter/common_components/bottom_sheet.dart';
 import 'package:at_location_flutter/common_components/display_tile.dart';
-import 'package:at_location_flutter/common_components/floating_icon.dart';
 import 'package:at_location_flutter/location_modal/key_location_model.dart';
 import 'package:at_location_flutter/map_content/flutter_map/flutter_map.dart';
+import 'package:at_location_flutter/screens/request_location/request_location_sheet.dart';
+import 'package:at_location_flutter/screens/share_location/share_location_sheet.dart';
 import 'package:at_location_flutter/service/at_location_notification_listener.dart';
 import 'package:at_location_flutter/service/home_screen_service.dart';
 import 'package:at_location_flutter/service/key_stream_service.dart';
 import 'package:at_location_flutter/service/my_location.dart';
-import 'package:at_location_flutter/service/send_location_notification.dart';
 import 'package:at_location_flutter/show_location.dart';
 import 'package:at_location_flutter/utils/constants/colors.dart';
 import 'package:at_location_flutter/utils/constants/init_location_service.dart';
@@ -24,11 +24,7 @@ import 'package:atfind/screens/SendAlert.dart';
 import 'package:atfind/screens/Settings.dart';
 import 'package:atfind/service.dart';
 import 'package:atfind/constants.dart';
-import 'package:atfind/location/RequestLocationSheet.dart';
-import 'package:atfind/location/ShareLocationSheet.dart';
 import 'package:atfind/screens/Contacts.dart';
-
-
 
 /// Using at_location home screen, with our own changes
 ///
@@ -170,15 +166,59 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               /// Ugly button that puts your location off:
+              /// Emergency pop-up button:
               Positioned(
-                top: 30,
-                right: 0,
-                child: FloatingIcon(
-                  icon: Icons.location_off,
-                  isTopLeft: false,
-                  onPressed: () =>
-                      SendLocationNotification().deleteAllLocationKey(),
-                ),
+                top: 70,
+                right: 2,
+                child: IconButton(
+                    icon: Icon(Icons.report_problem),
+                    iconSize: 50,
+                    color: Colors.red,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(70)),
+                            elevation: 100,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Text(
+                                      'Are you having an emergency?',
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 40),
+                                    ),
+                                  ),
+                                  SizedBox(height:20),
+                                  Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Text(
+                                      'Press here to sound an alarm:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30),
+                                    ),
+                                  ),
+                                  IconButton(
+                                      icon: Icon(Icons.campaign),
+                                      iconSize: 100,
+                                      color: Colors.red,
+                                      onPressed: () {
+                                      })
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }),
               ),
               /// Panel size:
               widget.showList

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:at_contacts_flutter/screens/contacts_screen.dart';
 import 'package:at_contacts_group_flutter/at_contacts_group_flutter.dart';
 import 'package:at_contacts_group_flutter/screens/group_view/group_view.dart';

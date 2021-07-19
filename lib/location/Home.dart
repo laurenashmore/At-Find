@@ -5,8 +5,6 @@ import 'package:at_location_flutter/common_components/bottom_sheet.dart';
 import 'package:at_location_flutter/common_components/display_tile.dart';
 import 'package:at_location_flutter/location_modal/key_location_model.dart';
 import 'package:at_location_flutter/map_content/flutter_map/flutter_map.dart';
-import 'package:at_location_flutter/screens/request_location/request_location_sheet.dart';
-import 'package:at_location_flutter/screens/share_location/share_location_sheet.dart';
 import 'package:at_location_flutter/service/at_location_notification_listener.dart';
 import 'package:at_location_flutter/service/home_screen_service.dart';
 import 'package:at_location_flutter/service/key_stream_service.dart';
@@ -25,6 +23,9 @@ import 'package:atfind/screens/Settings.dart';
 import 'package:atfind/service.dart';
 import 'package:atfind/constants.dart';
 import 'package:atfind/screens/Contacts.dart';
+
+import 'Request.dart';
+import 'Share.dart';
 
 /// Using at_location home screen, with our own changes
 ///
@@ -127,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   ],
                 ),
-                /// Request and share buttons:
+                /// Request and share buttons: (in this project)
                 child: Center(
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

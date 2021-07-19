@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:atfind/service.dart';
 import 'package:atfind/constants.dart' as constant;
+import 'package:atfind/location/Home.dart';
 
 class Profile extends StatefulWidget {
   static final String id = 'third';
@@ -71,6 +72,9 @@ class _ProfileState extends State<Profile> {
                 FloatingActionButton(
                   onPressed: () {
                     getStatus(_status, _key);
+                    createStatusAlertDialog(context);
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
                   tooltip: 'Update status',
                   child: Icon(Icons.add),
@@ -181,5 +185,13 @@ class _ProfileState extends State<Profile> {
     // return list of strings
     //return responseList;
     return responseList;
+  }
+
+  createStatusAlertDialog(BuildContext context){
+    return showDialog(context: context, builder: (context){
+      return AlertDialog(
+        content: Text("Activity Status Updated!"),
+      );
+    });
   }
 }

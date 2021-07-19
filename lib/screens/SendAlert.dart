@@ -76,7 +76,7 @@ class _SendAlertState extends State<SendAlert> {
                 });
               },
             ),
-            /*Padding(
+            Padding(
               padding: EdgeInsets.only(left: 10.0, top: 10.0),
               child: Text(
                 'Who would you like to notify?',
@@ -93,7 +93,7 @@ class _SendAlertState extends State<SendAlert> {
                   _otherAtSign = value;
                 },
               ),
-            ),*/
+            ),
           ],
         ),
       ),

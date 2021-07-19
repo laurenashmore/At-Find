@@ -23,6 +23,7 @@ import 'package:atfind/screens/Settings.dart';
 import 'package:atfind/service.dart';
 import 'package:atfind/constants.dart';
 import 'package:atfind/screens/Contacts.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 import 'Request.dart';
 import 'Share.dart';
@@ -49,19 +50,25 @@ class _HomeScreenState extends State<HomeScreen> {
   LatLng? myLatLng;
   GlobalKey<ScaffoldState>? scaffoldKey;
 
-
   /// Initializing things:
   @override
   void initState() {
     activeAtSign =
         clientSdkService.atClientServiceInstance.atClient!.currentAtSign;
+
     /// Initialize location:
-    initializeLocationService(clientSdkService.atClientServiceInstance.atClient!,
-        activeAtSign!, NavService.navKey, apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY', mapKey: '5WE2iX9u1OEKDBqi057s#');
+    initializeLocationService(
+        clientSdkService.atClientServiceInstance.atClient!,
+        activeAtSign!,
+        NavService.navKey,
+        apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
+        mapKey: '5WE2iX9u1OEKDBqi057s#');
+
     /// Initialize contacts:
     initializeContactsService(
         clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
         rootDomain: MixedConstants.ROOT_DOMAIN);
+
     /// Initialize group contacts:
     initializeGroupService(
         clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
@@ -70,8 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _getMyLocation();
     KeyStreamService().init(AtLocationNotificationListener().atClientInstance);
   }
-
-
 
   /// Location stuff:
   void _getMyLocation() async {
@@ -94,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
+
   MapController mapController = MapController();
 
   /// Layout:
@@ -102,138 +108,173 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
-          body: Stack(
-            children: [
-              (myLatLng != null)
-                  ? showLocation(UniqueKey(), mapController, location: myLatLng)
-                  : showLocation(
-                UniqueKey(),
-                mapController,
-              ),
-              /// Top container:
-              Container(
-                height: 50.toHeight,
-                width: 356.toWidth,
-                margin:
-                EdgeInsets.symmetric(horizontal: 10.toWidth, vertical: 10.toHeight),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AllColors().DARK_GREY,
-                      blurRadius: 10.0,
-                      spreadRadius: 1.0,
-                      offset: Offset(0.0, 0.0),
-                    )
-                  ],
-                ),
-                /// Request and share buttons: (in this project)
-                child: Center(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        TextButton(
-                            child: Text('Request',
-                              style: TextStyle(
-                                color: Colors.grey[900],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            onPressed: () {
-                              bottomSheet(context, RequestLocationSheet(),
-                                  SizeConfig().screenHeight * 0.6);
-                            }),
-                        Icon(
-                          Icons.share_location,
-                          size: 35,
-                          color: Colors.grey[900],
-                        ),
-                        TextButton(
-                            child: Text('Share',
-                              style: TextStyle(
-                                color: Colors.grey[900],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            onPressed: () {
-                              bottomSheet(context, ShareLocationSheet(),
-                                  SizeConfig().screenHeight * 0.6);
-                            }),
-                      ]
+        body: Stack(
+          children: [
+            (myLatLng != null)
+                ? showLocation(UniqueKey(), mapController, location: myLatLng)
+                : showLocation(
+                    UniqueKey(),
+                    mapController,
                   ),
-                ),
+
+            /// Top container:
+            Container(
+              height: 50.toHeight,
+              width: 356.toWidth,
+              margin: EdgeInsets.symmetric(
+                  horizontal: 10.toWidth, vertical: 10.toHeight),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.0),
+                color: Theme.of(context).scaffoldBackgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: AllColors().DARK_GREY,
+                    blurRadius: 10.0,
+                    spreadRadius: 1.0,
+                    offset: Offset(0.0, 0.0),
+                  )
+                ],
               ),
-              /// Ugly button that puts your location off:
-              /// Emergency pop-up button:
-              Positioned(
-                top: 70,
-                right: 2,
-                child: IconButton(
-                    icon: Icon(Icons.report_problem),
-                    iconSize: 50,
-                    color: Colors.red,
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Dialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(70)),
-                            elevation: 100,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Text(
-                                      'Are you having an emergency?',
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 40),
-                                    ),
-                                  ),
-                                  SizedBox(height:20),
-                                  Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Text(
-                                      'Press here to sound an alarm:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 30),
-                                    ),
-                                  ),
-                                  IconButton(
-                                      icon: Icon(Icons.campaign),
-                                      iconSize: 100,
-                                      color: Colors.red,
-                                      onPressed: () {
-                                      })
-                                ],
-                              ),
+
+              /// Request and share buttons: (in this project)
+              child: Center(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                          child: Text(
+                            'Request',
+                            style: TextStyle(
+                              color: Colors.grey[900],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
-                          );
-                        },
-                      );
-                    }),
+                          ),
+                          onPressed: () {
+                            bottomSheet(context, RequestLocationSheet(),
+                                SizeConfig().screenHeight * 0.6);
+                          }),
+                      Icon(
+                        Icons.share_location,
+                        size: 35,
+                        color: Colors.grey[900],
+                      ),
+                      TextButton(
+                          child: Text(
+                            'Share',
+                            style: TextStyle(
+                              color: Colors.grey[900],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          onPressed: () {
+                            bottomSheet(context, ShareLocationSheet(),
+                                SizeConfig().screenHeight * 0.6);
+                          }),
+                    ]),
               ),
-              /// Panel size:
-              widget.showList
-                  ? Positioned(bottom: 20.toHeight, child: header())
-                  : SizedBox(),
-              widget.showList
-                  ? StreamBuilder(
-                  stream: KeyStreamService().atNotificationsStream,
-                  builder: (context,
-                      AsyncSnapshot<List<KeyLocationModel>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.active) {
-                      if (snapshot.hasError) {
-                        return SlidingUpPanel(
-                          /// Little slide up arrow:
+            ),
+
+            /// Ugly button that puts your location off:
+            /// Emergency pop-up button:
+            Positioned(
+              top: 70,
+              right: 2,
+              child: IconButton(
+                icon: Icon(Icons.report_problem),
+                iconSize: 50,
+                color: Colors.red[300],
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                        elevation: 100,
+                        title: Text(
+                          'Are you having an emergency?',
+                          style: TextStyle(
+                            color: Colors.red[300],
+                            //fontWeight: FontWeight.bold,
+                            //fontSize: 30),
+                          ),
+                        ),
+                        content: Text(
+                          'Press below to sound alarm',
+                          style: TextStyle(
+                            //fontWeight: FontWeight.bold,
+                            //fontSize: 20,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                        actions: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                  icon: Icon(Icons.campaign),
+                                  iconSize: 70,
+                                  color: Colors.red[300],
+                                  onPressed: () {
+                                    FlutterRingtonePlayer.play(
+                                    android: AndroidSounds.alarm,
+                                    ios: IosSounds.alarm,
+                                    looping: true, // Android only - API >= 28
+                                    volume: 1.0, // Android only - API >= 28
+                                    asAlarm: true, // Android only - all APIs
+                                  );
+                                  },
+                              ),
+                              TextButton(
+                                  child: Text('Stop Alarm',
+                                    style: TextStyle(
+                                      //fontWeight: FontWeight.bold,
+                                      //fontSize: 20,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  onPressed: () {FlutterRingtonePlayer.stop();}
+                                  ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+
+            /// Panel size:
+            widget.showList
+                ? Positioned(bottom: 20.toHeight, child: header())
+                : SizedBox(),
+            widget.showList
+                ? StreamBuilder(
+                    stream: KeyStreamService().atNotificationsStream,
+                    builder: (context,
+                        AsyncSnapshot<List<KeyLocationModel>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.active) {
+                        if (snapshot.hasError) {
+                          return SlidingUpPanel(
+
+                              /// Little slide up arrow:
+                              collapsed: Icon(
+                                Icons.keyboard_arrow_up_outlined,
+                                color: Colors.red[300],
+                                size: 22,
+                              ),
+                              controller: pc,
+                              minHeight: 20.toHeight,
+                              maxHeight: 350.toHeight,
+                              panelBuilder: (scrollController) =>
+                                  collapsedContent(false, scrollController,
+                                      emptyWidget('Something went wrong!')));
+                        } else {
+                          return SlidingUpPanel(
+                            /// Little slide up arrow:
                             collapsed: Icon(
                               Icons.keyboard_arrow_up_outlined,
                               color: Colors.red[300],
@@ -242,9 +283,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             controller: pc,
                             minHeight: 20.toHeight,
                             maxHeight: 350.toHeight,
-                            panelBuilder: (scrollController) =>
-                                collapsedContent(false, scrollController,
-                                    emptyWidget('Something went wrong!')));
+                            panelBuilder: (scrollController) {
+                              if (snapshot.data!.isNotEmpty) {
+                                return collapsedContent(
+                                    false,
+                                    scrollController,
+                                    getListView(
+                                        snapshot.data!, scrollController));
+                              } else {
+                                return collapsedContent(false, scrollController,
+                                    emptyWidget('No Data Found!'));
+                              }
+                            },
+                          );
+                        }
                       } else {
                         return SlidingUpPanel(
                           /// Little slide up arrow:
@@ -257,40 +309,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           minHeight: 20.toHeight,
                           maxHeight: 350.toHeight,
                           panelBuilder: (scrollController) {
-                            if (snapshot.data!.isNotEmpty) {
-                              return collapsedContent(
-                                  false,
-                                  scrollController,
-                                  getListView(
-                                      snapshot.data!, scrollController));
-                            } else {
-                              return collapsedContent(false, scrollController,
-                                  emptyWidget('No Data Found!'));
-                            }
+                            return collapsedContent(false, scrollController,
+                                emptyWidget('No Data Found!!'));
                           },
                         );
                       }
-                    } else {
-                      return SlidingUpPanel(
-                        /// Little slide up arrow:
-                        collapsed: Icon(
-                          Icons.keyboard_arrow_up_outlined,
-                          color: Colors.red[300],
-                          size: 22,
-                        ),
-                        controller: pc,
-                        minHeight: 20.toHeight,
-                        maxHeight: 350.toHeight,
-                        panelBuilder: (scrollController) {
-                          return collapsedContent(false, scrollController,
-                              emptyWidget('No Data Found!!'));
-                        },
-                      );
-                    }
-                  })
-                  : SizedBox(),
-            ],
-          )),
+                    })
+                : SizedBox(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -331,10 +359,10 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: DisplayTile(
                 atsignCreator:
-                notification.locationNotificationModel!.atsignCreator ==
-                    AtLocationNotificationListener().currentAtSign
-                    ? notification.locationNotificationModel!.receiver
-                    : notification.locationNotificationModel!.atsignCreator,
+                    notification.locationNotificationModel!.atsignCreator ==
+                            AtLocationNotificationListener().currentAtSign
+                        ? notification.locationNotificationModel!.receiver
+                        : notification.locationNotificationModel!.atsignCreator,
                 title: getTitle(notification.locationNotificationModel!),
                 subTitle: getSubTitle(notification.locationNotificationModel!),
                 semiTitle: getSemiTitle(notification.locationNotificationModel!,
@@ -359,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 77.toHeight,
       width: 356.toWidth,
       margin:
-      EdgeInsets.symmetric(horizontal: 10.toWidth, vertical: 10.toHeight),
+          EdgeInsets.symmetric(horizontal: 10.toWidth, vertical: 10.toHeight),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -389,8 +417,8 @@ class _HomeScreenState extends State<HomeScreen> {
               iconSize: 50,
               color: Colors.grey[900],
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => GroupList()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => GroupList()));
                 //TODO: this is to be changed to contacts groups page
               }),
           IconButton(
@@ -398,16 +426,16 @@ class _HomeScreenState extends State<HomeScreen> {
               iconSize: 50,
               color: Colors.grey[900],
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SendAlert()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => SendAlert()));
               }),
           IconButton(
               icon: Icon(Icons.settings_outlined),
               iconSize: 50,
               color: Colors.grey[900],
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Settings()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Settings()));
               })
         ],
       ),

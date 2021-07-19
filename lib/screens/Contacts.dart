@@ -95,7 +95,7 @@ class _GroupListState extends State<GroupList> {
             child: Icon(Icons.contacts_outlined, color: Colors.white),
             backgroundColor: Colors.grey[600],
             onTap: () => Navigator.of(context).push(
-    MaterialPageRoute(builder: (context) => ContactsScreen())),
+                MaterialPageRoute(builder: (context) => ContactsScreen())),
             label: 'My Contacts',
             labelStyle:
                 TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
@@ -104,8 +104,8 @@ class _GroupListState extends State<GroupList> {
           SpeedDialChild(
             child: Icon(Icons.block, color: Colors.white),
             backgroundColor: Colors.grey[600],
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => BlockedScreen())),
+            onTap: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => BlockedScreen())),
             label: 'Blocked Contacts',
             labelStyle:
                 TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
@@ -126,35 +126,6 @@ class _GroupListState extends State<GroupList> {
           showLeadingIcon: true,
           showTitle: true,
           titleText: 'Groups',
-          /*showTrailingIcon: showAddGroupIcon,
-          trailingIcon: Icon(
-            Icons.add,
-            color: AllColors().ORANGE,
-            size: 20.toFont,
-          ),
-          onTrailingIconPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ContactsScreen(
-                context: context,
-                asSelectionScreen: true,
-                selectedList: (selectedList) {
-                  selectedContactList = selectedList;
-                  if (selectedContactList.isNotEmpty) {
-                    GroupService().setSelectedContacts(selectedContactList);
-                  }
-                },
-                saveGroup: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NewGroup(),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),*/
         ),
         body: errorOcurred
             ? ErrorScreen()

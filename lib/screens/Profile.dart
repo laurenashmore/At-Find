@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:at_commons/at_commons.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,9 +71,10 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 FloatingActionButton(
-                  onPressed: () {
+                  onPressed: () async {
                     getStatus(_status, _key);
                     createStatusAlertDialog(context);
+                    await Future.delayed(const Duration(seconds: 3), (){});
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
                   },

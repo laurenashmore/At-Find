@@ -7,13 +7,12 @@ import 'dart:ui';
 import 'package:atfind/constants.dart';
 import 'package:atfind/service.dart';
 import 'package:at_onboarding_flutter/at_onboarding_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../service.dart';
 
 
 /// Class created for onboarding:
 class OnboardingScreen extends StatefulWidget {
-  OnboardingScreen({ Key? key}) : super(key: key);
+  OnboardingScreen({Key? key}) : super(key: key);
   static final id = "onboardingscreen";
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -69,8 +68,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       atClientPreference =
                           await clientService.getAtClientPreference();
                       Onboarding(
-                        appAPIKey: '477b-876u-bcez-c42z-6a3d',
                         context: context,
+                        appAPIKey: '477b-876u-bcez-c42z-6a3d',
                         atClientPreference: atClientPreference,
                         domain: MixedConstants.ROOT_DOMAIN,
                         appColor: Colors.red[300],
@@ -91,8 +90,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   /// Reset keychain button:
                   TextButton(
                     onPressed: () async {
-                      KeyChainManager _keyChainManager =
-                          KeyChainManager.getInstance();
+                      KeyChainManager _keyChainManager = KeyChainManager.getInstance();
                       var _atSignsList =
                           await _keyChainManager.getAtSignListFromKeychain();
                       _atSignsList?.forEach((element) {

@@ -117,6 +117,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
     );
   }
 
+  /// What happens when you click 'Share':
   void onShareTap() async {
     setState(() {
       isLoading = true;
@@ -155,12 +156,14 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
 
     if (result == true) {
       CustomToast().show('Share Location Request sent', context);
+      print ('IT SENT!!!!!!!!!!!');
       setState(() {
         isLoading = false;
       });
       Navigator.of(context).pop();
     } else {
       CustomToast().show('some thing went wrong , try again.', context);
+      print ('SOMETHING IS WRONG!!!!!!!!!!!');
       setState(() {
         isLoading = false;
       });
@@ -178,3 +181,5 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
     return checkPresence != null;
   }
 }
+
+/// OK FROM S_L_S.dart

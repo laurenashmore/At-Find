@@ -6,7 +6,6 @@ import 'package:atfind/atlocation/service/request_location_service.dart';
 import 'package:atfind/atlocation/service/sharing_location_service.dart';
 import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:flutter/material.dart';
-
 import 'custom_toast.dart';
 
 Future<void> locationPromptDialog(
@@ -156,6 +155,7 @@ class _LocationPromptState extends State<LocationPrompt> {
             rePrompt: widget.locationNotificationModel!.rePrompt);
 
     if (update) {
+      print('IT SENT!!!!!');
       CustomToast().show('Share Location Request sent', context);
     } else {
       CustomToast().show('Something went wrong!', context);

@@ -1,5 +1,4 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
-//import 'package:at_common_flutter/utils/text_strings.dart';
 import 'package:at_contact/at_contact.dart';
 import 'package:at_contacts_flutter/services/contact_service.dart';
 import 'package:at_contacts_group_flutter/screens/list/group_list.dart';
@@ -59,7 +58,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
       }
     });
     super.initState();
-
     isLoading = false;
   }
 
@@ -197,12 +195,14 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
 
     if (result == true) {
       CustomToast().show('Request Location sent', context);
+      print ('IT SENT!!!!!');
       setState(() {
         isLoading = false;
       });
       Navigator.of(context).pop();
     } else {
-      CustomToast().show('some thing went wrong , try again.', context);
+      CustomToast().show('Something went wrong , try again.', context);
+      print ('SOMETHING IS WRONG!!!!!');
       setState(() {
         isLoading = false;
       });
@@ -222,3 +222,5 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
 
 
 }
+
+/// OK FROM R_L_S.dart

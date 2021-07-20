@@ -32,54 +32,64 @@ import 'Share.dart';
 /// Class created (with the same name from package):
 class HomeScreen extends StatefulWidget {
   static final String id = 'HomeScreen';
-  ///String? activeAtSign;
+  String activeAtSign = '';
   final bool showList;
   HomeScreen({this.showList = true});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+/// OK!
+
 
 
 /// Bringing in things used in the code:
 class _HomeScreenState extends State<HomeScreen> {
   ClientService clientSdkService = ClientService.getInstance();
-  String? activeAtSign, receiver;
-  ///String? currentAtSign;
+  String activeAtSign = '';
+  String? receiver;
   Stream<List<KeyLocationModel>>? newStream;
   PanelController pc = PanelController();
   LatLng? myLatLng;
-  ///GlobalKey<ScaffoldState>? scaffoldKey;
+  GlobalKey<ScaffoldState>? scaffoldKey;
+  /// OK!
 
   /// Initializing things:
   @override
   void initState() {
-    activeAtSign =
-        clientSdkService.atClientServiceInstance!.atClient!.currentAtSign;
+    /// @AtSign stuff:
+    String currentAtSign = ClientService.getInstance().atsign;
+    setState(() {
+      activeAtSign = currentAtSign;
+    });
+   // activeAtSign =
+   //     clientSdkService.atClientServiceInstance.atClient!.currentAtSign!;
 
     /// Initialize location:
     initializeLocationService(
-        clientSdkService.atClientServiceInstance!.atClient!,
-        activeAtSign!,
+        clientSdkService.atClientServiceInstance.atClient!,
+        activeAtSign,
         NavService.navKey,
-        apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
-        mapKey: '5WE2iX9u1OEKDBqi057s#',
+        apiKey: '477b-876u-bcez-c42z-6a3d',
+        mapKey: 'CApl5ixiInUnNCiwzcec',
         showDialogBox: true,
     );
 
     /// Initialize contacts:
     initializeContactsService(
-        clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
+        clientSdkService.atClientServiceInstance.atClient!, activeAtSign,
         rootDomain: MixedConstants.ROOT_DOMAIN);
 
     /// Initialize group contacts:
     initializeGroupService(
-        clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
+        clientSdkService.atClientServiceInstance.atClient!, activeAtSign,
         rootDomain: MixedConstants.ROOT_DOMAIN);
 
     ///
     super.initState();
     _getMyLocation();
+    scaffoldKey = GlobalKey<ScaffoldState>();
     KeyStreamService().init(AtLocationNotificationListener().atClientInstance);
+    print('Everything is initialised...');
   }
 
   /// Location stuff:
@@ -108,17 +118,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   MapController mapController = MapController();
 
-  /// What does this do:
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   /// Layout:
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SafeArea(
+      key: scaffoldKey,
       child: Scaffold(
         body: Stack(
           children: [
@@ -454,12 +460,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget emptyWidget(String title) {
     return Column(
       children: [
-        Image.asset(
-          'packages/atfind/atlocation/assets/images/empty_group.png',
-          width: 50.toWidth,
-          height: 50.toWidth,
-          fit: BoxFit.cover,
-        ),
         SizedBox(
           height: 15.toHeight,
         ),

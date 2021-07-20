@@ -31,6 +31,7 @@ class _SendAlertState extends State<SendAlert> {
         clientSdkService.atClientServiceInstance.getAtSign().toString();
 
   }
+  
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -92,6 +93,13 @@ class _SendAlertState extends State<SendAlert> {
                 onChanged: (value) {
                   _otherAtSign = value;
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 10.0, right: 10, top: 10.0),
+              child: Container(
+
               ),
             ),
           ],

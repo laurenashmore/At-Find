@@ -32,36 +32,39 @@ import 'Share.dart';
 /// Class created (with the same name from package):
 class HomeScreen extends StatefulWidget {
   static final String id = 'HomeScreen';
-  String? activeAtSign;
+  ///String? activeAtSign;
   final bool showList;
   HomeScreen({this.showList = true});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+
 /// Bringing in things used in the code:
 class _HomeScreenState extends State<HomeScreen> {
   ClientService clientSdkService = ClientService.getInstance();
   String? activeAtSign, receiver;
-  String? currentAtSign;
+  ///String? currentAtSign;
   Stream<List<KeyLocationModel>>? newStream;
   PanelController pc = PanelController();
   LatLng? myLatLng;
-  GlobalKey<ScaffoldState>? scaffoldKey;
+  ///GlobalKey<ScaffoldState>? scaffoldKey;
 
   /// Initializing things:
   @override
   void initState() {
     activeAtSign =
-        clientSdkService.atClientServiceInstance.atClient!.currentAtSign;
+        clientSdkService.atClientServiceInstance!.atClient!.currentAtSign;
 
     /// Initialize location:
     initializeLocationService(
-        clientSdkService.atClientServiceInstance.atClient!,
+        clientSdkService.atClientServiceInstance!.atClient!,
         activeAtSign!,
         NavService.navKey,
         apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
-        mapKey: '5WE2iX9u1OEKDBqi057s#');
+        mapKey: '5WE2iX9u1OEKDBqi057s#',
+        showDialogBox: true,
+    );
 
     /// Initialize contacts:
     initializeContactsService(
@@ -72,6 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
     initializeGroupService(
         clientSdkService.atClientServiceInstance!.atClient!, activeAtSign!,
         rootDomain: MixedConstants.ROOT_DOMAIN);
+
+    ///
     super.initState();
     _getMyLocation();
     KeyStreamService().init(AtLocationNotificationListener().atClientInstance);
@@ -87,7 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }
     }
+
     var permission = await Geolocator.checkPermission();
+
     if (((permission == LocationPermission.always) ||
         (permission == LocationPermission.whileInUse))) {
       Geolocator.getPositionStream(distanceFilter: 2)
@@ -100,6 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   MapController mapController = MapController();
+
+  /// What does this do:
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   /// Layout:
   @override
@@ -175,7 +188,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            /// Ugly button that puts your location off:
             /// Emergency pop-up button:
             Positioned(
               top: 70,
@@ -258,7 +270,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (snapshot.connectionState == ConnectionState.active) {
                         if (snapshot.hasError) {
                           return SlidingUpPanel(
-
                               /// Little slide up arrow:
                               collapsed: Icon(
                                 Icons.keyboard_arrow_up_outlined,
@@ -358,10 +369,10 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: DisplayTile(
                 atsignCreator:
-                    notification.locationNotificationModel!.atsignCreator ==
-                            AtLocationNotificationListener().currentAtSign
-                        ? notification.locationNotificationModel!.receiver
-                        : notification.locationNotificationModel!.atsignCreator,
+                notification.locationNotificationModel!.atsignCreator ==
+                    AtLocationNotificationListener().currentAtSign
+                    ? notification.locationNotificationModel!.receiver
+                    : notification.locationNotificationModel!.atsignCreator,
                 title: getTitle(notification.locationNotificationModel!),
                 subTitle: getSubTitle(notification.locationNotificationModel!),
                 semiTitle: getSemiTitle(notification.locationNotificationModel!,
@@ -418,7 +429,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => GroupList()));
-                //TODO: this is to be changed to contacts groups page
               }),
           IconButton(
               icon: Icon(Icons.notifications_active_outlined),
@@ -445,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         Image.asset(
-          'packages/at_location_flutter/assets/images/empty_group.png',
+          'packages/atfind/atlocation/assets/images/empty_group.png',
           width: 50.toWidth,
           height: 50.toWidth,
           fit: BoxFit.cover,
@@ -466,3 +476,5 @@ class _HomeScreenState extends State<HomeScreen> {
 class NavService {
   static GlobalKey<NavigatorState> navKey = GlobalKey();
 }
+
+/// OK FROM HOME.DART

@@ -8,14 +8,13 @@ import 'package:atfind/atlocation/service/sharing_location_service.dart';
 import 'package:atfind/atlocation/utils/constants/colors.dart';
 import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:flutter/material.dart';
-
 import 'custom_toast.dart';
 import 'display_tile.dart';
 import 'draggable_symbol.dart';
 import 'loading_widget.dart';
 import 'package:at_common_flutter/services/size_config.dart';
 
-// ignore: must_be_immutable
+
 class CollapsedContent extends StatefulWidget {
   bool expanded;
   LocationNotificationModel? userListenerKeyword;
@@ -247,6 +246,7 @@ class _CollapsedContentState extends State<CollapsedContent> {
                                         if (result == true) {
                                           CustomToast().show(
                                               'Request Location sent', context);
+                                          print('IT SENT!!!!!');
                                         } else {
                                           CustomToast().show(
                                               'Something went wrong, try again.',

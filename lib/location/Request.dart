@@ -20,9 +20,9 @@ class RequestLocationSheet extends StatefulWidget {
 }
 
 class _RequestLocationSheetState extends State<RequestLocationSheet> {
-  ClientService clientSdkService = ClientService.getInstance();
-  String? activeAtSign, receiver;
-  String? currentAtSign;
+  ///ClientService clientSdkService = ClientService.getInstance();
+  ///String? activeAtSign, receiver;
+  ///String? currentAtSign;
   AtContact? selectedContact;
   late bool isLoading;
   String? selectedOption, textField;
@@ -55,7 +55,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
           Text('Who do you want to keep an eye on?', style: CustomTextStyles().greyLabel14),
           SizedBox(height: 10),
           ListTile( /// Drop down
-
             title: Center(
               child: DropdownButton<String>(
                 hint: Text('Pick an @sign'),
@@ -133,12 +132,14 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
 
     if (result == true) {
       CustomToast().show('Request Location sent', context);
+      print ('IT SENT!!!!!');
       setState(() {
         isLoading = false;
       });
       Navigator.of(context).pop();
     } else {
-      CustomToast().show('some thing went wrong , try again.', context);
+      CustomToast().show('Something went wrong , try again.', context);
+      print ('SOMETHING IS WRONG!!!!!');
       setState(() {
         isLoading = false;
       });
@@ -156,3 +157,5 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
     return checkPresence != null;
   }
 }
+
+/// OK FROM R_L_S.dart

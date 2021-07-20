@@ -156,6 +156,7 @@ class _LocationPromptState extends State<LocationPrompt> {
             rePrompt: widget.locationNotificationModel!.rePrompt);
 
     if (update) {
+      print('IT SENT!!!!!');
       CustomToast().show('Share Location Request sent', context);
     } else {
       CustomToast().show('Something went wrong!', context);

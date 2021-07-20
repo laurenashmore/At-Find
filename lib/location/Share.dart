@@ -1,15 +1,15 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
 import 'package:at_contact/at_contact.dart';
-import 'package:at_contacts_flutter/screens/contacts_screen.dart';
-import 'package:at_location_flutter/common_components/custom_toast.dart';
-import 'package:at_location_flutter/common_components/pop_button.dart';
-import 'package:at_location_flutter/service/sharing_location_service.dart';
-import 'package:at_location_flutter/service/at_location_notification_listener.dart';
-import 'package:at_location_flutter/utils/constants/colors.dart';
-import 'package:at_location_flutter/utils/constants/text_styles.dart';
+import 'package:atfind/atlocation/common_components/custom_toast.dart';
+import 'package:atfind/atlocation/common_components/pop_button.dart';
+import 'package:atfind/atlocation/service/sharing_location_service.dart';
+import 'package:atfind/atlocation/service/at_location_notification_listener.dart';
+import 'package:atfind/atlocation/utils/constants/colors.dart';
+import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:at_lookup/at_lookup.dart';
 import 'package:flutter/material.dart';
 import 'package:atfind/screens/Contacts.dart';
+
 
 class ShareLocationSheet extends StatefulWidget {
   final Function? onTap;
@@ -61,11 +61,11 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
               }
               textField = str;
             },
-              icon: Icons.contacts_rounded,
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) =>  ContactsScreen()));
-              }
+            icon: Icons.contacts_rounded,
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => GroupList()));
+                }
           ),
           SizedBox(height: 25),
           Text(

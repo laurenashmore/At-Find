@@ -1,15 +1,15 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
 import 'package:at_contact/at_contact.dart';
-import 'package:at_location_flutter/common_components/custom_toast.dart';
-import 'package:at_location_flutter/common_components/pop_button.dart';
-import 'package:at_location_flutter/service/request_location_service.dart';
-import 'package:at_location_flutter/service/at_location_notification_listener.dart';
-import 'package:at_location_flutter/utils/constants/colors.dart';
-import 'package:at_location_flutter/utils/constants/text_styles.dart';
+import 'package:at_contacts_group_flutter/screens/list/group_list.dart';
+import 'package:at_contacts_group_flutter/utils/colors.dart';
+import 'package:atfind/atlocation/common_components/custom_toast.dart';
+import 'package:atfind/atlocation/common_components/pop_button.dart';
+import 'package:atfind/atlocation/service/request_location_service.dart';
+import 'package:atfind/atlocation/service/at_location_notification_listener.dart';
+import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:at_lookup/at_lookup.dart';
 import 'package:flutter/material.dart';
-import 'package:atfind/screens/Contacts.dart';
-
+import '../service.dart';
 
 
 class RequestLocationSheet extends StatefulWidget {
@@ -20,6 +20,9 @@ class RequestLocationSheet extends StatefulWidget {
 }
 
 class _RequestLocationSheetState extends State<RequestLocationSheet> {
+  ClientService clientSdkService = ClientService.getInstance();
+  String? activeAtSign, receiver;
+  String? currentAtSign;
   AtContact? selectedContact;
   late bool isLoading;
   String? selectedOption, textField;
@@ -51,6 +54,23 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
           ),
           Text('Who do you want to keep an eye on?', style: CustomTextStyles().greyLabel14),
           SizedBox(height: 10),
+          ListTile( /// Drop down
+
+            title: Center(
+              child: DropdownButton<String>(
+                hint: Text('Pick an @sign'),
+                icon: Icon(Icons.keyboard_arrow_down),
+                items: <String>['A', 'B', 'C', 'D']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (_) {},
+              )
+            ),
+          ),
           CustomInputField(
             width: 330.toWidth,
             height: 50,

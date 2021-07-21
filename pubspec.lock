@@ -85,20 +85,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  at_contacts_flutter:
-    dependency: "direct main"
-    description:
-      name: at_contacts_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
-  at_contacts_group_flutter:
-    dependency: "direct main"
-    description:
-      name: at_contacts_group_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   at_demo_data:
     dependency: "direct main"
     description:
@@ -247,7 +233,7 @@ packages:
     source: hosted
     version: "1.0.3"
   emoji_picker_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: emoji_picker_flutter
       url: "https://pub.dartlang.org"
@@ -282,7 +268,7 @@ packages:
     source: hosted
     version: "6.1.2"
   file_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: file_picker
       url: "https://pub.dartlang.org"
@@ -315,7 +301,7 @@ packages:
     source: hosted
     version: "4.1.0"
   flutter_image_compress:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_image_compress
       url: "https://pub.dartlang.org"
@@ -350,7 +336,7 @@ packages:
     source: hosted
     version: "3.0.0"
   flutter_slidable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_slidable
       url: "https://pub.dartlang.org"

@@ -1,5 +1,9 @@
 import 'dart:typed_data';
-import 'package:atfind/atcontacts/screens/blocked_screen.dart';
+
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:at_contact/at_contact.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:at_common_flutter/at_common_flutter.dart';
 import 'package:atfind/atcontacts/screens/contacts_screen.dart';
 import 'package:atfind/atgroups/at_contacts_group_flutter.dart';
 import 'package:atfind/atgroups/screens/group_view/group_view.dart';
@@ -11,14 +15,9 @@ import 'package:atfind/atgroups/widgets/custom_toast.dart';
 import 'package:atfind/atgroups/widgets/error_screen.dart';
 import 'package:atfind/atgroups/widgets/person_horizontal_tile.dart';
 import 'package:atfind/atgroups/widgets/confirmation-dialog.dart';
-import 'package:at_onboarding_flutter/services/size_config.dart';
-import 'package:at_common_flutter/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:at_contact/at_contact.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class GroupList extends StatefulWidget {
-  static final String id = 'Contacts';
   @override
   _GroupListState createState() => _GroupListState();
 }
@@ -51,69 +50,6 @@ class _GroupListState extends State<GroupList> {
   }
 
   @override
-  SpeedDial buildSpeedDial() {
-    return SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 28.0),
-        backgroundColor: Colors.red[300],
-        visible: true,
-        curve: Curves.bounceInOut,
-        spacing: 20,
-        //direction: SpeedDialDirection.Left,
-        children: [
-          SpeedDialChild(
-            child: Icon(Icons.add, color: Colors.white),
-            backgroundColor: Colors.grey[600],
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ContactsScreen(
-                      context: context,
-                      asSelectionScreen: true,
-                      selectedList: (selectedList) {
-                        selectedContactList = selectedList;
-                        if (selectedContactList.isNotEmpty) {
-                          GroupService()
-                              .setSelectedContacts(selectedContactList);
-                        }
-                      },
-                      saveGroup: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NewGroup(),
-                          ),
-                        );
-                      })),
-            ),
-            label: 'Add Group',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.red[200],
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.contacts_outlined, color: Colors.white),
-            backgroundColor: Colors.grey[600],
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => ContactsScreen())),
-            label: 'My Contacts',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.red[200],
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.block, color: Colors.white),
-            backgroundColor: Colors.grey[600],
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => BlockedScreen())),
-            label: 'Blocked Contacts',
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            labelBackgroundColor: Colors.red[200],
-          ),
-        ]);
-  }
-
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SafeArea(
@@ -126,6 +62,35 @@ class _GroupListState extends State<GroupList> {
           showLeadingIcon: true,
           showTitle: true,
           titleText: 'Groups',
+          showTrailingIcon: showAddGroupIcon,
+          trailingIcon: Icon(
+            Icons.add,
+            color: AllColors().LIGHT_RED,
+            size: 20.toFont,
+          ),
+          onTrailingIconPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ContactsScreen(
+                context: context,
+                asSelectionScreen: true,
+                selectedList: (selectedList) {
+                  selectedContactList = selectedList;
+                  if (selectedContactList.isNotEmpty) {
+                    GroupService().setSelectedContacts(selectedContactList);
+                  }
+                },
+                saveGroup: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewGroup(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
         ),
         body: errorOcurred
             ? ErrorScreen()
@@ -196,7 +161,6 @@ class _GroupListState extends State<GroupList> {
                   }
                 },
               ),
-        floatingActionButton: buildSpeedDial(),
       ),
     );
   }

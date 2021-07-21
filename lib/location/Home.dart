@@ -1,6 +1,6 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
-import 'package:at_contacts_flutter/utils/init_contacts_service.dart';
-import 'package:at_contacts_group_flutter/utils/init_group_service.dart';
+import 'package:atfind/atcontacts/utils/init_contacts_service.dart';
+import 'package:atfind/atgroups/utils/init_group_service.dart';
 import 'package:atfind/atlocation/common_components/bottom_sheet.dart';
 import 'package:atfind/atlocation/common_components/display_tile.dart';
 import 'package:atfind/atlocation/location_modal/key_location_model.dart';

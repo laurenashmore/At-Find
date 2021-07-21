@@ -51,7 +51,6 @@ import 'package:atfind/screens/Profile.dart';
               top: 8,
               child: TextButton(
                 onPressed: () {
-                  getStatus(_status, _key);
                   showDialog(
                     context: ctx,
                     builder: (BuildContext ctx) {

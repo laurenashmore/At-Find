@@ -1,7 +1,7 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
 import 'package:at_contact/at_contact.dart';
-import 'package:at_contacts_group_flutter/screens/list/group_list.dart';
-import 'package:at_contacts_group_flutter/utils/colors.dart';
+import 'package:atfind/atgroups/screens/list/group_list.dart';
+import 'package:atfind/atgroups/utils/colors.dart';
 import 'package:atfind/atlocation/common_components/custom_toast.dart';
 import 'package:atfind/atlocation/common_components/pop_button.dart';
 import 'package:atfind/atlocation/service/request_location_service.dart';

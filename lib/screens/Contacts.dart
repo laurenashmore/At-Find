@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:atfind/atcontacts/screens/blocked_screen.dart';
 import 'package:atfind/atcontacts/screens/contacts_screen.dart';
 import 'package:atfind/atgroups/at_contacts_group_flutter.dart';
 import 'package:atfind/atgroups/screens/group_view/group_view.dart';
@@ -13,7 +14,6 @@ import 'package:atfind/atgroups/widgets/confirmation-dialog.dart';
 import 'package:at_onboarding_flutter/services/size_config.dart';
 import 'package:at_common_flutter/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:atfind/atcontacts/at_contacts_flutter.dart';
 import 'package:at_contact/at_contact.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 

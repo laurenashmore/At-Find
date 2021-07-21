@@ -2,6 +2,7 @@
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:at_common_flutter/at_common_flutter.dart';
+import 'package:at_commons/at_commons.dart';
 // ignore: library_prefixes
 import 'package:atfind/atcontacts/utils/text_strings.dart' as contactStrings;
 // ignore: import_of_legacy_library_into_null_safe
@@ -12,6 +13,9 @@ import 'package:atfind/atcontacts/utils/text_styles.dart'
     as contactTextStyles;
 import 'package:flutter/material.dart';
 
+import '../../service.dart';
+
+/// Pop up when you hit '+'
 class AddContactDialog extends StatefulWidget {
   AddContactDialog({
     Key? key,
@@ -22,8 +26,17 @@ class AddContactDialog extends StatefulWidget {
 }
 
 class _AddContactDialogState extends State<AddContactDialog> {
-  String atsignName = '';
+  String atsignName = ''; /// real @sign
+  String realName = ''; /// your nickname
+  ClientService clientSdkService = ClientService.getInstance();
+  String? activeAtSign, receiver;
+  String _key = '';
+  String update = '';
+
+  ///
+
   TextEditingController atSignController = TextEditingController();
+
   @override
   void dispose() {
     atSignController.dispose();
@@ -34,10 +47,12 @@ class _AddContactDialogState extends State<AddContactDialog> {
   void initState() {
     super.initState();
     ContactService().resetData();
+    activeAtSign = clientSdkService.atsign;
   }
 
   bool isLoading = false;
 
+  /// Layout:
   @override
   Widget build(BuildContext context) {
     var _contactService = ContactService();
@@ -71,9 +86,13 @@ class _AddContactDialogState extends State<AddContactDialog> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 20.toHeight,
+                  height: 5.toHeight,
                 ),
+
+                ///
+                ///
                 TextFormField(
+                  /// Where you type in @ sign:
                   autofocus: true,
                   onChanged: (value) {
                     atsignName = value.toLowerCase().replaceAll(' ', '');
@@ -90,6 +109,28 @@ class _AddContactDialogState extends State<AddContactDialog> {
                 SizedBox(
                   height: 10.toHeight,
                 ),
+
+                ///
+                ///
+                TextFormField(
+                  /// Where you type in nickname:
+                  autofocus: true,
+                  onChanged: (value) {
+                    realName = value;
+                  },
+
+                  /// OK
+                  // validator: Validators.validateAdduser,
+                  decoration: InputDecoration(
+                    prefixText: '...',
+                    prefixStyle:
+                        TextStyle(color: Colors.grey, fontSize: 15.toFont),
+                    hintText: '\tEnter their name',
+                  ),
+                  style: TextStyle(fontSize: 15.toFont),
+                ),
+
+                ///
                 (_contactService.getAtSignError == '')
                     ? Container()
                     : Row(
@@ -109,12 +150,18 @@ class _AddContactDialogState extends State<AddContactDialog> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     (isLoading)
+
+                        /// Button to add to contacts:
+                        ///
+                        ///
                         ? CircularProgressIndicator()
                         : CustomButton(
                             height: 50.toHeight * deviceTextFactor,
                             buttonText:
                                 contactStrings.TextStrings().addtoContact,
                             onPressed: () async {
+                              getrealName(realName, _key); /// real name part
+                              /// then @ sign:
                               setState(() {
                                 isLoading = true;
                               });
@@ -164,5 +211,18 @@ class _AddContactDialogState extends State<AddContactDialog> {
         ),
       ),
     );
+  }
+
+  void getrealName(String status, String _key) async {
+    ClientService clientSdkService = ClientService.getInstance();
+    String? atSign = clientSdkService.atsign;
+    setState(() {
+      realName = status;
+    });
+    AtKey currStatus = AtKey()
+      ..key = _key
+      ..sharedWith = atSign;
+    await clientSdkService.put(currStatus, realName);
+    print('Real name saved?');
   }
 }

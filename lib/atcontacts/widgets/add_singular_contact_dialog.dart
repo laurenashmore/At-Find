@@ -11,11 +11,13 @@ import 'package:flutter/material.dart';
 /// [handle] to display the name and the handle of the user and an
 /// onTap function named as [onYesTap] for on press of [Yes] button of the dialog
 
+
 class AddSingleContact extends StatefulWidget {
   final String? atSignName;
+  final String? realName;
   // final ContactProvider contactProvider;
 
-  const AddSingleContact({Key? key, this.atSignName}) : super(key: key);
+  const AddSingleContact({Key? key, this.atSignName, this.realName}) : super(key: key);
 
   @override
   _AddSingleContactState createState() => _AddSingleContactState();
@@ -69,7 +71,7 @@ class _AddSingleContactState extends State<AddSingleContact> {
                 height: 2.toHeight,
               ),
               Text(
-                widget.atSignName ?? '',
+                widget.realName ?? '', //TODO: UNSURE!!
                 style: CustomTextStyles.secondaryRegular16,
               ),
             ],

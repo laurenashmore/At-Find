@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:at_common_flutter/services/size_config.dart';
 
+
+/// Might also be where the contact tile is made..
 class CustomListTile extends StatefulWidget {
   final Function? onTap;
   final Function? onTrailingPressed;
@@ -65,7 +67,8 @@ class _CustomListTileState extends State<CustomListTile> {
           // ignore: omit_local_variable_types
           for (AtContact? contact in widget.contactService!.selectedContacts) {
             if (contact == widget.contact ||
-                contact!.atSign == widget.contact!.atSign) {
+                contact!.atSign == widget.contact!.atSign)
+            {
               isSelected = true;
               break;
             } else {
@@ -106,7 +109,7 @@ class _CustomListTileState extends State<CustomListTile> {
                 fontSize: 14.toFont,
               ),
             ),
-            subtitle: Text(
+            subtitle: Text( //TODO: I think this is where we want the nickname to go
               widget.contact!.atSign!,
               style: TextStyle(
                 color: ColorConstants.fadedText,
@@ -137,7 +140,7 @@ class _CustomListTileState extends State<CustomListTile> {
                       ImageConstants.sendIcon,
                       width: 21.toWidth,
                       height: 18.toHeight,
-                      package: 'at_contacts_flutter',
+                      package: 'atfind',
                     ),
             ),
           );

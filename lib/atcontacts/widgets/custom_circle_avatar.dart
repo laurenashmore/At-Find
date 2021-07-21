@@ -35,7 +35,7 @@ class CustomCircleAvatar extends StatelessWidget {
         backgroundColor: Colors.transparent,
         backgroundImage: nonAsset
             ? Image.memory(byteImage!).image
-            : AssetImage(image!, package: 'at_contacts_flutter'),
+            : AssetImage(image!, package: 'atfind'),
       ),
     );
   }

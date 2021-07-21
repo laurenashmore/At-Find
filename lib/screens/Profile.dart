@@ -21,7 +21,10 @@ class _ProfileState extends State<Profile> {
   String ?activeAtSign, receiver;
   String _status = '';
   String _key = 'statusupdate';
+  String _namekey = 'nameupdate';
   String update = '';
+  String nameupdate = '';
+  String _name = '';
 
   @override
   void initState() {
@@ -30,13 +33,14 @@ class _ProfileState extends State<Profile> {
         clientSdkService.atsign;
   }
 
+
   /// Layout
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Profile',
+          'Profile of $activeAtSign',
         ),
         centerTitle: true,
         elevation: 0,
@@ -45,14 +49,77 @@ class _ProfileState extends State<Profile> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            TextButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Stack(
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                width: 250,
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    hintText: 'John',
+                                    labelText: 'Your name:',
+                                  ),
+                                  onChanged: (nameValue) {
+                                    _name = nameValue;
+                                  },
+                                ),
+                              ),
+                              FloatingActionButton(
+                                onPressed: () async {
+                                  getName(_name, _namekey);
+                                  print('name saved');
+                                  },
+                                child: Icon(Icons.add),
+                                backgroundColor: Colors.blue,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Text(
+                  'Set your name!',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            FutureBuilder(
+                future: _nameScan(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    List<String> attrs = snapshot.data;
+                    for (String attr in attrs) {
+                      if (attr.contains("nameupdate")) {
+                        List<String> temp = attr.split(":");
+                        nameupdate = temp[1];
+                      }
+                    }
+                  }
+                  return Container(
+                    child: Text('$nameupdate', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  );
+                }
+            ),
             Icon(
               Icons.location_pin,
               size: 140,
               color: Colors.red[300],
-            ),
-            Text(
-              '$activeAtSign',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -112,6 +179,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  /// Get status
   void getStatus(String status, String _key) async {
     ClientService clientSdkService = ClientService.getInstance();
     String? atSign = clientSdkService.atsign;
@@ -124,6 +192,18 @@ class _ProfileState extends State<Profile> {
     await clientSdkService.put(currStatus, _status);
   }
 
+/// Get name
+  void getName(String name, String _namekey) async {
+    ClientService clientSdkService = ClientService.getInstance();
+    String? atSign = clientSdkService.atsign;
+    setState(() {
+      _name = name;
+    });
+    AtKey currName = AtKey()
+      ..key = _namekey
+      ..sharedWith = atSign;
+    await clientSdkService.put(currName, _name);
+  }
 
 /// Look up a value corresponding to an [AtKey] instance.
   Future<String> _lookup(AtKey atKey) async {
@@ -135,7 +215,8 @@ class _ProfileState extends State<Profile> {
     }
     return '';
   }
-  /// Scan for [AtKey] objects with the correct regex.
+
+  /// Scan for status key objects
   _scan() async {
     ClientService clientSdkService = ClientService.getInstance();
     List<AtKey> response;
@@ -152,6 +233,24 @@ class _ProfileState extends State<Profile> {
     return responseList;
   }
 
+  /// Scan for name key objects
+  _nameScan() async {
+    ClientService clientSdkService = ClientService.getInstance();
+    List<AtKey> response;
+    String? regex = '^(?!cached).*atfind.*';
+    response = await clientSdkService.getAtKeys(regex:'^(?!cached).*atfind.*' );
+    response.retainWhere((element) => !element.metadata!.isCached);
+    List<String> responseList = [];
+    for (AtKey atKey in response) {
+      String nameValue = await _lookup(atKey);
+      nameValue = (atKey.key! +":"+ nameValue);
+
+      responseList.add(nameValue);
+    }
+    return responseList;
+  }
+
+/// Go back to home screen
   createStatusAlertDialog(BuildContext context){
     return showDialog(context: context, builder: (context){
       return AlertDialog(

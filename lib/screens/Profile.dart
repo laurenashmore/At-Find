@@ -47,9 +47,11 @@ class _ProfileState extends State<Profile> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            TextButton(
+            IconButton(
+              icon: Icon(Icons.face),
+              iconSize: 50,
+              color: Colors.black,
               onPressed: () {
                 showDialog(
                   context: context,
@@ -89,14 +91,6 @@ class _ProfileState extends State<Profile> {
                   },
                 );
               },
-              child: Text(
-                  'Set your name!',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
               ),
             FutureBuilder(
                 future: _nameScan(),
@@ -112,21 +106,23 @@ class _ProfileState extends State<Profile> {
                     }
                   }
                   return Container(
-                    child: Text('$nameupdate', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                    child: Text('$nameupdate', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                   );
                 }
             ),
-            Icon(
-              Icons.location_pin,
-              size: 140,
-              color: Colors.red[300],
-            ),
+            SizedBox(height: 200),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
                   width: 250,
+                  height:100,
                   child: TextField(
+                    style: TextStyle(
+                      fontSize: 20,
+                      height: 2,
+                      color: Colors.black,
+                    ),
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
                       hintText: 'At home',
@@ -151,28 +147,42 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            Text('Current status: $_status',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            SizedBox(height:100),
+            Text('Status:',
+              style: TextStyle(fontSize: 18),
             ),
-            FutureBuilder(
-              future: _scan(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.hasData) {
-                   List<String> attrs = snapshot.data;
-                  for(String attr in attrs){
-                    if(attr.contains("statusupdate")) {
-                      List<String> temp = attr.split(":");
-                      update = temp[1];
-                      // update = attr.replaceRange(0, 12, "");
-                    }
-                  }
-                }
-                return Container(
-                  child: Text('$update', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                );
-              },
+            SizedBox(height:10),
+            Stack(
+              children: [
+                Container(
+                    height: 100,
+                    width: double.infinity,
+                    color: Colors.grey[300]
+                ),
+                Center(
+                  child: FutureBuilder(
+                    future: _scan(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.hasData) {
+                        List<String> attrs = snapshot.data;
+                        for(String attr in attrs){
+                          if(attr.contains("statusupdate")) {
+                            List<String> temp = attr.split(":");
+                            update = temp[1];
+                            // update = attr.replaceRange(0, 12, "");
+                          }
+                        }
+                      }
+                      return Container(
+                        child: Text('$update', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.grey[900])),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
+
           ],
         ),
       ),

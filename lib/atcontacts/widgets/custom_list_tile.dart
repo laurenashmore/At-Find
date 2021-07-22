@@ -124,7 +124,7 @@ class _CustomListTileState extends State<CustomListTile> {
                   if (snapshot.hasData) {
                     List<String> attrs = snapshot.data;
                     for(String attr in attrs) {
-                      print('Test: $attr');
+                      print('Attribute TEST: $attr');
                       if(attr.contains("nicknameUpdate")) {
                         List<String> temp = attr.split(":");
                         nicknameUpdate = temp[1];
@@ -159,13 +159,9 @@ class _CustomListTileState extends State<CustomListTile> {
                   ? (isSelected)
                       ? Icon(Icons.close)
                       : Icon(Icons.add)
-                  : Image.asset(
-                      ImageConstants.sendIcon,
-                      width: 21.toWidth,
-                      height: 18.toHeight,
-                      package: 'atfind',
+                  : Icon(Icons.send),
+              iconSize: 30,
                     ),
-            )
           );
         });
   }

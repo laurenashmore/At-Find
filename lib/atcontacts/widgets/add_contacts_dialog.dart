@@ -119,7 +119,6 @@ class _AddContactDialogState extends State<AddContactDialog> {
                   onChanged: (nicknameValue) {
                     _nickname = nicknameValue;
                   },
-
                   /// OK
                   // validator: Validators.validateAdduser,
                   decoration: InputDecoration(

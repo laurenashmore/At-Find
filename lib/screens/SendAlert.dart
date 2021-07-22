@@ -37,7 +37,7 @@ class _SendAlertState extends State<SendAlert> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Send Alert',
+          'Send Alert',style: TextStyle(color: Colors.white)
         ),
         centerTitle: true,
         elevation: 0,

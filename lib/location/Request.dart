@@ -87,58 +87,58 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
 
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(top: 25, bottom: 25),
-              child: StreamBuilder<List<AtContact?>>(
-                  stream: _contactService!.contactStream,
-                  initialData: _contactService!.contactList,
-                  builder: (context, snapshot) {
-                    if ((snapshot.connectionState == ConnectionState.waiting)) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      if ((snapshot.data == null || snapshot.data!.isEmpty)) {
+                padding: EdgeInsets.only(top: 25, bottom: 25),
+                child: StreamBuilder<List<AtContact?>>(
+                    stream: _contactService!.contactStream,
+                    initialData: _contactService!.contactList,
+                    builder: (context, snapshot) {
+                      if ((snapshot.connectionState == ConnectionState.waiting)) {
                         return Center(
-                          child: Text(TextStrings().noContacts),
+                          child: CircularProgressIndicator(),
                         );
                       } else {
-                        var _filteredList = <AtContact?>[];
-                        snapshot.data!.forEach(
-                          (c) {
-                            if (c!.atSign!
-                                .toUpperCase()
-                                .contains(searchText.toUpperCase())) {
-                              _filteredList.add(c);
-                              //print('This is: $c');
-                              var c_str = c.toString();
-                              var sub_c_arr = c_str.split(",");
-                              var at_signStr_arr = sub_c_arr[0].split(":");
-                              at_signStr = at_signStr_arr[1];
-                              print(at_signStr);
+                        if ((snapshot.data == null || snapshot.data!.isEmpty)) {
+                          return Center(
+                            child: Text(TextStrings().noContacts),
+                          );
+                        } else {
+                          var _filteredList = <AtContact?>[];
+                          snapshot.data!.forEach(
+                            (c) {
+                              if (c!.atSign!
+                                  .toUpperCase()
+                                  .contains(searchText.toUpperCase())) {
+                                _filteredList.add(c);
+                                //print('This is: $c');
+                                var c_str = c.toString();
+                                var sub_c_arr = c_str.split(",");
+                                var at_signStr_arr = sub_c_arr[0].split(": ");
+                                at_signStr = at_signStr_arr[1];
+                                print(at_signStr);
 
+                              }
                             }
-                          }
-                        );
-                        /*return DropdownButton(
-                          items: List<AtContact>.from(_filteredList)
-                              .map<DropdownMenuItem<AtContact>>(
-                                  (AtContact value) {
-                            return DropdownMenuItem<AtContact>(
-                              value: value,
-                              child: Text(value.atSign ?? ''),
-                            );
-                          }).toList(),
-                        );*/
-                        return DropdownButton(
-                                 items: at_signStrList
-                                     .map((atSign) =>
-                                     DropdownMenuItem(child: Text(atSign), value: atSign))
-                                     .toList(),
-                             );
+                          );
+                          return DropdownButton(
+                            items: List<AtContact>.from(_filteredList)
+                                .map<DropdownMenuItem<AtContact>>(
+                                    (AtContact value) {
+                              return DropdownMenuItem<AtContact>(
+                                value: value,
+                                child: Text(value.atSign ?? ''),
+                              );
+                            }).toList(),
+                          );
+                          /*return DropdownButton<String>(
+                                   items: at_signStrList
+                                       .map((atSign) =>
+                                       DropdownMenuItem(child: Text(atSign), value: atSign))
+                                       .toList(),
+                               );*/
+                        }
                       }
-                    }
-                  }),
-            ),
+                    }),
+              ),
           ),
 
           Padding(

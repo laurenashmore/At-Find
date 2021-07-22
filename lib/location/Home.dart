@@ -198,10 +198,12 @@ class _HomeScreenState extends State<HomeScreen> {
             Positioned(
               top: 70,
               right: 2,
-              child: IconButton(
-                icon: Icon(Icons.report_problem),
-                iconSize: 50,
-                color: Colors.red[300],
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: CircleBorder(),
+                ),
+                child: Icon(Icons.report_problem, size: 40,color: Colors.red[300]),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -244,6 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                   },
                               ),
+
                               TextButton(
                                   child: Text('Stop Alarm',
                                     style: TextStyle(
@@ -261,6 +264,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   );
                 },
+
+
               ),
             ),
 

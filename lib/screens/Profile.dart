@@ -18,7 +18,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   ClientService clientSdkService = ClientService.getInstance();
-  String ?activeAtSign, receiver;
+  String? activeAtSign, receiver;
   String _status = '';
   String _key = 'statusupdate';
   String _namekey = 'nameupdate';
@@ -29,104 +29,112 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    activeAtSign =
-        clientSdkService.atsign;
+    activeAtSign = clientSdkService.atsign;
   }
-
 
   /// Layout
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          'Profile of $activeAtSign',
-        ),
+        title: Text('$activeAtSign', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         elevation: 0,
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            IconButton(
-              icon: Icon(Icons.face),
-              iconSize: 50,
-              color: Colors.black,
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Stack(
-                        children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: 250,
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: UnderlineInputBorder(),
-                                    hintText: 'John',
-                                    labelText: 'Your name:',
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FutureBuilder(
+                      future: _nameScan(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.hasData) {
+                          List<String> attrs = snapshot.data;
+                          for (String attr in attrs) {
+                            if (attr.contains("nameupdate")) {
+                              List<String> temp = attr.split(":");
+                              nameupdate = temp[1];
+                            }
+                          }
+                        }
+                        return Container(
+                          child: Text('$nameupdate',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 50)),
+                        );
+                      }),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical:40 , horizontal: 12),
+                      child: Center(
+                        child: FutureBuilder(
+                          future: _scan(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<dynamic> snapshot) {
+                            if (snapshot.hasData) {
+                              List<String> attrs = snapshot.data;
+                              for (String attr in attrs) {
+                                if (attr.contains("statusupdate")) {
+                                  List<String> temp = attr.split(":");
+                                  update = temp[1];
+                                  // update = attr.replaceRange(0, 12, "");
+                                }
+                              }
+                            }
+                            return Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.directions_walk, color: Colors.red[300], size: 55,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 5),
+                                          child: Text('Current Status:',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.grey[900])),
+                                        ),
+                                        Text('$update',
+                                            style: TextStyle(
+                                                fontSize: 23,
+                                                color: Colors.grey[900])),
+                                      ],
+                                    ),
                                   ),
-                                  onChanged: (nameValue) {
-                                    _name = nameValue;
-                                  },
-                                ),
-                              ),
-                              FloatingActionButton(
-                                onPressed: () async {
-                                  getName(_name, _namekey);
-                                  print('name saved');
-                                  },
-                                child: Icon(Icons.add),
-                                backgroundColor: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        ],
+                                ]
+                            );
+                          },
+                        ),
                       ),
-                    );
-                  },
-                );
-              },
+                    ),
+                ],
               ),
-            FutureBuilder(
-                future: _nameScan(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.hasData) {
-                    List<String> attrs = snapshot.data;
-                    for (String attr in attrs) {
-                      if (attr.contains("nameupdate")) {
-                        List<String> temp = attr.split(":");
-                        nameupdate = temp[1];
-                      }
-                    }
-                  }
-                  return Container(
-                    child: Text('$nameupdate', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                  );
-                }
-            ),
-            SizedBox(height: 200),
+
+
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
                   width: 250,
-                  height:100,
+                  height: 100,
                   child: TextField(
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 15,
                       height: 2,
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
                       hintText: 'At home',
-                      labelText: 'Activity Status',
+                      labelText: 'Update Activity Status',
                     ),
                     onChanged: (value) {
                       _status = value;
@@ -137,7 +145,7 @@ class _ProfileState extends State<Profile> {
                   onPressed: () async {
                     getStatus(_status, _key);
                     createStatusAlertDialog(context);
-                    await Future.delayed(const Duration(seconds: 3), (){});
+                    await Future.delayed(const Duration(seconds: 3), () {});
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
@@ -147,46 +155,20 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            SizedBox(height:100),
-            Text('Status: $_status',
+            //SizedBox(height:100),
+           /* Text(
+              'Status: $_status',
               style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height:10),
-            Stack(
-              children: [
-                Container(
-                    height: 100,
-                    width: double.infinity,
-                    color: Colors.grey[300]
-                ),
-                Center(
-                  child: FutureBuilder(
-                    future: _scan(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.hasData) {
-                        List<String> attrs = snapshot.data;
-                        for(String attr in attrs){
-                          if(attr.contains("statusupdate")) {
-                            List<String> temp = attr.split(":");
-                            update = temp[1];
-                            // update = attr.replaceRange(0, 12, "");
-                          }
-                        }
-                      }
-                      return Container(
-                        child: Text('$update', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.grey[900])),
-                      );
-                    },
-                  ),
-                ),
+            ),*/
+            //SizedBox(height:10),
+
+
               ],
             ),
 
-          ],
-        ),
       ),
     );
+
   }
 
   /// Get status
@@ -202,7 +184,7 @@ class _ProfileState extends State<Profile> {
     await clientSdkService.put(currStatus, _status);
   }
 
-/// Get name
+  /// Get name
   void getName(String name, String _namekey) async {
     ClientService clientSdkService = ClientService.getInstance();
     String? atSign = clientSdkService.atsign;
@@ -215,7 +197,7 @@ class _ProfileState extends State<Profile> {
     await clientSdkService.put(currName, _name);
   }
 
-/// Look up a value corresponding to an [AtKey] instance.
+  /// Look up a value corresponding to an [AtKey] instance.
   Future<String> _lookup(AtKey atKey) async {
     ClientService clientSdkService = ClientService.getInstance();
     // If an AtKey object exists
@@ -231,12 +213,12 @@ class _ProfileState extends State<Profile> {
     ClientService clientSdkService = ClientService.getInstance();
     List<AtKey> response;
     String? regex = '^(?!cached).*atfind.*';
-    response = await clientSdkService.getAtKeys(regex:'^(?!cached).*atfind.*' );
+    response = await clientSdkService.getAtKeys(regex: '^(?!cached).*atfind.*');
     response.retainWhere((element) => !element.metadata!.isCached);
     List<String> responseList = [];
     for (AtKey atKey in response) {
       String value = await _lookup(atKey);
-      value = (atKey.key! +":"+ value);
+      value = (atKey.key! + ":" + value);
 
       responseList.add(value);
     }
@@ -248,24 +230,26 @@ class _ProfileState extends State<Profile> {
     ClientService clientSdkService = ClientService.getInstance();
     List<AtKey> response;
     String? regex = '^(?!cached).*atfind.*';
-    response = await clientSdkService.getAtKeys(regex:'^(?!cached).*atfind.*' );
+    response = await clientSdkService.getAtKeys(regex: '^(?!cached).*atfind.*');
     response.retainWhere((element) => !element.metadata!.isCached);
     List<String> responseList = [];
     for (AtKey atKey in response) {
       String nameValue = await _lookup(atKey);
-      nameValue = (atKey.key! +":"+ nameValue);
+      nameValue = (atKey.key! + ":" + nameValue);
 
       responseList.add(nameValue);
     }
     return responseList;
   }
 
-/// Go back to home screen
-  createStatusAlertDialog(BuildContext context){
-    return showDialog(context: context, builder: (context){
-      return AlertDialog(
-        content: Text("Activity Status Updated!"),
-      );
-    });
+  /// Go back to home screen
+  createStatusAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text("Activity Status Updated!"),
+          );
+        });
   }
 }

@@ -219,7 +219,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                       Text(
                                         currentChar,
                                         style: TextStyle(
-                                          color: ColorConstants.blueText,
+                                          color: Colors.red[300],
                                           fontSize: 16.toFont,
                                           fontWeight: FontWeight.bold,
                                         ),

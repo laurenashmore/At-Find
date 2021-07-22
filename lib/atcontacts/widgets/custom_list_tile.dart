@@ -165,7 +165,7 @@ class _CustomListTileState extends State<CustomListTile> {
                       height: 18.toHeight,
                       package: 'atfind',
                     ),
-            ),
+            )
           );
         });
   }

@@ -54,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
   LatLng? myLatLng;
   GlobalKey<ScaffoldState>? scaffoldKey;
   /// OK!
-//
 
   /// Initializing things:
   @override

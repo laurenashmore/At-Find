@@ -70,7 +70,7 @@ class _GroupViewState extends State<GroupView> {
                               height: 272.toHeight,
                               width: double.infinity,
                               fit: BoxFit.fitWidth,
-                              package: 'at_contacts_group_flutter',
+                              package: 'atfind',
                             );
                           }
                         } else {
@@ -82,7 +82,7 @@ class _GroupViewState extends State<GroupView> {
                           height: 272.toHeight,
                           width: double.infinity,
                           fit: BoxFit.fitWidth,
-                          package: 'at_contacts_group_flutter',
+                          package: 'atfind',
                         );
                       }
                     },

@@ -11,7 +11,10 @@ import 'marker_custom_painter.dart';
 import 'package:atfind/screens/Profile.dart';
 
   Marker buildMarker(HybridModel user,
-      {bool singleMarker = false, Widget? marker}) {
+      {
+        bool singleMarker = false,
+        Widget? marker
+      }) {
     return Marker(
         anchorPos: AnchorPos.align(AnchorAlign.center),
         height: 75,

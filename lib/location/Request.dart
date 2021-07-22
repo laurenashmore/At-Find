@@ -155,10 +155,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                   textField = str;
                 },
                 icon: Icons.contacts_rounded,
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => GroupList()));
-                }),
+                ),
           ),
 
           Center(

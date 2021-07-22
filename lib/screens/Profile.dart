@@ -6,12 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:atfind/service.dart';
-// import 'package:atfind/constants.dart' as constant;
+import 'package:atfind/constants.dart' as constant;
 import 'package:atfind/location/Home.dart';
 
 class Profile extends StatefulWidget {
   static final String id = 'third';
-  final String? atSign = '';
+  String? atSign;
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -155,31 +155,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-<<<<<<< HEAD
-            Text(
-              'Current status: $_status',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            FutureBuilder(
-              future: _scan(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.hasData) {
-                  List<String> attrs = snapshot.data;
-                  for (String attr in attrs) {
-                    if (attr.contains("statusupdate")) {
-                      List<String> temp = attr.split(":");
-                      update = temp[1];
-                      // update = attr.replaceRange(0, 12, "");
-                    }
-                  }
-                }
-                return Container(
-                  child: Text('$update',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                );
-              },
-=======
             //SizedBox(height:100),
            /* Text(
               'Status: $_status',
@@ -189,7 +164,6 @@ class _ProfileState extends State<Profile> {
 
 
               ],
->>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
             ),
 
       ),
@@ -206,13 +180,10 @@ class _ProfileState extends State<Profile> {
     });
     AtKey currStatus = AtKey()
       ..key = _key
-      ..sharedWith = atSign
-      ..sharedBy = atSign;
+      ..sharedWith = atSign;
     await clientSdkService.put(currStatus, _status);
   }
 
-<<<<<<< HEAD
-=======
   /// Get name
   void getName(String name, String _namekey) async {
     ClientService clientSdkService = ClientService.getInstance();
@@ -226,33 +197,23 @@ class _ProfileState extends State<Profile> {
     await clientSdkService.put(currName, _name);
   }
 
->>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
   /// Look up a value corresponding to an [AtKey] instance.
   Future<String> _lookup(AtKey atKey) async {
     ClientService clientSdkService = ClientService.getInstance();
     // If an AtKey object exists
-    // if (atKey != null) {
-    // Simply get the AtKey object utilizing the serverDemoService's get method
-    return await clientSdkService.get(atKey);
-    // }
-    // return '';
+    if (atKey != null) {
+      // Simply get the AtKey object utilizing the serverDemoService's get method
+      return await clientSdkService.get(atKey);
+    }
+    return '';
   }
 
-<<<<<<< HEAD
-  /// Scan for [AtKey] objects with the correct regex.
-  _scan() async {
-    ClientService clientSdkService = ClientService.getInstance();
-    List<AtKey> response;
-    //String? regex = '^(?!cached).*atfind.*';
-    response = await clientSdkService.getAtKeys(regex: '^(?!cached).*atfind');
-=======
   /// Scan for status key objects
   _scan() async {
     ClientService clientSdkService = ClientService.getInstance();
     List<AtKey> response;
     String? regex = '^(?!cached).*atfind.*';
     response = await clientSdkService.getAtKeys(regex: '^(?!cached).*atfind.*');
->>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
     response.retainWhere((element) => !element.metadata!.isCached);
     List<String> responseList = [];
     for (AtKey atKey in response) {
@@ -264,8 +225,6 @@ class _ProfileState extends State<Profile> {
     return responseList;
   }
 
-<<<<<<< HEAD
-=======
   /// Scan for name key objects
   _nameScan() async {
     ClientService clientSdkService = ClientService.getInstance();
@@ -284,7 +243,6 @@ class _ProfileState extends State<Profile> {
   }
 
   /// Go back to home screen
->>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
   createStatusAlertDialog(BuildContext context) {
     return showDialog(
         context: context,

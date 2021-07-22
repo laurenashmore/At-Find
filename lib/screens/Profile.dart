@@ -6,19 +6,19 @@ import 'package:flutter/cupertino.dart';
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:atfind/service.dart';
-import 'package:atfind/constants.dart' as constant;
+// import 'package:atfind/constants.dart' as constant;
 import 'package:atfind/location/Home.dart';
 
 class Profile extends StatefulWidget {
   static final String id = 'third';
-  String? atSign;
+  final String? atSign = '';
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
   ClientService clientSdkService = ClientService.getInstance();
-  String ?activeAtSign, receiver;
+  String? activeAtSign, receiver;
   String _status = '';
   String _key = 'statusupdate';
   String update = '';
@@ -26,8 +26,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    activeAtSign =
-        clientSdkService.atsign;
+    activeAtSign = clientSdkService.atsign;
   }
 
   /// Layout
@@ -74,7 +73,7 @@ class _ProfileState extends State<Profile> {
                   onPressed: () async {
                     getStatus(_status, _key);
                     createStatusAlertDialog(context);
-                    await Future.delayed(const Duration(seconds: 3), (){});
+                    await Future.delayed(const Duration(seconds: 3), () {});
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
@@ -84,17 +83,17 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            Text('Current status: $_status',
+            Text(
+              'Current status: $_status',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             FutureBuilder(
               future: _scan(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
-                   List<String> attrs = snapshot.data;
-                  for(String attr in attrs){
-                    if(attr.contains("statusupdate")) {
+                  List<String> attrs = snapshot.data;
+                  for (String attr in attrs) {
+                    if (attr.contains("statusupdate")) {
                       List<String> temp = attr.split(":");
                       update = temp[1];
                       // update = attr.replaceRange(0, 12, "");
@@ -102,7 +101,9 @@ class _ProfileState extends State<Profile> {
                   }
                 }
                 return Container(
-                  child: Text('$update', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  child: Text('$update',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 );
               },
             ),
@@ -120,43 +121,46 @@ class _ProfileState extends State<Profile> {
     });
     AtKey currStatus = AtKey()
       ..key = _key
-      ..sharedWith = atSign;
+      ..sharedWith = atSign
+      ..sharedBy = atSign;
     await clientSdkService.put(currStatus, _status);
   }
 
-
-/// Look up a value corresponding to an [AtKey] instance.
+  /// Look up a value corresponding to an [AtKey] instance.
   Future<String> _lookup(AtKey atKey) async {
     ClientService clientSdkService = ClientService.getInstance();
     // If an AtKey object exists
-    if (atKey != null) {
-      // Simply get the AtKey object utilizing the serverDemoService's get method
-      return await clientSdkService.get(atKey);
-    }
-    return '';
+    // if (atKey != null) {
+    // Simply get the AtKey object utilizing the serverDemoService's get method
+    return await clientSdkService.get(atKey);
+    // }
+    // return '';
   }
+
   /// Scan for [AtKey] objects with the correct regex.
   _scan() async {
     ClientService clientSdkService = ClientService.getInstance();
     List<AtKey> response;
-    String? regex = '^(?!cached).*atfind.*';
-    response = await clientSdkService.getAtKeys(regex:'^(?!cached).*atfind.*' );
+    //String? regex = '^(?!cached).*atfind.*';
+    response = await clientSdkService.getAtKeys(regex: '^(?!cached).*atfind');
     response.retainWhere((element) => !element.metadata!.isCached);
     List<String> responseList = [];
     for (AtKey atKey in response) {
       String value = await _lookup(atKey);
-      value = (atKey.key! +":"+ value);
+      value = (atKey.key! + ":" + value);
 
       responseList.add(value);
     }
     return responseList;
   }
 
-  createStatusAlertDialog(BuildContext context){
-    return showDialog(context: context, builder: (context){
-      return AlertDialog(
-        content: Text("Activity Status Updated!"),
-      );
-    });
+  createStatusAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text("Activity Status Updated!"),
+          );
+        });
   }
 }

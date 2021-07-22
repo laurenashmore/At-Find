@@ -41,10 +41,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             /// Background image: (),
             child: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  SizedBox(height:60),
-                  Container( /// Logo:
+                  SizedBox(height: 60),
+                  Container(
+                    /// Logo:
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('images/weelogo.png'),
@@ -54,55 +55,71 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     width: 125,
                     alignment: Alignment.center,
                   ),
-                  SizedBox(height: 50),
-                  Container(
-                    child: Row( /// 'your friends'
-                        children: [
-                          SizedBox(width: 40),
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('images/smallfind.png'),
-                              ),
-                            ),
-                            height: 45,
-                            width: 150,
-                            //color: Colors.red,
-                          ),
-                          Text('your friends,',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ]
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    child: Row( /// 'your family'
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(width: 40),
-                            Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('images/smallfind.png'),
-                              ),
-                            ),
-                            height: 45,
-                            width: 150,
-                            //color: Colors.red,
-                          ),
-                          Text('your family',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-        ]
-                    ),
+
+                            SizedBox(height: 50),
+                            Row(
+                                  /// 'your friends'
+                                  children: [
+                                    //SizedBox(width: 40),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage('images/smallfind.png'),
+                                        ),
+                                      ),
+                                      height: 45,
+                                      width: 150,
+                                      //color: Colors.red,
+                                    ),
+                                    Text(
+                                      'your friends',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ]),
+
+                            SizedBox(height: 10),
+                            Row(
+
+                                  /// 'your family'
+                                  children: [
+                                    //SizedBox(width: 40),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage('images/smallfind.png'),
+                                        ),
+                                      ),
+                                      height: 45,
+                                      width: 150,
+                                      //color: Colors.red,
+                                    ),
+                                    Text(
+                                      'your family',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ]),
+
+                          ],
+                        ),
+                      ),
+              ]
                   ),
-                  SizedBox(height: 120),
+
+                  SizedBox(height: 50),
+
                   /// Login Button:
                   RawMaterialButton(
                     constraints: BoxConstraints(
@@ -115,28 +132,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Radius.circular(20),
                       ),
                     ),
-                      onPressed:(
-                              () async {
-                            atClientPreference =
-                            await clientService.getAtClientPreference();
-                            Onboarding(
-                              context: context,
-                              appAPIKey: '477b-876u-bcez-c42z-6a3d',
-                              atClientPreference: atClientPreference,
-                              domain: MixedConstants.ROOT_DOMAIN,
-                              appColor: Colors.red[300],
-                              onboard: clientService.postOnboard,
-                              onError: (error) {
-                                _logger.severe('Onboarding throws $error error');
-                              },
-                              nextScreen: HomeScreen(),
-                            );
-                          }
-                      ),
-                  child: Text('Login',
-                  style: TextStyle(color: Colors.white)),
+                    onPressed: (() async {
+                      atClientPreference =
+                          await clientService.getAtClientPreference();
+                      Onboarding(
+                        context: context,
+                        appAPIKey: '477b-876u-bcez-c42z-6a3d',
+                        atClientPreference: atClientPreference,
+                        domain: MixedConstants.ROOT_DOMAIN,
+                        appColor: Colors.red[300],
+                        onboard: clientService.postOnboard,
+                        onError: (error) {
+                          _logger.severe('Onboarding throws $error error');
+                        },
+                        nextScreen: HomeScreen(),
+                      );
+                    }),
+                    child: Text('Login', style: TextStyle(color: Colors.white)),
                   ),
-                  SizedBox(height: 40),
+                  //SizedBox(height: 20),
+
                   /// Reset keychain button:
                   RawMaterialButton(
                     constraints: BoxConstraints(
@@ -151,21 +166,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     onPressed: () async {
                       KeyChainManager _keyChainManager =
-                      KeyChainManager.getInstance();
+                          KeyChainManager.getInstance();
                       var _atSignsList =
-                      await _keyChainManager.getAtSignListFromKeychain();
+                          await _keyChainManager.getAtSignListFromKeychain();
                       _atSignsList?.forEach((element) {
                         _keyChainManager.deleteAtSignFromKeychain(element);
                       });
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                            'Keychain cleaned',
-                            textAlign: TextAlign.center,
-                          )));
+                        'Keychain cleaned',
+                        textAlign: TextAlign.center,
+                      )));
                     },
                     child: Text('Reset Keychain',
                         style: TextStyle(color: Colors.white)),
-                    ),
+                  ),
+                  SizedBox(height: 60),
                 ],
               ),
             ),
@@ -175,6 +191,3 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 }
-
-
-

@@ -39,6 +39,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   List<String> allContactsList = [];
   String at_signStr = '';
   List<String> at_signStrList = [];
+  //String new_atSign = '';
 
   String selectedAtSign = '';
 
@@ -88,8 +89,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
               style: CustomTextStyles().greyLabel14),
           //SizedBox(height: 10),
 
-          Expanded(
-            child: Padding(
+          Padding(
                 padding: EdgeInsets.only(top: 25, bottom: 25),
                 child: StreamBuilder<List<AtContact?>>(
                     stream: _contactService!.contactStream,
@@ -126,17 +126,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                           );
 
 
-                          // return DropdownButton(
-                          //   items: List<AtContact>.from(_filteredList)
-                          //       .map<DropdownMenuItem<AtContact>>(
-                          //           (AtContact value) {
-                          //     return DropdownMenuItem<AtContact>(
-                          //       value: value,
-                          //       child: Text(value.atSign ?? ''),
-                          //     );
-                          //   }).toList(),
-                          // );
-                          //
+
                           selectedAtSign = at_signStrList[0];
                           print("ATSIGN LIST: $at_signStrList");
                           return DropdownButton<String>(
@@ -145,7 +135,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                                        .map((atSign) =>
                                        DropdownMenuItem(child: Text(atSign), value: atSign))
                                        .toList(),
-                                  onChanged: (String? new_atSign) => {
+                                  onChanged: (new_atSign) => {
                                     if(new_atSign != null){
                                       setState((){
                                         selectedAtSign = new_atSign!;
@@ -156,8 +146,9 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                         }
                       }
                     }),
+
               ),
-          ),
+
 
           Padding(
             padding: EdgeInsets.only(bottom: 25),
@@ -175,6 +166,8 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                 icon: Icons.contacts_rounded,
                 ),
           ),
+
+
 
           Center(
             child: isLoading

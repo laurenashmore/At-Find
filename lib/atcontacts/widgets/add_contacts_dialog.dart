@@ -27,11 +27,12 @@ class AddContactDialog extends StatefulWidget {
 
 class _AddContactDialogState extends State<AddContactDialog> {
   String atsignName = ''; /// real @sign
-  String realName = ''; /// your nickname
+  String _nickname = ''; /// your nickname
   ClientService clientSdkService = ClientService.getInstance();
   String? activeAtSign, receiver;
-  String _key = '';
-  String update = '';
+  String _nicknamekey = ''; /// name key
+  String update = ''; /// @update
+  String nicknameUpdate = ''; /// name update
 
   ///
 
@@ -115,8 +116,8 @@ class _AddContactDialogState extends State<AddContactDialog> {
                 TextFormField(
                   /// Where you type in nickname:
                   autofocus: true,
-                  onChanged: (value) {
-                    realName = value;
+                  onChanged: (nicknameValue) {
+                    _nickname = nicknameValue;
                   },
 
                   /// OK
@@ -160,7 +161,7 @@ class _AddContactDialogState extends State<AddContactDialog> {
                             buttonText:
                                 contactStrings.TextStrings().addtoContact,
                             onPressed: () async {
-                              getrealName(realName, _key); /// real name part
+                              getnickname(_nickname, _nicknamekey); /// real name part
                               /// then @ sign:
                               setState(() {
                                 isLoading = true;
@@ -213,16 +214,16 @@ class _AddContactDialogState extends State<AddContactDialog> {
     );
   }
 
-  void getrealName(String status, String _key) async {
+  void getnickname(String nickname, String _nicknamekey) async {
     ClientService clientSdkService = ClientService.getInstance();
     String? atSign = clientSdkService.atsign;
     setState(() {
-      realName = status;
+      _nickname = nickname;
     });
-    AtKey currStatus = AtKey()
-      ..key = _key
+    AtKey currNickname = AtKey()
+      ..key = _nicknamekey
       ..sharedWith = atSign;
-    await clientSdkService.put(currStatus, realName);
+    await clientSdkService.put(currNickname, _nickname);
     print('Real name saved?');
   }
 }

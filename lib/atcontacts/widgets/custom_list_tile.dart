@@ -7,6 +7,7 @@
 
 import 'dart:typed_data';
 // ignore: import_of_legacy_library_into_null_safe
+import 'package:at_commons/at_commons.dart';
 import 'package:at_contact/at_contact.dart';
 import 'package:atfind/atcontacts/services/contact_service.dart';
 import 'package:atfind/atcontacts/utils/colors.dart';
@@ -16,6 +17,8 @@ import 'package:atfind/atcontacts/widgets/custom_circle_avatar.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:at_common_flutter/services/size_config.dart';
+
+import '../../service.dart';
 
 
 /// Might also be where the contact tile is made..
@@ -44,6 +47,9 @@ class CustomListTile extends StatefulWidget {
 
 class _CustomListTileState extends State<CustomListTile> {
   bool isSelected = false;
+  String _nickname = ''; /// your nickname
+  String nicknameUpdate = ''; /// name update
+  String _nicknamekey = 'nicknameUpdate'; /// name key
   @override
   Widget build(BuildContext context) {
     Widget contactImage;
@@ -109,13 +115,30 @@ class _CustomListTileState extends State<CustomListTile> {
                 fontSize: 14.toFont,
               ),
             ),
-            subtitle: Text( //TODO: I think this is where we want the nickname to go
-              widget.contact!.atSign!,
-              style: TextStyle(
-                color: ColorConstants.fadedText,
-                fontSize: 14.toFont,
+            subtitle: Center(
+              //TODO: I think this is where we want the nickname to go
+              child: FutureBuilder(
+                future: _nicknameScan(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    List<String> attrs = snapshot.data;
+                    for(String attr in attrs) {
+                      print('Test: $attr');
+                      if(attr.contains("nicknameUpdate")) {
+                        List<String> temp = attr.split(":");
+                        nicknameUpdate = temp[1];
+                      }
+                    }
+                  }
+                  print('$nicknameUpdate');
+                  return Text('$nicknameUpdate', style: TextStyle(
+                  color: ColorConstants.fadedText,
+                      fontSize: 14.toFont)
+                  );
+                }
               ),
-            ),
+              ),
             leading: Container(
                 height: 40.toHeight,
                 width: 40.toHeight,
@@ -145,6 +168,34 @@ class _CustomListTileState extends State<CustomListTile> {
             ),
           );
         });
+  }
+
+  /// Look up a value corresponding to an [AtKey] instance.
+  Future<String> _lookup(AtKey atKey) async {
+    ClientService clientSdkService = ClientService.getInstance();
+    // If an AtKey object exists
+    if (atKey != null) {
+      // Simply get the AtKey object utilizing the serverDemoService's get method
+      return await clientSdkService.get(atKey);
+    }
+    return '';
+  }
+
+  /// Scan for nicknamename key objects
+  _nicknameScan() async {
+    ClientService clientSdkService = ClientService.getInstance();
+    List<AtKey> response;
+    String? regex = '^(?!cached).*atfind.*';
+    response = await clientSdkService.getAtKeys(regex:'^(?!cached).*atfind.*' );
+    response.retainWhere((element) => !element.metadata!.isCached);
+    List<String> responseList = [];
+    for (AtKey atKey in response) {
+      String nicknameValue = await _lookup(atKey);
+      nicknameValue = (atKey.key! +":"+ nicknameValue);
+
+      responseList.add(nicknameValue);
+    }
+    return responseList;
   }
 
   // ignore: always_declare_return_types

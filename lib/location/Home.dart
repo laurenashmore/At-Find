@@ -69,8 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
         clientSdkService.atClientServiceInstance.atClient!,
         activeAtSign,
         NavService.navKey,
-        apiKey: '477b-876u-bcez-c42z-6a3d',
-        mapKey: 'CApl5ixiInUnNCiwzcec',
+        apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
+        mapKey: '5WE2iX9u1OEKDBqi057s#',
         showDialogBox: true,
     );
 

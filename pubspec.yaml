@@ -60,4 +60,8 @@ flutter:
   assets:
     - images/FIsmall.jpg
     - images/back.png
+    - assets/images/empty_group.png
+    - assets/images/group_photo.png
+    - assets/images/imagePlaceholder.png
+    - assets/images/send.png
 

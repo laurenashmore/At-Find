@@ -148,7 +148,7 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             SizedBox(height:100),
-            Text('Status:',
+            Text('Status: $_status',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height:10),

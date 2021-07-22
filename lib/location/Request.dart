@@ -38,7 +38,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   String searchText = '';
   List<String> allContactsList = [];
   String at_signStr = '';
-
+  List<String> at_signStrList = [];
   @override
   void initState() {
     _contactService = ContactService();
@@ -116,7 +116,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                               at_signStr = at_signStr_arr[1];
                               print(at_signStr);
 
-
                             }
                           }
                         );
@@ -131,12 +130,11 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                           }).toList(),
                         );*/
                         return DropdownButton(
-                                 value: atSign!,
-                                 items: at_signStr
+                                 items: at_signStrList
                                      .map((atSign) =>
                                      DropdownMenuItem(child: Text(atSign), value: atSign))
                                      .toList(),
-                             )
+                             );
                       }
                     }
                   }),

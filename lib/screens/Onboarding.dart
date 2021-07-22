@@ -1,5 +1,6 @@
 import 'package:at_client_mobile/at_client_mobile.dart';
 import 'package:atfind/location/Home.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:at_utils/at_logger.dart';
@@ -8,7 +9,6 @@ import 'package:atfind/constants.dart';
 import 'package:atfind/service.dart';
 import 'package:at_onboarding_flutter/at_onboarding_flutter.dart';
 import '../service.dart';
-
 
 /// Class created for onboarding:
 class OnboardingScreen extends StatefulWidget {
@@ -38,78 +38,134 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         backgroundColor: Colors.white,
         body: Builder(
           builder: (context) => Container(
-            /// Background image:
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('images/back.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
+            /// Background image: (),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  /// Logo:
-                  Container(
-                    margin: const EdgeInsets.all(40.0),
-                    height: 100.0,
-                    width: 200.0,
-                    alignment: Alignment.center,
+                  SizedBox(height:60),
+                  Container( /// Logo:
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('images/FIsmall.jpg'),
-                        //fit: BoxFit.cover,
+                        image: AssetImage('images/weelogo.png'),
                       ),
                     ),
+                    height: 125,
+                    width: 125,
+                    alignment: Alignment.center,
                   ),
-                  /// Onboarding button:
-                  TextButton(
-                    onPressed: () async {
-                      atClientPreference =
-                          await clientService.getAtClientPreference();
-                      Onboarding(
-                        context: context,
-                        appAPIKey: '477b-876u-bcez-c42z-6a3d',
-                        atClientPreference: atClientPreference,
-                        domain: MixedConstants.ROOT_DOMAIN,
-                        appColor: Colors.red[300],
-                        onboard: clientService.postOnboard,
-                        onError: (error) {
-                          _logger.severe('Onboarding throws $error error');
-                        },
-                        nextScreen: HomeScreen(),
-                      );
-                    },
-                    child: Text(AppStrings.scan_qr),
-                    style: OutlinedButton.styleFrom(
-                        primary: Colors.black,
-                        side: BorderSide(color: Colors.black, width: 2),
-                        padding: EdgeInsets.all(10),
-                        minimumSize: Size(200, 35)),
+                  SizedBox(height: 50),
+                  Container(
+                    child: Row( /// 'your friends'
+                        children: [
+                          SizedBox(width: 40),
+                          Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('images/smallfind.png'),
+                              ),
+                            ),
+                            height: 45,
+                            width: 150,
+                            //color: Colors.red,
+                          ),
+                          Text('your friends,',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ]
+                    ),
                   ),
+                  SizedBox(height: 10),
+                  Container(
+                    child: Row( /// 'your family'
+                          children: [
+                            SizedBox(width: 40),
+                            Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('images/smallfind.png'),
+                              ),
+                            ),
+                            height: 45,
+                            width: 150,
+                            //color: Colors.red,
+                          ),
+                          Text('your family',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+        ]
+                    ),
+                  ),
+                  SizedBox(height: 120),
+                  /// Login Button:
+                  RawMaterialButton(
+                    constraints: BoxConstraints(
+                      minWidth: 270,
+                      minHeight: 33,
+                    ),
+                    fillColor: Colors.red[300],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                      onPressed:(
+                              () async {
+                            atClientPreference =
+                            await clientService.getAtClientPreference();
+                            Onboarding(
+                              context: context,
+                              appAPIKey: '477b-876u-bcez-c42z-6a3d',
+                              atClientPreference: atClientPreference,
+                              domain: MixedConstants.ROOT_DOMAIN,
+                              appColor: Colors.red[300],
+                              onboard: clientService.postOnboard,
+                              onError: (error) {
+                                _logger.severe('Onboarding throws $error error');
+                              },
+                              nextScreen: HomeScreen(),
+                            );
+                          }
+                      ),
+                  child: Text('Login',
+                  style: TextStyle(color: Colors.white)),
+                  ),
+                  SizedBox(height: 40),
                   /// Reset keychain button:
-                  TextButton(
+                  RawMaterialButton(
+                    constraints: BoxConstraints(
+                      minWidth: 270,
+                      minHeight: 33,
+                    ),
+                    fillColor: Colors.grey[900],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
                     onPressed: () async {
-                      KeyChainManager _keyChainManager = KeyChainManager.getInstance();
+                      KeyChainManager _keyChainManager =
+                      KeyChainManager.getInstance();
                       var _atSignsList =
-                          await _keyChainManager.getAtSignListFromKeychain();
+                      await _keyChainManager.getAtSignListFromKeychain();
                       _atSignsList?.forEach((element) {
                         _keyChainManager.deleteAtSignFromKeychain(element);
                       });
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                        'Keychain cleaned',
-                        textAlign: TextAlign.center,
-                      )));
+                            'Keychain cleaned',
+                            textAlign: TextAlign.center,
+                          )));
                     },
-                    child: Text(AppStrings.reset_keychain),
-                    style: TextButton.styleFrom(
-                        backgroundColor: Colors.grey[850],
-                        primary: Colors.white,
-                        side: BorderSide(color: Colors.grey[850]!, width: 2),
-                        padding: EdgeInsets.all(10),
-                        minimumSize: Size(200, 35)),
-                  ),
+                    child: Text('Reset Keychain',
+                        style: TextStyle(color: Colors.white)),
+                    ),
                 ],
               ),
             ),
@@ -119,3 +175,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 }
+
+
+

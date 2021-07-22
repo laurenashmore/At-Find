@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+import 'imports.dart';
+import 'package:location_permissions/location_permissions.dart';
+=======
 import 'package:at_common_flutter/at_common_flutter.dart';
 import 'package:atfind/atcontacts/utils/init_contacts_service.dart';
 import 'package:atfind/atgroups/utils/init_group_service.dart';
@@ -15,24 +19,23 @@ import 'package:atfind/atlocation/utils/constants/init_location_service.dart';
 import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
 import 'package:latlong2/latlong.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:atfind/screens/Profile.dart';
-import 'package:atfind/screens/SendAlert.dart';
-import 'package:atfind/screens/Settings.dart';
-import 'package:atfind/service.dart';
-import 'package:atfind/constants.dart';
-import 'package:atfind/screens/Contacts.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
-import 'Request.dart';
-import 'Share.dart';
+import 'package:atfind/screens/Current_Statuses.dart';
+//cleaned up your imports by creating a file that exports all of the
+// libraries you are pulling
 
 /// Using at_location home screen, with our own changes
 ///
 /// Class created (with the same name from package):
 class HomeScreen extends StatefulWidget {
   static final String id = 'HomeScreen';
+<<<<<<< HEAD
+
+  ///String? activeAtSign;
+=======
   String activeAtSign = '';
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
   final bool showList;
   HomeScreen({this.showList = true});
   @override
@@ -41,10 +44,19 @@ class HomeScreen extends StatefulWidget {
 /// OK!
 
 
-
 /// Bringing in things used in the code:
 class _HomeScreenState extends State<HomeScreen> {
   ClientService clientSdkService = ClientService.getInstance();
+<<<<<<< HEAD
+  String? activeAtSign, receiver;
+
+  ///String? currentAtSign;
+  Stream<List<KeyLocationModel>>? newStream;
+  PanelController pc = PanelController();
+  LatLng? myLatLng;
+
+  ///GlobalKey<ScaffoldState>? scaffoldKey;
+=======
   String activeAtSign = '';
   String? receiver;
   Stream<List<KeyLocationModel>>? newStream;
@@ -52,10 +64,27 @@ class _HomeScreenState extends State<HomeScreen> {
   LatLng? myLatLng;
   GlobalKey<ScaffoldState>? scaffoldKey;
   /// OK!
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
 
   /// Initializing things:
   @override
   void initState() {
+<<<<<<< HEAD
+    setState(() {
+      initPermissions();
+    });
+    activeAtSign =
+        clientSdkService.atClientServiceInstance.atClient!.currentAtSign;
+
+    /// Initialize location:
+    initializeLocationService(
+      clientSdkService.atClientServiceInstance.atClient!,
+      activeAtSign!,
+      NavService.navKey,
+      apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
+      mapKey: '5WE2iX9u1OEKDBqi057s#',
+      showDialogBox: true,
+=======
     /// @AtSign stuff:
     String currentAtSign = ClientService.getInstance().atsign;
     setState(() {
@@ -72,16 +101,25 @@ class _HomeScreenState extends State<HomeScreen> {
         apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
         mapKey: '5WE2iX9u1OEKDBqi057s#',
         showDialogBox: true,
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
     );
 
     /// Initialize contacts:
     initializeContactsService(
+<<<<<<< HEAD
+        clientSdkService.atClientServiceInstance.atClient!, activeAtSign!,
+=======
         clientSdkService.atClientServiceInstance.atClient!, activeAtSign,
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
         rootDomain: MixedConstants.ROOT_DOMAIN);
 
     /// Initialize group contacts:
     initializeGroupService(
+<<<<<<< HEAD
+        clientSdkService.atClientServiceInstance.atClient!, activeAtSign!,
+=======
         clientSdkService.atClientServiceInstance.atClient!, activeAtSign,
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
         rootDomain: MixedConstants.ROOT_DOMAIN);
 
     ///
@@ -172,9 +210,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             bottomSheet(context, RequestLocationSheet(),
                                 SizeConfig().screenHeight * 0.6);
                           }),
-                      Icon(
-                        Icons.share_location,
-                        size: 35,
+                      IconButton(
+                        icon: Icon(Icons.share_location),
+                        iconSize: 35,
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Status()));
+                        },
                         color: Colors.grey[900],
                       ),
                       TextButton(
@@ -233,30 +275,32 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               IconButton(
-                                  icon: Icon(Icons.campaign),
-                                  iconSize: 70,
-                                  color: Colors.red[300],
-                                  onPressed: () {
-                                    FlutterRingtonePlayer.play(
+                                icon: Icon(Icons.campaign),
+                                iconSize: 70,
+                                color: Colors.red[300],
+                                onPressed: () {
+                                  FlutterRingtonePlayer.play(
                                     android: AndroidSounds.alarm,
                                     ios: IosSounds.alarm,
                                     looping: true, // Android only - API >= 28
                                     volume: 1.0, // Android only - API >= 28
                                     asAlarm: true, // Android only - all APIs
                                   );
-                                  },
+                                },
                               ),
 
                               TextButton(
-                                  child: Text('Stop Alarm',
+                                  child: Text(
+                                    'Stop Alarm',
                                     style: TextStyle(
                                       //fontWeight: FontWeight.bold,
                                       //fontSize: 20,
                                       color: Colors.grey[600],
                                     ),
                                   ),
-                                  onPressed: () {FlutterRingtonePlayer.stop();}
-                                  ),
+                                  onPressed: () {
+                                    FlutterRingtonePlayer.stop();
+                                  }),
                             ],
                           ),
                         ],
@@ -281,6 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (snapshot.connectionState == ConnectionState.active) {
                         if (snapshot.hasError) {
                           return SlidingUpPanel(
+
                               /// Little slide up arrow:
                               collapsed: Icon(
                                 Icons.keyboard_arrow_up_outlined,
@@ -380,10 +425,10 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: DisplayTile(
                 atsignCreator:
-                notification.locationNotificationModel!.atsignCreator ==
-                    AtLocationNotificationListener().currentAtSign
-                    ? notification.locationNotificationModel!.receiver
-                    : notification.locationNotificationModel!.atsignCreator,
+                    notification.locationNotificationModel!.atsignCreator ==
+                            AtLocationNotificationListener().currentAtSign
+                        ? notification.locationNotificationModel!.receiver
+                        : notification.locationNotificationModel!.atsignCreator,
                 title: getTitle(notification.locationNotificationModel!),
                 subTitle: getSubTitle(notification.locationNotificationModel!),
                 semiTitle: getSemiTitle(notification.locationNotificationModel!,
@@ -474,6 +519,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+
+  void initPermissions() async {
+    PermissionStatus permission =
+        await LocationPermissions().requestPermissions();
   }
 }
 

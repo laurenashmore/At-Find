@@ -5,6 +5,7 @@ import 'package:atfind/screens/Onboarding.dart';
 import 'package:atfind/screens/Profile.dart';
 import 'package:atfind/screens/Settings.dart';
 import 'package:atfind/screens/SendAlert.dart';
+import 'package:atfind/screens/Current_Statuses.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         GroupList.id: (context) => GroupList(),
         Settings.id: (context) => Settings(),
         SendAlert.id: (context) => SendAlert(),
-
+        Status.id: (context) => Status(),
       },
     );
   }

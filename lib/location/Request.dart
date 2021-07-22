@@ -1,7 +1,12 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
+//import 'package:at_common_flutter/utils/text_strings.dart';
 import 'package:at_contact/at_contact.dart';
-import 'package:at_contacts_group_flutter/screens/list/group_list.dart';
-import 'package:at_contacts_group_flutter/utils/colors.dart';
+import 'package:atfind/atcontacts/services/contact_service.dart';
+import 'package:atfind/atcontacts/utils/exposed_service.dart';
+import 'package:atfind/atcontacts/utils/init_contacts_service.dart';
+import 'package:atfind/atgroups/screens/list/group_list.dart';
+import 'package:atfind/atgroups/utils/colors.dart';
+import 'package:atfind/atgroups/utils/colors.dart';
 import 'package:atfind/atlocation/common_components/custom_toast.dart';
 import 'package:atfind/atlocation/common_components/pop_button.dart';
 import 'package:atfind/atlocation/service/request_location_service.dart';
@@ -9,8 +14,9 @@ import 'package:atfind/atlocation/service/at_location_notification_listener.dart
 import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:at_lookup/at_lookup.dart';
 import 'package:flutter/material.dart';
+import '../constants.dart';
 import '../service.dart';
-
+import 'package:atfind/atcontacts/utils/text_strings.dart';
 
 class RequestLocationSheet extends StatefulWidget {
   final Function? onTap;
@@ -20,15 +26,41 @@ class RequestLocationSheet extends StatefulWidget {
 }
 
 class _RequestLocationSheetState extends State<RequestLocationSheet> {
-  ///ClientService clientSdkService = ClientService.getInstance();
-  ///String? activeAtSign, receiver;
-  ///String? currentAtSign;
+  ClientService clientSdkService = ClientService.getInstance();
+  String? activeAtSign, receiver;
+  String? currentAtSign;
+  ContactService? _contactService;
   AtContact? selectedContact;
+  //List<AtContact>? contactlist;
   late bool isLoading;
   String? selectedOption, textField;
+  bool errorOcurred = false;
+  String searchText = '';
+  List<String> allContactsList = [];
+  String at_signStr = '';
+  List<String> at_signStrList = [];
+
+  String selectedAtSign = '';
 
   @override
   void initState() {
+    _contactService = ContactService();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      var _result = await _contactService!.fetchContacts();
+      print('$_result = true');
+
+      if (_result == null) {
+        print('_result = true');
+        if (mounted) {
+          setState(() {
+            errorOcurred = true;
+          });
+        }
+      }
+    });
+    /*  initializeContactsService(
+        clientSdkService.atClientServiceInstance.atClient!, activeAtSign!,
+        rootDomain: MixedConstants.ROOT_DOMAIN);*/
     super.initState();
     isLoading = false;
   }
@@ -52,53 +84,109 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
           SizedBox(
             height: 25,
           ),
-          Text('Who do you want to keep an eye on?', style: CustomTextStyles().greyLabel14),
-          SizedBox(height: 10),
-          ListTile( /// Drop down
-            title: Center(
-              child: DropdownButton<String>(
-                hint: Text('Pick an @sign'),
-                icon: Icon(Icons.keyboard_arrow_down),
-                items: <String>['A', 'B', 'C', 'D']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: new Text(value),
-                  );
-                }).toList(),
-                onChanged: (_) {},
-              )
-            ),
+          Text('Who do you want to keep an eye on?',
+              style: CustomTextStyles().greyLabel14),
+          //SizedBox(height: 10),
+
+          Expanded(
+            child: Padding(
+                padding: EdgeInsets.only(top: 25, bottom: 25),
+                child: StreamBuilder<List<AtContact?>>(
+                    stream: _contactService!.contactStream,
+                    initialData: _contactService!.contactList,
+                    builder: (context, snapshot) {
+                      if ((snapshot.connectionState == ConnectionState.waiting)) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        if ((snapshot.data == null || snapshot.data!.isEmpty)) {
+                          return Center(
+                            child: Text(TextStrings().noContacts),
+                          );
+                        } else {
+                          var _filteredList = <AtContact?>[];
+                          snapshot.data!.forEach(
+                            (c) {
+                              if (c!.atSign!
+                                  .toUpperCase()
+                                  .contains(searchText.toUpperCase())) {
+                                _filteredList.add(c);
+                                //print('This is: $c');
+                                var c_str = c.toString();
+                                var sub_c_arr = c_str.split(",");
+                                var at_signStr_arr = sub_c_arr[0].split(": ");
+                                at_signStr = at_signStr_arr[1];
+                                print(at_signStr);
+                                if(!at_signStrList.contains(at_signStr)){
+                                  at_signStrList.add(at_signStr);
+                                }
+                              }
+                            }
+                          );
+
+
+                          // return DropdownButton(
+                          //   items: List<AtContact>.from(_filteredList)
+                          //       .map<DropdownMenuItem<AtContact>>(
+                          //           (AtContact value) {
+                          //     return DropdownMenuItem<AtContact>(
+                          //       value: value,
+                          //       child: Text(value.atSign ?? ''),
+                          //     );
+                          //   }).toList(),
+                          // );
+                          //
+                          selectedAtSign = at_signStrList[0];
+                          print("ATSIGN LIST: $at_signStrList");
+                          return DropdownButton<String>(
+                                  value: selectedAtSign,
+                                   items: at_signStrList
+                                       .map((atSign) =>
+                                       DropdownMenuItem(child: Text(atSign), value: atSign))
+                                       .toList(),
+                                  onChanged: (String? new_atSign) => {
+                                    if(new_atSign != null){
+                                      setState((){
+                                        selectedAtSign = new_atSign!;
+                                      })
+                                    }
+                                  },
+                               );
+                        }
+                      }
+                    }),
+              ),
           ),
-          CustomInputField(
-            width: 330.toWidth,
-            height: 50,
-            hintText: 'Type @sign ',
-            initialValue: textField ?? '',
-            value: (str) {
-              if (!str.contains('@')) {
-                str = '@' + str;
-              }
-              textField = str;
-            },
-            icon: Icons.contacts_rounded,
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => GroupList()));
-            }
+
+          Padding(
+            padding: EdgeInsets.only(bottom: 25),
+            child: CustomInputField(
+                width: 330.toWidth,
+                height: 50,
+                hintText: 'Type @sign ',
+                initialValue: textField ?? '',
+                value: (str) {
+                  if (!str.contains('@')) {
+                    str = '@' + str;
+                  }
+                  textField = str;
+                },
+                icon: Icons.contacts_rounded,
+                ),
           ),
-          Expanded(child: SizedBox()),
+
           Center(
             child: isLoading
                 ? CircularProgressIndicator()
                 : CustomButton(
-              buttonText: 'Request',
-              onPressed: onRequestTap,
-              fontColor: AllColors().WHITE,
-              width: 164,
-              height: 48,
-            ),
-          )
+                    buttonText: 'Request',
+                    onPressed: onRequestTap,
+                    fontColor: AllColors().WHITE,
+                    width: 164,
+                    height: 48,
+                  ),
+          ),
         ],
       ),
     );
@@ -120,7 +208,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
     }
 
     var result =
-    await RequestLocationService().sendRequestLocationEvent(textField);
+        await RequestLocationService().sendRequestLocationEvent(textField);
 
     if (result == null) {
       setState(() {
@@ -132,14 +220,14 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
 
     if (result == true) {
       CustomToast().show('Request Location sent', context);
-      print ('IT SENT!!!!!');
+      print('IT SENT!!!!!');
       setState(() {
         isLoading = false;
       });
       Navigator.of(context).pop();
     } else {
       CustomToast().show('Something went wrong , try again.', context);
-      print ('SOMETHING IS WRONG!!!!!');
+      print('SOMETHING IS WRONG!!!!!');
       setState(() {
         isLoading = false;
       });

@@ -31,9 +31,7 @@ class _SendAlertState extends State<SendAlert> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          'Send Alert',
-        ),
+        title: Text('Send Alert', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         elevation: 0,
       ),
@@ -87,6 +85,10 @@ class _SendAlertState extends State<SendAlert> {
                   _otherAtSign = value;
                 },
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10.0),
+              child: Container(),
             ),
           ],
         ),

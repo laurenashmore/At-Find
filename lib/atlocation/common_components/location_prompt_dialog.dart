@@ -6,7 +6,6 @@ import 'package:atfind/atlocation/service/request_location_service.dart';
 import 'package:atfind/atlocation/service/sharing_location_service.dart';
 import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:flutter/material.dart';
-
 import 'custom_toast.dart';
 
 Future<void> locationPromptDialog(

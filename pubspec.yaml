@@ -16,11 +16,11 @@ dependencies:
   path_provider: ^2.0.2
   at_demo_data: ^0.0.3+1
   modal_progress_hud: any
-  group_button: ^2.2.2
+  group_button: ^3.0.0+1
   url_launcher: ^6.0.3
   at_commons: ^2.0.1
-  at_contacts_flutter: ^2.0.1
-  at_contacts_group_flutter: ^2.0.1
+  #at_contacts_flutter: ^2.0.1
+  #at_contacts_group_flutter: ^2.0.1
   flutter_speed_dial: ^4.1.0
   flutter_ringtone_player: ^3.0.0
   at_location_flutter: ^2.0.2
@@ -54,3 +54,9 @@ flutter:
   assets:
     - images/FIsmall.jpg
     - images/back.png
+    - images/weelogo.png
+    - images/smallfind.png
+    - assets/images/empty_group.png
+    - assets/images/group_photo.png
+    - assets/images/imagePlaceholder.png
+    - assets/images/send.png

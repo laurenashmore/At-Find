@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'FIND',
       //navigatorKey: NavService.navKey,
       theme: ThemeData(
-        primaryColor: Colors.grey[400],
+        primaryColor: Colors.grey[900],
         accentColor: Colors.red[300],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

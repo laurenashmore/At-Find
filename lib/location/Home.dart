@@ -1,5 +1,25 @@
+<<<<<<< HEAD
 import 'imports.dart';
 import 'package:location_permissions/location_permissions.dart';
+=======
+import 'package:at_common_flutter/at_common_flutter.dart';
+import 'package:atfind/atcontacts/utils/init_contacts_service.dart';
+import 'package:atfind/atgroups/utils/init_group_service.dart';
+import 'package:atfind/atlocation/common_components/bottom_sheet.dart';
+import 'package:atfind/atlocation/common_components/display_tile.dart';
+import 'package:atfind/atlocation/location_modal/key_location_model.dart';
+import 'package:atfind/atlocation/map_content/flutter_map/flutter_map.dart';
+import 'package:atfind/atlocation/service/at_location_notification_listener.dart';
+import 'package:atfind/atlocation/service/home_screen_service.dart';
+import 'package:atfind/atlocation/service/key_stream_service.dart';
+import 'package:atfind/atlocation/service/my_location.dart';
+import 'package:atfind/atlocation/show_location.dart';
+import 'package:atfind/atlocation/utils/constants/colors.dart';
+import 'package:atfind/atlocation/utils/constants/init_location_service.dart';
+import 'package:atfind/atlocation/utils/constants/text_styles.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
 import 'package:latlong2/latlong.dart';
 import 'package:atfind/screens/Current_Statuses.dart';
 //cleaned up your imports by creating a file that exports all of the
@@ -10,17 +30,24 @@ import 'package:atfind/screens/Current_Statuses.dart';
 /// Class created (with the same name from package):
 class HomeScreen extends StatefulWidget {
   static final String id = 'HomeScreen';
+<<<<<<< HEAD
 
   ///String? activeAtSign;
+=======
+  String activeAtSign = '';
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
   final bool showList;
   HomeScreen({this.showList = true});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+/// OK!
+
 
 /// Bringing in things used in the code:
 class _HomeScreenState extends State<HomeScreen> {
   ClientService clientSdkService = ClientService.getInstance();
+<<<<<<< HEAD
   String? activeAtSign, receiver;
 
   ///String? currentAtSign;
@@ -29,10 +56,20 @@ class _HomeScreenState extends State<HomeScreen> {
   LatLng? myLatLng;
 
   ///GlobalKey<ScaffoldState>? scaffoldKey;
+=======
+  String activeAtSign = '';
+  String? receiver;
+  Stream<List<KeyLocationModel>>? newStream;
+  PanelController pc = PanelController();
+  LatLng? myLatLng;
+  GlobalKey<ScaffoldState>? scaffoldKey;
+  /// OK!
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
 
   /// Initializing things:
   @override
   void initState() {
+<<<<<<< HEAD
     setState(() {
       initPermissions();
     });
@@ -47,22 +84,50 @@ class _HomeScreenState extends State<HomeScreen> {
       apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
       mapKey: '5WE2iX9u1OEKDBqi057s#',
       showDialogBox: true,
+=======
+    /// @AtSign stuff:
+    String currentAtSign = ClientService.getInstance().atsign;
+    setState(() {
+      activeAtSign = currentAtSign;
+    });
+   // activeAtSign =
+   //     clientSdkService.atClientServiceInstance.atClient!.currentAtSign!;
+
+    /// Initialize location:
+    initializeLocationService(
+        clientSdkService.atClientServiceInstance.atClient!,
+        activeAtSign,
+        NavService.navKey,
+        apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
+        mapKey: '5WE2iX9u1OEKDBqi057s#',
+        showDialogBox: true,
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
     );
 
     /// Initialize contacts:
     initializeContactsService(
+<<<<<<< HEAD
         clientSdkService.atClientServiceInstance.atClient!, activeAtSign!,
+=======
+        clientSdkService.atClientServiceInstance.atClient!, activeAtSign,
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
         rootDomain: MixedConstants.ROOT_DOMAIN);
 
     /// Initialize group contacts:
     initializeGroupService(
+<<<<<<< HEAD
         clientSdkService.atClientServiceInstance.atClient!, activeAtSign!,
+=======
+        clientSdkService.atClientServiceInstance.atClient!, activeAtSign,
+>>>>>>> 46531da0bdda2fd60de0f05ea8ef61b530d2cb10
         rootDomain: MixedConstants.ROOT_DOMAIN);
 
     ///
     super.initState();
     _getMyLocation();
+    scaffoldKey = GlobalKey<ScaffoldState>();
     KeyStreamService().init(AtLocationNotificationListener().atClientInstance);
+    print('Everything is initialised...');
   }
 
   /// Location stuff:
@@ -91,17 +156,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   MapController mapController = MapController();
 
-  /// What does this do:
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   /// Layout:
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SafeArea(
+      key: scaffoldKey,
       child: Scaffold(
         body: Stack(
           children: [
@@ -179,10 +240,12 @@ class _HomeScreenState extends State<HomeScreen> {
             Positioned(
               top: 70,
               right: 2,
-              child: IconButton(
-                icon: Icon(Icons.report_problem),
-                iconSize: 50,
-                color: Colors.red[300],
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: CircleBorder(),
+                ),
+                child: Icon(Icons.report_problem, size: 40,color: Colors.red[300]),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -225,6 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 },
                               ),
+
                               TextButton(
                                   child: Text(
                                     'Stop Alarm',
@@ -244,6 +308,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   );
                 },
+
+
               ),
             ),
 
@@ -444,12 +510,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget emptyWidget(String title) {
     return Column(
       children: [
-        Image.asset(
-          'packages/atfind/atlocation/assets/images/empty_group.png',
-          width: 50.toWidth,
-          height: 50.toWidth,
-          fit: BoxFit.cover,
-        ),
         SizedBox(
           height: 15.toHeight,
         ),

@@ -61,12 +61,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
               }
               textField = str;
             },
-            icon: Icons.contacts_rounded,
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => GroupList()));
-                }
-          ),
+            icon: Icons.contacts_rounded,),
           SizedBox(height: 25),
           Text(
             'For how long?',

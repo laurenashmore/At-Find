@@ -39,6 +39,9 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   List<String> allContactsList = [];
   String at_signStr = '';
   List<String> at_signStrList = [];
+
+  String selectedAtSign = '';
+
   @override
   void initState() {
     _contactService = ContactService();
@@ -115,26 +118,41 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                                 var at_signStr_arr = sub_c_arr[0].split(": ");
                                 at_signStr = at_signStr_arr[1];
                                 print(at_signStr);
-
+                                if(!at_signStrList.contains(at_signStr)){
+                                  at_signStrList.add(at_signStr);
+                                }
                               }
                             }
                           );
-                          return DropdownButton(
-                            items: List<AtContact>.from(_filteredList)
-                                .map<DropdownMenuItem<AtContact>>(
-                                    (AtContact value) {
-                              return DropdownMenuItem<AtContact>(
-                                value: value,
-                                child: Text(value.atSign ?? ''),
-                              );
-                            }).toList(),
-                          );
-                          /*return DropdownButton<String>(
+
+
+                          // return DropdownButton(
+                          //   items: List<AtContact>.from(_filteredList)
+                          //       .map<DropdownMenuItem<AtContact>>(
+                          //           (AtContact value) {
+                          //     return DropdownMenuItem<AtContact>(
+                          //       value: value,
+                          //       child: Text(value.atSign ?? ''),
+                          //     );
+                          //   }).toList(),
+                          // );
+                          //
+                          selectedAtSign = at_signStrList[0];
+                          print("ATSIGN LIST: $at_signStrList");
+                          return DropdownButton<String>(
+                                  value: selectedAtSign,
                                    items: at_signStrList
                                        .map((atSign) =>
                                        DropdownMenuItem(child: Text(atSign), value: atSign))
                                        .toList(),
-                               );*/
+                                  onChanged: (String? new_atSign) => {
+                                    if(new_atSign != null){
+                                      setState((){
+                                        selectedAtSign = new_atSign!;
+                                      })
+                                    }
+                                  },
+                               );
                         }
                       }
                     }),

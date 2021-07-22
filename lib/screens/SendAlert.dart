@@ -5,40 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:atfind/service.dart';
 import 'package:at_commons/at_commons.dart';
 
-
 class SendAlert extends StatefulWidget {
   const SendAlert({key}) : super(key: key);
   static final String id = 'sixth';
   @override
   _SendAlertState createState() => _SendAlertState();
-
 }
+
 enum LocationUpdate { travelling, arrived }
 
 class _SendAlertState extends State<SendAlert> {
   ClientService clientSdkService = ClientService.getInstance();
-  String ? activeAtSign, receiver;
+  String? activeAtSign, receiver, _otherAtSign, alert;
   var _update = LocationUpdate.travelling;
-  String ? _otherAtSign;
-
   String __key = 'Update';
-  String ? alert;
 
   @override
   void initState() {
     super.initState();
     activeAtSign =
         clientSdkService.atClientServiceInstance.getAtSign().toString();
-
   }
-  
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          'Send Alert',style: TextStyle(color: Colors.white)
-        ),
+        title: Text('Send Alert', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         elevation: 0,
       ),
@@ -85,22 +78,17 @@ class _SendAlertState extends State<SendAlert> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 10.0, right: 10, top: 10.0),
+              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10.0),
               child: TextField(
-                decoration:
-                InputDecoration(hintText: 'Enter an @sign'),
+                decoration: InputDecoration(hintText: 'Enter an @sign'),
                 onChanged: (value) {
                   _otherAtSign = value;
                 },
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 10.0, right: 10, top: 10.0),
-              child: Container(
-
-              ),
+              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10.0),
+              child: Container(),
             ),
           ],
         ),
@@ -109,80 +97,62 @@ class _SendAlertState extends State<SendAlert> {
         onPressed: () {
           if (_update == LocationUpdate.arrived) {
             alert = 'Arrived';
-            _share(context, _otherAtSign!, alert);
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Sent alert!'),duration: Duration(milliseconds: 1000),
-                )
-            );
+            _share(context, _otherAtSign!, alert!);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Sent alert!'),
+              duration: Duration(milliseconds: 1000),
+            ));
             print('curr_alert: $alert');
           } else if (_update == LocationUpdate.travelling) {
             alert = 'Travelling';
-            _share(context, _otherAtSign!, alert);
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Sent alert!'),duration: Duration(milliseconds: 1000),
-                )
-            );
+            _share(context, _otherAtSign!, alert!);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Sent alert!'),
+              duration: Duration(milliseconds: 1000),
+            ));
             print('curr_alert: $alert');
-          } else{
+          } else {
             alert = null;
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Something went wrong :/'),duration: Duration(milliseconds: 1000),
-                )
-            );
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Something went wrong :/'),
+              duration: Duration(milliseconds: 1000),
+            ));
             print('curr_alert: $alert');
           }
-          //putUpdate(alert, __key);
+          // putUpdate(alert, __key);
         },
         label: Text('Send Alert'),
         backgroundColor: Colors.red[300],
       ),
     );
   }
-  void putUpdate(String state, String key) async {
+
+  Future<AtKey> putUpdate(String state, String SharedWith) async {
     ClientService clientSdkService = ClientService.getInstance();
+    var atSign = clientSdkService.getAtSign().toString();
+    print('other: $SharedWith');
     setState(() {
       alert = state;
     });
     AtKey currUpdate = AtKey()
       ..key = __key
-      ..sharedWith = clientSdkService.getAtSign().toString();
-    clientSdkService.put(currUpdate, alert!);
+      ..sharedWith = SharedWith
+      ..sharedBy = atSign;
+    await clientSdkService.put(currUpdate, alert!);
+    return currUpdate;
     /*String buffer;
     buffer = await clientSdkService.get(currUpdate);
     print(buffer);*/
   }
 
+  _share(BuildContext context, String sharedWith, String _alert) async {
+    //ClientService clientSdkService = ClientService.getInstance();
+    print('alert: $_alert');
+    AtKey put = await putUpdate(_alert, sharedWith);
 
-  _share(BuildContext context, String sharedWith, _alert) async {
-    ClientService clientSdkService = ClientService.getInstance();
+    var operation = OperationEnum.update;
 
-    if (sharedWith != null) {
-      String atSign = await clientSdkService.getAtSign();
-      AtKey lookup = AtKey()
-        ..key = 'alert'
-        ..sharedWith = atSign;
-
-
-      _alert = await ClientService.getInstance().get(lookup);
-
-      var metadata = Metadata()..ttr = -1;
-
-      AtKey atKey = AtKey()
-
-        ..key = 'alert'
-        ..metadata = metadata
-        ..sharedBy = atSign
-        ..sharedWith = _otherAtSign;
-
-      var operation = OperationEnum.update;
-
-
-      await ClientService.getInstance().notify(atKey, _alert, operation);
-
-    }
+    await ClientService.getInstance().notify(put, _alert, operation);
   }
-
+  // }
 }

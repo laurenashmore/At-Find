@@ -1,17 +1,16 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:at_commons/at_commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:atfind/service.dart';
-import 'package:atfind/constants.dart' as constant;
+// import 'package:atfind/constants.dart' as constant;
 import 'package:atfind/location/Home.dart';
 
 class Profile extends StatefulWidget {
   static final String id = 'third';
-  String? atSign;
+  final String? atSign = '';
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -155,17 +154,8 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            //SizedBox(height:100),
-           /* Text(
-              'Status: $_status',
-              style: TextStyle(fontSize: 18),
-            ),*/
-            //SizedBox(height:10),
-
-
-              ],
-            ),
-
+]
+      ),
       ),
     );
 
@@ -180,10 +170,13 @@ class _ProfileState extends State<Profile> {
     });
     AtKey currStatus = AtKey()
       ..key = _key
-      ..sharedWith = atSign;
+      ..sharedWith = atSign
+      ..sharedBy = atSign;
     await clientSdkService.put(currStatus, _status);
   }
 
+//
+//
   /// Get name
   void getName(String name, String _namekey) async {
     ClientService clientSdkService = ClientService.getInstance();
@@ -197,15 +190,16 @@ class _ProfileState extends State<Profile> {
     await clientSdkService.put(currName, _name);
   }
 
+//
   /// Look up a value corresponding to an [AtKey] instance.
   Future<String> _lookup(AtKey atKey) async {
     ClientService clientSdkService = ClientService.getInstance();
     // If an AtKey object exists
-    if (atKey != null) {
-      // Simply get the AtKey object utilizing the serverDemoService's get method
-      return await clientSdkService.get(atKey);
-    }
-    return '';
+    // if (atKey != null) {
+    // Simply get the AtKey object utilizing the serverDemoService's get method
+    return await clientSdkService.get(atKey);
+    // }
+    // return '';
   }
 
   /// Scan for status key objects
@@ -225,6 +219,8 @@ class _ProfileState extends State<Profile> {
     return responseList;
   }
 
+//
+//
   /// Scan for name key objects
   _nameScan() async {
     ClientService clientSdkService = ClientService.getInstance();
@@ -243,6 +239,7 @@ class _ProfileState extends State<Profile> {
   }
 
   /// Go back to home screen
+//
   createStatusAlertDialog(BuildContext context) {
     return showDialog(
         context: context,

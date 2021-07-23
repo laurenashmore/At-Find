@@ -8,6 +8,7 @@ import 'dart:ui';
 import 'package:atfind/constants.dart';
 import 'package:atfind/service.dart';
 import 'package:at_onboarding_flutter/at_onboarding_flutter.dart';
+import '../main.dart';
 import '../service.dart';
 
 /// Class created for onboarding:
@@ -34,6 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: NavService.navKey,
       home: Scaffold(
         backgroundColor: Colors.white,
         body: Builder(
@@ -190,4 +192,5 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
+
 }

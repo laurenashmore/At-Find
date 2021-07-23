@@ -25,6 +25,7 @@ import 'package:atfind/service.dart';
 import 'package:atfind/constants.dart';
 import 'package:atfind/screens/Contacts.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import '../main.dart';
 import 'Request.dart';
 import 'Share.dart';
 import 'package:atfind/screens/Current_Statuses.dart';
@@ -499,11 +500,6 @@ class _HomeScreenState extends State<HomeScreen> {
     PermissionStatus permission =
         await LocationPermissions().requestPermissions();
   }
-}
-
-/// Nav Service:
-class NavService {
-  static GlobalKey<NavigatorState> navKey = GlobalKey();
 }
 
 /// OK FROM HOME.DART

@@ -25,6 +25,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   String? currentAtSign;
   ContactService? _contactService;
   AtContact? selectedContact;
+  //List<AtContact>? contactlist;
   late bool isLoading;
   String? selectedOption, textField;
   bool errorOcurred = false;
@@ -32,6 +33,8 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   List<String> allContactsList = [];
   String at_signStr = '';
   List<String> at_signStrList = [];
+  //String new_atSign = '';
+
   String selectedAtSign = '';
 
   @override

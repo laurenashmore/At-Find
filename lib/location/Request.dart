@@ -1,11 +1,6 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
-//import 'package:at_common_flutter/utils/text_strings.dart';
 import 'package:at_contact/at_contact.dart';
 import 'package:atfind/atcontacts/services/contact_service.dart';
-import 'package:atfind/atcontacts/utils/exposed_service.dart';
-import 'package:atfind/atcontacts/utils/init_contacts_service.dart';
-import 'package:atfind/atgroups/screens/list/group_list.dart';
-import 'package:atfind/atgroups/utils/colors.dart';
 import 'package:atfind/atgroups/utils/colors.dart';
 import 'package:atfind/atlocation/common_components/custom_toast.dart';
 import 'package:atfind/atlocation/common_components/pop_button.dart';
@@ -14,7 +9,6 @@ import 'package:atfind/atlocation/service/at_location_notification_listener.dart
 import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:at_lookup/at_lookup.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
 import '../service.dart';
 import 'package:atfind/atcontacts/utils/text_strings.dart';
 
@@ -31,7 +25,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   String? currentAtSign;
   ContactService? _contactService;
   AtContact? selectedContact;
-  //List<AtContact>? contactlist;
   late bool isLoading;
   String? selectedOption, textField;
   bool errorOcurred = false;
@@ -39,8 +32,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   List<String> allContactsList = [];
   String at_signStr = '';
   List<String> at_signStrList = [];
-  //String new_atSign = '';
-
   String selectedAtSign = '';
 
   @override
@@ -89,65 +80,74 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
               style: CustomTextStyles().greyLabel14),
           //SizedBox(height: 10),
 
-          Padding(
-                padding: EdgeInsets.only(top: 25, bottom: 25),
-                child: StreamBuilder<List<AtContact?>>(
-                    stream: _contactService!.contactStream,
-                    initialData: _contactService!.contactList,
-                    builder: (context, snapshot) {
-                      if ((snapshot.connectionState == ConnectionState.waiting)) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        if ((snapshot.data == null || snapshot.data!.isEmpty)) {
-                          return Center(
-                            child: Text(TextStrings().noContacts),
-                          );
-                        } else {
-                          var _filteredList = <AtContact?>[];
-                          snapshot.data!.forEach(
-                            (c) {
-                              if (c!.atSign!
-                                  .toUpperCase()
-                                  .contains(searchText.toUpperCase())) {
-                                _filteredList.add(c);
-                                //print('This is: $c');
-                                var c_str = c.toString();
-                                var sub_c_arr = c_str.split(",");
-                                var at_signStr_arr = sub_c_arr[0].split(": ");
-                                at_signStr = at_signStr_arr[1];
-                                print(at_signStr);
-                                if(!at_signStrList.contains(at_signStr)){
-                                  at_signStrList.add(at_signStr);
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 25, bottom: 25, right: 30),
+                  child: Text('Contacts:', style: CustomTextStyles().greyLabel14)
+                  ),
+                  Padding(
+                        padding: EdgeInsets.only(top: 25, bottom: 25),
+                        child: StreamBuilder<List<AtContact?>>(
+                            stream: _contactService!.contactStream,
+                            initialData: _contactService!.contactList,
+                            builder: (context, snapshot) {
+                              if ((snapshot.connectionState == ConnectionState.waiting)) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                if ((snapshot.data == null || snapshot.data!.isEmpty)) {
+                                  return Center(
+                                    child: Text(TextStrings().noContacts),
+                                  );
+                                } else {
+                                  var _filteredList = <AtContact?>[];
+                                  snapshot.data!.forEach(
+                                    (c) {
+                                      if (c!.atSign!
+                                          .toUpperCase()
+                                          .contains(searchText.toUpperCase())) {
+                                        _filteredList.add(c);
+                                        //print('This is: $c');
+                                        var c_str = c.toString();
+                                        var sub_c_arr = c_str.split(",");
+                                        var at_signStr_arr = sub_c_arr[0].split(": ");
+                                        at_signStr = at_signStr_arr[1];
+                                        print(at_signStr);
+                                        if(!at_signStrList.contains(at_signStr)){
+                                          at_signStrList.add(at_signStr);
+                                        }
+                                      }
+                                    }
+                                  );
+
+
+
+                                  selectedAtSign = at_signStrList[0];
+                                  print("ATSIGN LIST: $at_signStrList");
+                                  return DropdownButton<String>(
+                                          value: selectedAtSign,
+                                           items: at_signStrList
+                                               .map((atSign) =>
+                                               DropdownMenuItem(child: Text(atSign), value: atSign))
+                                               .toList(),
+                                          onChanged: (new_atSign) => {
+                                            if(new_atSign != null){
+                                              setState((){
+                                                selectedAtSign = new_atSign!;
+                                              })
+                                            }
+                                          },
+                                       );
                                 }
                               }
-                            }
-                          );
+                            }),
 
-
-
-                          selectedAtSign = at_signStrList[0];
-                          print("ATSIGN LIST: $at_signStrList");
-                          return DropdownButton<String>(
-                                  value: selectedAtSign,
-                                   items: at_signStrList
-                                       .map((atSign) =>
-                                       DropdownMenuItem(child: Text(atSign), value: atSign))
-                                       .toList(),
-                                  onChanged: (new_atSign) => {
-                                    if(new_atSign != null){
-                                      setState((){
-                                        selectedAtSign = new_atSign!;
-                                      })
-                                    }
-                                  },
-                               );
-                        }
-                      }
-                    }),
-
+                      ),
+                ],
               ),
+
 
 
           Padding(
@@ -190,7 +190,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
     setState(() {
       isLoading = true;
     });
-    var validAtSign = await checkAtsign(textField);
+    var validAtSign = await checkAtsign(selectedAtSign);
 
     if (!validAtSign) {
       setState(() {
@@ -201,7 +201,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
     }
 
     var result =
-        await RequestLocationService().sendRequestLocationEvent(textField);
+        await RequestLocationService().sendRequestLocationEvent(selectedAtSign);
 
     if (result == null) {
       setState(() {

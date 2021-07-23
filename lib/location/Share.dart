@@ -1,5 +1,7 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
+//import 'package:at_common_flutter/utils/text_strings.dart';
 import 'package:at_contact/at_contact.dart';
+import 'package:atfind/atcontacts/services/contact_service.dart';
 import 'package:atfind/atlocation/common_components/custom_toast.dart';
 import 'package:atfind/atlocation/common_components/pop_button.dart';
 import 'package:atfind/atlocation/service/sharing_location_service.dart';
@@ -9,6 +11,8 @@ import 'package:atfind/atlocation/utils/constants/text_styles.dart';
 import 'package:at_lookup/at_lookup.dart';
 import 'package:flutter/material.dart';
 import 'package:atfind/screens/Contacts.dart';
+import 'package:atfind/atcontacts/utils/text_strings.dart';
+import '../service.dart';
 
 
 class ShareLocationSheet extends StatefulWidget {
@@ -20,11 +24,35 @@ class ShareLocationSheet extends StatefulWidget {
 
 class _ShareLocationSheetState extends State<ShareLocationSheet> {
   AtContact? selectedContact;
+  ClientService clientSdkService = ClientService.getInstance();
+  String? activeAtSign, receiver;
+  String? currentAtSign;
+  ContactService? _contactService;
   late bool isLoading;
   String? selectedOption, textField;
+  bool errorOcurred = false;
+  String searchText = '';
+  List<String> allContactsList = [];
+  String at_signStr = '';
+  List<String> at_signStrList = [];
+  String selectedAtSign = '';
 
   @override
   void initState() {
+    _contactService = ContactService();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      var _result = await _contactService!.fetchContacts();
+      print('$_result = true');
+
+      if (_result == null) {
+        print('_result = true');
+        if (mounted) {
+          setState(() {
+            errorOcurred = true;
+          });
+        }
+      }
+    });
     super.initState();
     isLoading = false;
   }
@@ -49,17 +77,87 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
             height: 25,
           ),
           Text('Who do you want to keep an eye on you?', style: CustomTextStyles().greyLabel14),
-          SizedBox(height: 10),
+          //SizedBox(height: 10),
+          Row(
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(top: 15, bottom: 5, right: 30),
+                  child: Text('Contacts:', style: CustomTextStyles().greyLabel14)
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 15, bottom: 5),
+                child: StreamBuilder<List<AtContact?>>(
+                    stream: _contactService!.contactStream,
+                    initialData: _contactService!.contactList,
+                    builder: (context, snapshot) {
+                      if ((snapshot.connectionState == ConnectionState.waiting)) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        if ((snapshot.data == null || snapshot.data!.isEmpty)) {
+                          return Center(
+                            child: Text(TextStrings().noContacts),
+                          );
+                        } else {
+                          var _filteredList = <AtContact?>[];
+                          snapshot.data!.forEach(
+                                  (c) {
+                                if (c!.atSign!
+                                    .toUpperCase()
+                                    .contains(searchText.toUpperCase())) {
+                                  _filteredList.add(c);
+                                  //print('This is: $c');
+                                  var c_str = c.toString();
+                                  var sub_c_arr = c_str.split(",");
+                                  var at_signStr_arr = sub_c_arr[0].split(": ");
+                                  at_signStr = at_signStr_arr[1];
+                                  print(at_signStr);
+                                  if(!at_signStrList.contains(at_signStr)){
+                                    at_signStrList.add(at_signStr);
+                                  }
+                                }
+                              }
+                          );
+
+
+
+                          selectedAtSign = at_signStrList[0];
+                          print("ATSIGN LIST: $at_signStrList");
+                          return DropdownButton<String>(
+                            value: selectedAtSign,
+                            items: at_signStrList
+                                .map((atSign) =>
+                                DropdownMenuItem(child: Text(atSign), value: atSign))
+                                .toList(),
+                            onChanged: (new_atSign) => {
+                              if(new_atSign != null){
+                                setState((){
+                                  selectedAtSign = new_atSign!;
+                                })
+                              }
+                            },
+                          );
+                        }
+                      }
+                    }),
+
+              ),
+            ],
+          ),
+
+
+
           CustomInputField(
             width: 330.toWidth,
             height: 50,
             hintText: 'Type @sign ',
-            initialValue: textField ?? '',
+            initialValue: selectedAtSign ?? '',
             value: (str) {
               if (!str.contains('@')) {
                 str = '@' + str;
               }
-              textField = str;
+              selectedAtSign = str;
             },
             icon: Icons.contacts_rounded,),
           SizedBox(height: 25),
@@ -89,7 +187,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
               }).toList(),
               onChanged: (dynamic value) {
                 setState(() {
-                  textField = textField;
+                  selectedAtSign = selectedAtSign;
                   selectedOption = value;
                 });
               },
@@ -117,7 +215,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
     setState(() {
       isLoading = true;
     });
-    var validAtSign = await checkAtsign(textField);
+    var validAtSign = await checkAtsign(selectedAtSign);
 
     if (!validAtSign) {
       setState(() {
@@ -139,7 +237,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
         : (selectedOption == '24 hours' ? (24 * 60) : null)));
 
     var result = await SharingLocationService()
-        .sendShareLocationEvent(textField, false, minutes: minutes);
+        .sendShareLocationEvent(selectedAtSign, false, minutes: minutes);
 
     if (result == null) {
       setState(() {

@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FIND',
-      //navigatorKey: NavService.navKey,
       theme: ThemeData(
         primaryColor: Colors.grey[900],
         accentColor: Colors.red[300],

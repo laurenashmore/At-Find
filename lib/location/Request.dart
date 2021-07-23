@@ -156,12 +156,12 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                 width: 330.toWidth,
                 height: 50,
                 hintText: 'Type @sign ',
-                initialValue: textField ?? '',
+                initialValue: selectedAtSign ?? '',
                 value: (str) {
                   if (!str.contains('@')) {
                     str = '@' + str;
                   }
-                  textField = str;
+                  selectedAtSign = str;
                 },
                 icon: Icons.contacts_rounded,
                 ),

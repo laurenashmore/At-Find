@@ -130,7 +130,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                           selectedAtSign = at_signStrList[0];
                           print("ATSIGN LIST: $at_signStrList");
                           return DropdownButton<String>(
-                                  value: selectedAtSign,
+                                  value: textField,
                                    items: at_signStrList
                                        .map((atSign) =>
                                        DropdownMenuItem(child: Text(atSign), value: atSign))
@@ -138,7 +138,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                                   onChanged: (new_atSign) => {
                                     if(new_atSign != null){
                                       setState((){
-                                        selectedAtSign = new_atSign!;
+                                        textField = new_atSign!;
                                       })
                                     }
                                   },
@@ -156,12 +156,12 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                 width: 330.toWidth,
                 height: 50,
                 hintText: 'Type @sign ',
-                initialValue: selectedAtSign ?? '',
+                initialValue: textField ?? '',
                 value: (str) {
                   if (!str.contains('@')) {
                     str = '@' + str;
                   }
-                  selectedAtSign = str;
+                  textField = str;
                 },
                 icon: Icons.contacts_rounded,
                 ),

@@ -25,7 +25,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   String? currentAtSign;
   ContactService? _contactService;
   AtContact? selectedContact;
-  //List<AtContact>? contactlist;
   late bool isLoading;
   String? selectedOption, textField;
   bool errorOcurred = false;
@@ -33,8 +32,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   List<String> allContactsList = [];
   String at_signStr = '';
   List<String> at_signStrList = [];
-  //String new_atSign = '';
-
   String selectedAtSign = '';
 
   @override
@@ -53,9 +50,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
         }
       }
     });
-    /*  initializeContactsService(
-        clientSdkService.atClientServiceInstance.atClient!, activeAtSign!,
-        rootDomain: MixedConstants.ROOT_DOMAIN);*/
     super.initState();
     isLoading = false;
   }
@@ -82,7 +76,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
           Text('Who do you want to keep an eye on?',
               style: CustomTextStyles().greyLabel14),
           //SizedBox(height: 10),
-
+          /// Contact drop down:
               Row(
                 children: [
                   Padding(
@@ -112,7 +106,6 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                                           .toUpperCase()
                                           .contains(searchText.toUpperCase())) {
                                         _filteredList.add(c);
-                                        //print('This is: $c');
                                         var c_str = c.toString();
                                         var sub_c_arr = c_str.split(",");
                                         var at_signStr_arr = sub_c_arr[0].split(": ");
@@ -123,11 +116,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                                         }
                                       }
                                     }
-                                  );
-
-
-
-                                  selectedAtSign = at_signStrList[0];
+                                  );selectedAtSign = at_signStrList[0];
                                   print("ATSIGN LIST: $at_signStrList");
                                   return DropdownButton<String>(
                                           value: selectedAtSign,

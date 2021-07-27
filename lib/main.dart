@@ -7,7 +7,6 @@ import 'package:atfind/screens/Settings.dart';
 import 'package:atfind/screens/SendAlert.dart';
 import 'package:atfind/screens/Current_Statuses.dart';
 
-
 void main() {
   runApp(MyApp());
 }

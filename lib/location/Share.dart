@@ -78,6 +78,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
           ),
           Text('Who do you want to keep an eye on you?', style: CustomTextStyles().greyLabel14),
           //SizedBox(height: 10),
+          /// Contact drop down:
           Row(
             children: [
               Padding(
@@ -107,7 +108,6 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
                                     .toUpperCase()
                                     .contains(searchText.toUpperCase())) {
                                   _filteredList.add(c);
-                                  //print('This is: $c');
                                   var c_str = c.toString();
                                   var sub_c_arr = c_str.split(",");
                                   var at_signStr_arr = sub_c_arr[0].split(": ");
@@ -119,9 +119,6 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
                                 }
                               }
                           );
-
-
-
                           selectedAtSign = at_signStrList[0];
                           print("ATSIGN LIST: $at_signStrList");
                           return DropdownButton<String>(

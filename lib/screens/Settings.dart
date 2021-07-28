@@ -1,6 +1,6 @@
 import 'package:at_client_mobile/at_client_mobile.dart';
 import 'package:at_commons/at_commons.dart';
-import 'package:atfind/atlocation/utils/constants/init_location_service.dart';
+import 'package:at_location_flutter/utils/constants/init_location_service.dart';
 import 'package:atfind/location/Home.dart';
 import 'package:atfind/screens/Onboarding.dart';
 import 'package:flutter/cupertino.dart';

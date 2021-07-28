@@ -1,18 +1,18 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
-import 'package:atfind/atcontacts/utils/init_contacts_service.dart';
-import 'package:atfind/atgroups/utils/init_group_service.dart';
-import 'package:atfind/atlocation/common_components/bottom_sheet.dart';
-import 'package:atfind/atlocation/common_components/display_tile.dart';
-import 'package:atfind/atlocation/location_modal/key_location_model.dart';
-import 'package:atfind/atlocation/map_content/flutter_map/flutter_map.dart';
-import 'package:atfind/atlocation/service/at_location_notification_listener.dart';
-import 'package:atfind/atlocation/service/home_screen_service.dart';
-import 'package:atfind/atlocation/service/key_stream_service.dart';
-import 'package:atfind/atlocation/service/my_location.dart';
-import 'package:atfind/atlocation/show_location.dart';
-import 'package:atfind/atlocation/utils/constants/colors.dart';
-import 'package:atfind/atlocation/utils/constants/init_location_service.dart';
-import 'package:atfind/atlocation/utils/constants/text_styles.dart';
+import 'package:at_contacts_flutter/utils/init_contacts_service.dart';
+import 'package:at_contacts_group_flutter/utils/init_group_service.dart';
+import 'package:at_location_flutter/common_components/bottom_sheet.dart';
+import 'package:at_location_flutter/common_components/display_tile.dart';
+import 'package:at_location_flutter/location_modal/key_location_model.dart';
+import 'package:at_location_flutter/map_content/flutter_map/flutter_map.dart';
+import 'package:at_location_flutter/service/at_location_notification_listener.dart';
+import 'package:at_location_flutter/service/home_screen_service.dart';
+import 'package:at_location_flutter/service/key_stream_service.dart';
+import 'package:at_location_flutter/service/my_location.dart';
+import 'package:at_location_flutter/show_location.dart';
+import 'package:at_location_flutter/utils/constants/colors.dart';
+import 'package:at_location_flutter/utils/constants/init_location_service.dart';
+import 'package:at_location_flutter/utils/constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -29,11 +29,11 @@ import '../main.dart';
 import 'Request.dart';
 import 'Share.dart';
 import 'package:atfind/screens/Current_Statuses.dart';
+import 'package:location_permissions/location_permissions.dart';
 
+// Using at_location home screen, with our own changes
 
-/// Using at_location home screen, with our own changes
-///
-/// Class created (with the same name from package):
+// Class created (with the same name from package):
 class HomeScreen extends StatefulWidget {
   static final String id = 'HomeScreen';
   String activeAtSign = '';
@@ -42,10 +42,8 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
-/// OK!
 
-
-/// Bringing in things used in the code:
+// Bringing in things used in the code:
 class _HomeScreenState extends State<HomeScreen> {
   ClientService clientSdkService = ClientService.getInstance();
   String activeAtSign = '';
@@ -54,9 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PanelController pc = PanelController();
   LatLng? myLatLng;
   GlobalKey<ScaffoldState>? scaffoldKey;
-  /// OK!
 
-  /// Initializing things:
   @override
   void initState() {
     setState(() {
@@ -64,40 +60,38 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     activeAtSign =
         clientSdkService.atClientServiceInstance.atClient!.currentAtSign!;
-    /// Initialize location:
+    // Initialize location:
     initializeLocationService(
       clientSdkService.atClientServiceInstance.atClient!,
-      activeAtSign!,
+      activeAtSign,
       NavService.navKey,
       apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
       mapKey: '5WE2iX9u1OEKDBqi057s#',
       showDialogBox: true,
     );
-
-    /// @AtSign stuff:
+    // @AtSign stuff:
     String currentAtSign = ClientService.getInstance().atsign;
     setState(() {
       activeAtSign = currentAtSign;
     });
-    /// Initialize location:
+    // Initialize location:
     initializeLocationService(
-        clientSdkService.atClientServiceInstance.atClient!,
-        activeAtSign,
-        NavService.navKey,
-        apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
-        mapKey: '5WE2iX9u1OEKDBqi057s#',
-        showDialogBox: true,
+      clientSdkService.atClientServiceInstance.atClient!,
+      activeAtSign,
+      NavService.navKey,
+      apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
+      mapKey: '5WE2iX9u1OEKDBqi057s#',
+      showDialogBox: true,
     );
-    /// Initialize contacts:
+    // Initialize contacts:
     initializeContactsService(
         clientSdkService.atClientServiceInstance.atClient!, activeAtSign,
         rootDomain: MixedConstants.ROOT_DOMAIN);
-    /// Initialize group contacts:
+    // Initialize group contacts:
     initializeGroupService(
         clientSdkService.atClientServiceInstance.atClient!, activeAtSign,
         rootDomain: MixedConstants.ROOT_DOMAIN);
 
-    ///
     super.initState();
     _getMyLocation();
     scaffoldKey = GlobalKey<ScaffoldState>();
@@ -105,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print('Everything is initialised...');
   }
 
-  /// Location stuff:
+  // Location stuff:
   void _getMyLocation() async {
     var newMyLatLng = await getMyLocation();
     if (newMyLatLng != null) {
@@ -131,8 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   MapController mapController = MapController();
 
-
-  /// Layout:
+  // Layout:
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -148,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mapController,
                   ),
 
-            /// Top container:
+            // Top container:
             Container(
               height: 50.toHeight,
               width: 356.toWidth,
@@ -167,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
 
-              /// Request and share buttons: (in this project)
+              // Request and share buttons: (in this project)
               child: Center(
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -211,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            /// Emergency pop-up button:
+            // Emergency pop-up button:
             Positioned(
               top: 70,
               right: 2,
@@ -220,7 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.white,
                   shape: CircleBorder(),
                 ),
-                child: Icon(Icons.report_problem, size: 40,color: Colors.red[300]),
+                child: Icon(Icons.report_problem,
+                    size: 40, color: Colors.red[300]),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -263,7 +257,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 },
                               ),
-
                               TextButton(
                                   child: Text(
                                     'Stop Alarm',
@@ -283,12 +276,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   );
                 },
-
-
               ),
             ),
 
-            /// Panel size:
+            // Panel size:
             widget.showList
                 ? Positioned(bottom: 20.toHeight, child: header())
                 : SizedBox(),
@@ -301,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (snapshot.hasError) {
                           return SlidingUpPanel(
 
-                              /// Little slide up arrow:
+                              // Little slide up arrow:
                               collapsed: Icon(
                                 Icons.keyboard_arrow_up_outlined,
                                 color: Colors.red[300],
@@ -315,7 +306,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       emptyWidget('Something went wrong!')));
                         } else {
                           return SlidingUpPanel(
-                            /// Little slide up arrow:
+
+                            // Little slide up arrow:
                             collapsed: Icon(
                               Icons.keyboard_arrow_up_outlined,
                               color: Colors.red[300],
@@ -340,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       } else {
                         return SlidingUpPanel(
-                          /// Little slide up arrow:
+                          // Little slide up arrow:
                           collapsed: Icon(
                             Icons.keyboard_arrow_up_outlined,
                             color: Colors.red[300],
@@ -363,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  /// Edit bar space size:
+  // Edit bar space size:
   Widget collapsedContent(
       bool isExpanded, ScrollController slidingScrollController, dynamic T) {
     return Container(
@@ -385,7 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: T);
   }
 
-  /// Notification info:
+  // Notification info:
   Widget getListView(List<KeyLocationModel> allNotifications,
       ScrollController slidingScrollController) {
     return ListView(
@@ -422,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  /// Our buttons!
+  // Our buttons:
   Widget header() {
     return Container(
       height: 77.toHeight,
@@ -501,5 +493,3 @@ class _HomeScreenState extends State<HomeScreen> {
         await LocationPermissions().requestPermissions();
   }
 }
-
-/// OK FROM HOME.DART

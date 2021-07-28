@@ -19,11 +19,11 @@ dependencies:
   group_button: ^3.0.0+1
   url_launcher: ^6.0.3
   at_commons: ^2.0.1
-  #at_contacts_flutter: ^2.0.1
-  #at_contacts_group_flutter: ^2.0.1
+  at_contacts_flutter: ^2.0.1
+  at_contacts_group_flutter: ^2.0.1
   flutter_speed_dial: ^4.1.0
   flutter_ringtone_player: ^3.0.0
-  #at_location_flutter: ^2.0.2
+  at_location_flutter: ^2.0.2
   latlong2: ^0.8.0
   sliding_up_panel: ^2.0.0+1
   tuple: ^2.0.0

@@ -1,17 +1,15 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
-//import 'package:at_common_flutter/utils/text_strings.dart';
 import 'package:at_contact/at_contact.dart';
-import 'package:atfind/atcontacts/services/contact_service.dart';
-import 'package:atfind/atlocation/common_components/custom_toast.dart';
-import 'package:atfind/atlocation/common_components/pop_button.dart';
-import 'package:atfind/atlocation/service/sharing_location_service.dart';
-import 'package:atfind/atlocation/service/at_location_notification_listener.dart';
-import 'package:atfind/atlocation/utils/constants/colors.dart';
-import 'package:atfind/atlocation/utils/constants/text_styles.dart';
+import 'package:at_contacts_flutter/services/contact_service.dart';
+import 'package:at_location_flutter/common_components/custom_toast.dart';
+import 'package:at_location_flutter/common_components/pop_button.dart';
+import 'package:at_location_flutter/service/sharing_location_service.dart';
+import 'package:at_location_flutter/service/at_location_notification_listener.dart';
+import 'package:at_location_flutter/utils/constants/colors.dart';
+import 'package:at_location_flutter/utils/constants/text_styles.dart';
 import 'package:at_lookup/at_lookup.dart';
 import 'package:flutter/material.dart';
-import 'package:atfind/screens/Contacts.dart';
-import 'package:atfind/atcontacts/utils/text_strings.dart';
+import 'package:at_contacts_flutter/utils/text_strings.dart';
 import '../service.dart';
 
 
@@ -78,7 +76,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
           ),
           Text('Who do you want to keep an eye on you?', style: CustomTextStyles().greyLabel14),
           //SizedBox(height: 10),
-          /// Contact drop down:
+          // Contact drop down:
           Row(
             children: [
               Padding(
@@ -207,7 +205,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
     );
   }
 
-  /// What happens when you click 'Share':
+  // What happens when you click 'Share':
   void onShareTap() async {
     setState(() {
       isLoading = true;
@@ -271,5 +269,3 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
     return checkPresence != null;
   }
 }
-
-/// OK FROM S_L_S.dart

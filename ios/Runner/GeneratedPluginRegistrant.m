@@ -16,6 +16,24 @@
 @import at_chat_flutter;
 #endif
 
+#if __has_include(<at_contacts_flutter/AtContactsFlutterPlugin.h>)
+#import <at_contacts_flutter/AtContactsFlutterPlugin.h>
+#else
+@import at_contacts_flutter;
+#endif
+
+#if __has_include(<at_contacts_group_flutter/AtContactsGroupFlutterPlugin.h>)
+#import <at_contacts_group_flutter/AtContactsGroupFlutterPlugin.h>
+#else
+@import at_contacts_group_flutter;
+#endif
+
+#if __has_include(<at_location_flutter/AtLocationFlutterPlugin.h>)
+#import <at_location_flutter/AtLocationFlutterPlugin.h>
+#else
+@import at_location_flutter;
+#endif
+
 #if __has_include(<at_onboarding_flutter/AtOnboardingFlutterPlugin.h>)
 #import <at_onboarding_flutter/AtOnboardingFlutterPlugin.h>
 #else
@@ -123,6 +141,9 @@
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AtBackupkeyFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"AtBackupkeyFlutterPlugin"]];
   [AtChatFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"AtChatFlutterPlugin"]];
+  [AtContactsFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"AtContactsFlutterPlugin"]];
+  [AtContactsGroupFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"AtContactsGroupFlutterPlugin"]];
+  [AtLocationFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"AtLocationFlutterPlugin"]];
   [AtOnboardingFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"AtOnboardingFlutterPlugin"]];
   [EmojiPickerFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"EmojiPickerFlutterPlugin"]];
   [FilePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FilePickerPlugin"]];

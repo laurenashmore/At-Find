@@ -1,16 +1,16 @@
 import 'package:at_common_flutter/at_common_flutter.dart';
 import 'package:at_contact/at_contact.dart';
-import 'package:atfind/atcontacts/services/contact_service.dart';
-import 'package:atfind/atgroups/utils/colors.dart';
-import 'package:atfind/atlocation/common_components/custom_toast.dart';
-import 'package:atfind/atlocation/common_components/pop_button.dart';
-import 'package:atfind/atlocation/service/request_location_service.dart';
-import 'package:atfind/atlocation/service/at_location_notification_listener.dart';
-import 'package:atfind/atlocation/utils/constants/text_styles.dart';
+import 'package:at_contacts_flutter/services/contact_service.dart';
+import 'package:at_contacts_group_flutter/utils/colors.dart';
+import 'package:at_location_flutter/common_components/custom_toast.dart';
+import 'package:at_location_flutter/common_components/pop_button.dart';
+import 'package:at_location_flutter/service/request_location_service.dart';
+import 'package:at_location_flutter/service/at_location_notification_listener.dart';
+import 'package:at_location_flutter/utils/constants/text_styles.dart';
 import 'package:at_lookup/at_lookup.dart';
 import 'package:flutter/material.dart';
 import '../service.dart';
-import 'package:atfind/atcontacts/utils/text_strings.dart';
+import 'package:at_contacts_flutter/utils/text_strings.dart';
 
 class RequestLocationSheet extends StatefulWidget {
   final Function? onTap;
@@ -75,8 +75,8 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
           ),
           Text('Who do you want to keep an eye on?',
               style: CustomTextStyles().greyLabel14),
-          //SizedBox(height: 10),
-          /// Contact drop down:
+
+          // Contact drop down:
               Row(
                 children: [
                   Padding(
@@ -177,7 +177,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
     );
   }
 
-  /// When you press 'Request':
+  // When you press 'Request':
   void onRequestTap() async {
     setState(() {
       isLoading = true;
@@ -230,5 +230,3 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
     return checkPresence != null;
   }
 }
-
-/// OK FROM R_L_S.dart

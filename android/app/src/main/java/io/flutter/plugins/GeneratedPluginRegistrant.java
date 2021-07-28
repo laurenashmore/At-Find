@@ -17,6 +17,9 @@ public final class GeneratedPluginRegistrant {
     ShimPluginRegistry shimPluginRegistry = new ShimPluginRegistry(flutterEngine);
     flutterEngine.getPlugins().add(new com.atsign.at_backupkey_flutter.AtBackupkeyFlutterPlugin());
     flutterEngine.getPlugins().add(new com.atsign.at_chat_flutter.AtChatFlutterPlugin());
+    flutterEngine.getPlugins().add(new com.atsign.at_contacts_flutter.AtContactsFlutterPlugin());
+    flutterEngine.getPlugins().add(new com.atsign.at_contacts_group_flutter.AtContactsGroupFlutterPlugin());
+    flutterEngine.getPlugins().add(new com.atsign.at_location_flutter.AtLocationFlutterPlugin());
     flutterEngine.getPlugins().add(new com.atsign.at_onboarding_flutter.AtOnboardingFlutterPlugin());
     flutterEngine.getPlugins().add(new com.fintays.emoji_picker_flutter.EmojiPickerFlutterPlugin());
     flutterEngine.getPlugins().add(new com.mr.flutter.plugin.filepicker.FilePickerPlugin());

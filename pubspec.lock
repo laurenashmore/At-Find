@@ -85,6 +85,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  at_contacts_flutter:
+    dependency: "direct main"
+    description:
+      name: at_contacts_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  at_contacts_group_flutter:
+    dependency: "direct main"
+    description:
+      name: at_contacts_group_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   at_demo_data:
     dependency: "direct main"
     description:
@@ -92,6 +106,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3+1"
+  at_location_flutter:
+    dependency: "direct main"
+    description:
+      name: at_location_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   at_lookup:
     dependency: "direct main"
     description:

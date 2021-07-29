@@ -52,6 +52,7 @@ class _SendAlertState extends State<SendAlert> {
         }
       }
     });
+   // _otherAtSign = at_signStrList[0];
     super.initState();
     activeAtSign =
         clientSdkService.atClientServiceInstance.getAtSign().toString();
@@ -147,9 +148,10 @@ class _SendAlertState extends State<SendAlert> {
                                     if(!at_signStrList.contains(at_signStr)){
                                       at_signStrList.add(at_signStr);
                                     }
+
                                   }
                                 }
-                            );_otherAtSign = at_signStrList[0];
+                            );
                             print("ATSIGN LIST: $at_signStrList");
                             return DropdownButton<String>(
                               value: _otherAtSign,

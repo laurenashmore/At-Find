@@ -74,15 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       activeAtSign = currentAtSign;
     });
-    // Initialize location:
-    initializeLocationService(
-      clientSdkService.atClientServiceInstance.atClient!,
-      activeAtSign,
-      NavService.navKey,
-      apiKey: 'Csv2sD-TZ0giW1nLuQXCgj2WUOlZEkLjxHpiOgvVQlY',
-      mapKey: '5WE2iX9u1OEKDBqi057s#',
-      showDialogBox: true,
-    );
     // Initialize contacts:
     initializeContactsService(
         clientSdkService.atClientServiceInstance.atClient!, activeAtSign,

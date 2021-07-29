@@ -23,7 +23,7 @@ class ShareLocationSheet extends StatefulWidget {
 class _ShareLocationSheetState extends State<ShareLocationSheet> {
   AtContact? selectedContact;
   ClientService clientSdkService = ClientService.getInstance();
-  String? activeAtSign, receiver;
+  String? activeAtSign, receiver, selectedAtSign;
   String? currentAtSign;
   ContactService? _contactService;
   late bool isLoading;
@@ -33,7 +33,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
   List<String> allContactsList = [];
   String at_signStr = '';
   List<String> at_signStrList = [];
-  String selectedAtSign = '';
+ // String selectedAtSign = '';
 
   @override
   void initState() {
@@ -117,7 +117,7 @@ class _ShareLocationSheetState extends State<ShareLocationSheet> {
                                 }
                               }
                           );
-                          selectedAtSign = at_signStrList[0];
+                          //selectedAtSign = at_signStrList[0];
                           print("ATSIGN LIST: $at_signStrList");
                           return DropdownButton<String>(
                             value: selectedAtSign,

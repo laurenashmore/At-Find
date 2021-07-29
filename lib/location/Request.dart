@@ -21,7 +21,7 @@ class RequestLocationSheet extends StatefulWidget {
 
 class _RequestLocationSheetState extends State<RequestLocationSheet> {
   ClientService clientSdkService = ClientService.getInstance();
-  String? activeAtSign, receiver;
+  String? activeAtSign, receiver, selectedAtSign;
   String? currentAtSign;
   ContactService? _contactService;
   AtContact? selectedContact;
@@ -32,7 +32,7 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
   List<String> allContactsList = [];
   String at_signStr = '';
   List<String> at_signStrList = [];
-  String selectedAtSign = '';
+ // String selectedAtSign = '';
 
   @override
   void initState() {
@@ -114,9 +114,10 @@ class _RequestLocationSheetState extends State<RequestLocationSheet> {
                                         if(!at_signStrList.contains(at_signStr)){
                                           at_signStrList.add(at_signStr);
                                         }
+                                        //selectedAtSign = at_signStrList[0];
                                       }
                                     }
-                                  );selectedAtSign = at_signStrList[0];
+                                  );//selectedAtSign = at_signStrList[0];
                                   print("ATSIGN LIST: $at_signStrList");
                                   return DropdownButton<String>(
                                           value: selectedAtSign,

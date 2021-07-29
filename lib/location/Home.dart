@@ -13,6 +13,7 @@ import 'package:at_location_flutter/show_location.dart';
 import 'package:at_location_flutter/utils/constants/colors.dart';
 import 'package:at_location_flutter/utils/constants/init_location_service.dart';
 import 'package:at_location_flutter/utils/constants/text_styles.dart';
+import 'package:atfind/popup/NotificationListener.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -84,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
         rootDomain: MixedConstants.ROOT_DOMAIN);
 
     super.initState();
+    AlertNotificationListener();
     _getMyLocation();
     scaffoldKey = GlobalKey<ScaffoldState>();
     KeyStreamService().init(AtLocationNotificationListener().atClientInstance);

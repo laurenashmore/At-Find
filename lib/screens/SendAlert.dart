@@ -2,6 +2,7 @@
 import 'package:at_common_flutter/widgets/custom_input_field.dart';
 import 'package:at_contact/at_contact.dart';
 import 'package:at_contacts_flutter/services/contact_service.dart';
+import 'package:atfind/popup/NotificationListener.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:atfind/service.dart';
@@ -58,6 +59,7 @@ class _SendAlertState extends State<SendAlert> {
     activeAtSign =
         clientSdkService.atClientServiceInstance.getAtSign().toString();
     isLoading = false;
+    AlertNotificationListener();
   }
 
   Widget build(BuildContext context) {

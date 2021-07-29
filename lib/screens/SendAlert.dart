@@ -22,6 +22,7 @@ enum LocationUpdate { travelling, arrived }
 class _SendAlertState extends State<SendAlert> {
   ClientService clientSdkService = ClientService.getInstance();
   String? activeAtSign, receiver, _otherAtSign, alert;
+ // String alert = '';
   var _update = LocationUpdate.travelling;
   String __key = 'Update';
   String? currentAtSign;

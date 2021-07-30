@@ -1,3 +1,4 @@
+import 'dart:collection';
 
 import 'package:at_common_flutter/widgets/custom_input_field.dart';
 import 'package:at_contact/at_contact.dart';
@@ -14,7 +15,6 @@ import 'package:at_common_flutter/at_common_flutter.dart';
 import '../service.dart';
 import 'package:at_contacts_group_flutter/services/group_service.dart';
 
-
 class SendAlert extends StatefulWidget {
   const SendAlert({key}) : super(key: key);
   static final String id = 'sixth';
@@ -26,7 +26,7 @@ enum LocationUpdate { travelling, arrived }
 
 class _SendAlertState extends State<SendAlert> {
   ClientService clientSdkService = ClientService.getInstance();
-  String? activeAtSign, receiver, _otherAtSign, alert;
+  String? activeAtSign, receiver, _otherAtSign, alert, chosengroup;
   List<AtContact?> selectedContactList = [];
 
   // String alert = '';
@@ -46,6 +46,8 @@ class _SendAlertState extends State<SendAlert> {
   late AtContactsImpl atContactImpl;
   String at_groupStr = '';
   List<String> at_groupStrList = [];
+  List<String> groupmembers = [];
+  Map<String, List<String>> groupMap = new Map();
 
   @override
   void initState() {
@@ -148,8 +150,7 @@ class _SendAlertState extends State<SendAlert> {
                 SizedBox(width: 30), // (so sorry lauren)
                 Padding(
                     padding: EdgeInsets.only(top: 25, bottom: 25, right: 30),
-                    child: Text('Contacts:')
-                ),
+                    child: Text('Contacts:')),
                 Padding(
                   padding: EdgeInsets.only(top: 25, bottom: 25),
                   child: StreamBuilder<List<AtContact?>>(
@@ -169,119 +170,132 @@ class _SendAlertState extends State<SendAlert> {
                             );
                           } else {
                             var _filteredList = <AtContact?>[];
-                            snapshot.data!.forEach(
-                                    (c) {
-                                  if (c!.atSign!
-                                      .toUpperCase()
-                                      .contains(searchText.toUpperCase())) {
-                                    _filteredList.add(c);
-                                    var c_str = c.toString();
-                                    var sub_c_arr = c_str.split(",");
-                                    var at_signStr_arr = sub_c_arr[0].split(
-                                        ": ");
-                                    at_signStr = at_signStr_arr[1];
-                                    print(at_signStr);
-                                    if (!at_signStrList.contains(at_signStr)) {
-                                      at_signStrList.add(at_signStr);
-                                    }
-                                  }
+                            snapshot.data!.forEach((c) {
+                              if (c!.atSign!
+                                  .toUpperCase()
+                                  .contains(searchText.toUpperCase())) {
+                                _filteredList.add(c);
+                                var c_str = c.toString();
+                                var sub_c_arr = c_str.split(",");
+                                var at_signStr_arr = sub_c_arr[0].split(": ");
+                                at_signStr = at_signStr_arr[1];
+                                print(at_signStr);
+                                if (!at_signStrList.contains(at_signStr)) {
+                                  at_signStrList.add(at_signStr);
                                 }
-                            );
+                              }
+                            });
                             print("ATSIGN LIST: $at_signStrList");
                             return DropdownButton<String>(
                               value: _otherAtSign,
                               items: at_signStrList
-                                  .map((atSign) =>
-                                  DropdownMenuItem(
+                                  .map((atSign) => DropdownMenuItem(
                                       child: Text(atSign), value: atSign))
                                   .toList(),
-                              onChanged: (new_atSign) =>
-                              {
-                                if(new_atSign != null){
-                                  setState(() {
-                                    _otherAtSign = new_atSign!;
-                                  })
-                                }
+                              onChanged: (new_atSign) => {
+                                if (new_atSign != null)
+                                  {
+                                    setState(() {
+                                      _otherAtSign = new_atSign!;
+                                    })
+                                  }
                               },
                             );
                           }
                         }
                       }),
-
                 ),
               ],
             ),
-            Row(
-                children: [
-                  SizedBox(width: 30), // (so sorry lauren)
-                  Padding(
-                      padding: EdgeInsets.only(top: 25, bottom: 25, right: 30),
-                      child: Text('Groups:')
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 25, bottom: 25),
-                    child: StreamBuilder(
-                      stream: GroupService().atGroupStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<AtGroup>> snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        } else {
-                          if (snapshot.hasError) {
-                            return ErrorScreen(onPressed: () {
-                              GroupService().getAllGroupsDetails();
-                            });
-                          } else {
-                            if (snapshot.hasData) {
-                              if (snapshot.data!.isEmpty) {
-                                return Center(
-                                  child: Text('No groups added'),
-                                );
-                              }
-
-                              print('test:' + snapshot.data.toString());
-                              var group = snapshot.data.toString();
-                              var sub_group_arr = group.split(",");
-                              var at_groupStr_arr = sub_group_arr[1].split(
-                                  ":");
-                              at_groupStr = at_groupStr_arr[1];
-                              print(at_groupStr);
-                              if (!at_groupStrList.contains(at_groupStr)) {
-                                at_groupStrList.add(at_groupStr);
-                              }
-                            }
-
-
-
-
-                            return DropdownButton<String>(
-                              value: _otherAtSign,
-                              items: at_groupStrList
-                                  .map((group) =>
-                                  DropdownMenuItem(
-                                      child: Text(group), value: group))
-                                  .toList(),
-                              onChanged: (new_atSign) =>
-                              {
-                                if(new_atSign != null){
-                                  setState(() {
-                                    _otherAtSign = new_atSign!;
-                                  })
-                                }
-                              },
+            Row(children: [
+              SizedBox(width: 30), // (so sorry lauren)
+              Padding(
+                  padding: EdgeInsets.only(top: 25, bottom: 25, right: 30),
+                  child: Text('Groups:')),
+              Padding(
+                padding: EdgeInsets.only(top: 25, bottom: 25),
+                child: StreamBuilder(
+                  stream: GroupService().atGroupStream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<AtGroup>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      if (snapshot.hasError) {
+                        return ErrorScreen(onPressed: () {
+                          GroupService().getAllGroupsDetails();
+                        });
+                      } else {
+                        if (snapshot.hasData) {
+                          if (snapshot.data!.isEmpty) {
+                            return Center(
+                              child: Text('No groups added'),
                             );
                           }
+
+                          print('test:' + snapshot.data.toString());
+                          var group = snapshot.data.toString();
+                          var sub_group_arr = group.split(",");
+                          var at_groupStr_arr = sub_group_arr[1].split(":");
+                          at_groupStr = at_groupStr_arr[1];
+                          print(at_groupStr);
+                          if (!at_groupStrList.contains(at_groupStr)) {
+                            at_groupStrList.add(at_groupStr);
+                          }
+
+                          var wholegroup = group.split("groupId");
+                          for (String str in wholegroup) {
+                            var at_sign_members = [];
+                            var newStr = str.split("members: {");
+                            String teamName = "";
+
+                            for (String new_str in newStr) {
+                              print("TEST NEWSTR: " + new_str);
+                              var new_new_str = new_str.split("AtContact{atSign: ");
+                              for (String new_str_1 in new_new_str) {
+                                print("TESTNEWNEW: "+ new_str_1);
+                                var new_str_list1 = new_str_1.split(",");
+                                if(new_str_list1[0].contains('@')){
+                                  at_sign_members.add(new_str_list1[0]);
+                                }
+                                if(new_str.contains("groupName: ")) {
+                                  var new_group_strList = new_str.split(
+                                      "groupName: ");
+                                  var new_group_strList_inner = new_group_strList[1]
+                                      .split(',');
+                                  teamName = new_group_strList_inner[0];
+
+                                  print("TEAM NAME: " + teamName);
+                                }
+                              }
+                            }
+                            /**
+                            groupMap.putIfAbsent(teamName, at_sign_members);
+                                **/
+                                }
                         }
-                      },
-                    ),
-                  ),
-                ]
-            ),
 
-
-
-
+                        return DropdownButton<String>(
+                          value: chosengroup,
+                          items: at_groupStrList
+                              .map((group) => DropdownMenuItem(
+                                  child: Text(group), value: group))
+                              .toList(),
+                          onChanged: (new_atSign) => {
+                            if (new_atSign != null)
+                              {
+                                setState(() {
+                                  chosengroup = new_atSign!;
+                                })
+                              }
+                          },
+                        );
+                      }
+                    }
+                  },
+                ),
+              ),
+            ]),
 
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10.0),
@@ -363,14 +377,14 @@ class _SendAlertState extends State<SendAlert> {
 
     await ClientService.getInstance().notify(put, _alert, operation);
   }
-  listAllGroupNames() async {
-      try {
-        var groupNames = await atContactImpl.listGroupNames();
-        return groupNames;
-        print('$groupNames');
-      } catch (e) {
-        return e;
-      }
-    }
 
+  listAllGroupNames() async {
+    try {
+      var groupNames = await atContactImpl.listGroupNames();
+      return groupNames;
+      print('$groupNames');
+    } catch (e) {
+      return e;
+    }
+  }
 }
